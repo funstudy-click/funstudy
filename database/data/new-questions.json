@@ -1,0 +1,56 @@
+{
+    "GradeA_Maths_Questions": [
+        {
+            "questionId": "GradeA_Math_006",
+            "question": "What is 25 × 4?",
+            "options": ["90", "95", "100", "105"],
+            "correctAnswer": "100",
+            "difficulty": "simple",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_007",
+            "question": "What is 64 ÷ 8?",
+            "options": ["6", "7", "8", "9"],
+            "correctAnswer": "8",
+            "difficulty": "simple",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_008",
+            "question": "What is the area of a rectangle with length 12 and width 8?",
+            "options": ["84", "88", "92", "96"],
+            "correctAnswer": "96",
+            "difficulty": "medium",
+            "points": 15
+        }
+    ],
+    "GradeA_Science_Questions": [
+        {
+            "questionId": "GradeA_Science_004",
+            "question": "What is the largest planet in our solar system?",
+            "options": ["Earth", "Mars", "Jupiter", "Saturn"],
+            "correctAnswer": "Jupiter",
+            "difficulty": "simple",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Science_005",
+            "question": "What is the chemical formula for water?",
+            "options": ["H2O", "CO2", "NaCl", "O2"],
+            "correctAnswer": "H2O",
+            "difficulty": "simple",
+            "points": 10
+        }
+    ],
+    "GradeB_Maths_Questions": [
+        {
+            "questionId": "GradeB_Math_003",
+            "question": "What is 45 + 37?",
+            "options": ["80", "81", "82", "83"],
+            "correctAnswer": "82",
+            "difficulty": "simple",
+            "points": 10
+        }
+    ]
+}

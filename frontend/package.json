@@ -1,0 +1,22 @@
+{
+  "name": "funstudy-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for FunStudy educational quiz platform",
+  "main": "public/index.html",
+  "scripts": {
+    "start": "live-server public",
+    "dev": "live-server public --watch",
+    "build": "echo 'No build process needed for static site'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "education",
+    "quiz",
+    "frontend"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
