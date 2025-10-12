@@ -453,18 +453,35 @@ function handleAuthCallback() {
     }
 }
 
-// Server health check
+// Server health check with retry logic for Render cold starts
 async function checkServer() {
     try {
-        const response = await fetch(`${API_BASE_URL}/health`);
+        // Add timeout and retry logic for Render cold starts
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+        
+        const response = await fetch(`${API_BASE_URL}/health`, {
+            signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
         if (response.ok) {
             console.log('✅ Server is running and accessible');
+            const data = await response.json();
+            console.log('Server status:', data);
         } else {
             console.warn('⚠️ Server responded but with status:', response.status);
+            showGenericMessage(`Server returned status ${response.status}. Please try again.`, 'warning');
         }
     } catch (error) {
         console.error('❌ Server health check failed:', error);
-        showGenericMessage('Server connection failed. Please try again later.', 'error');
+        
+        if (error.name === 'AbortError') {
+            showGenericMessage('Server is starting up (this may take 10-30 seconds on first visit). Please wait and try again.', 'warning');
+        } else {
+            showGenericMessage('Server connection failed. The server may be starting up. Please wait a moment and try again.', 'warning');
+        }
     }
 }
 
