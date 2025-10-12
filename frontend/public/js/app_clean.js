@@ -409,10 +409,182 @@ async function startQuiz(difficulty) {
 }
 
 function displayQuiz(questions) {
-    // Implementation for displaying quiz questions
     console.log('Displaying quiz with questions:', questions);
     showSection('quizSection');
-    // Add quiz display logic here
+    
+    const quizContainer = document.getElementById('quizContainer');
+    if (!quizContainer) {
+        console.error('Quiz container not found');
+        return;
+    }
+    
+    // Initialize quiz state
+    window.quizState = {
+        questions: questions,
+        currentQuestion: 0,
+        answers: {},
+        score: 0,
+        startTime: new Date()
+    };
+    
+    // Render the first question
+    renderQuestion();
+}
+
+function renderQuestion() {
+    const { questions, currentQuestion, answers } = window.quizState;
+    const question = questions[currentQuestion];
+    const quizContainer = document.getElementById('quizContainer');
+    
+    const totalQuestions = questions.length;
+    const progress = ((currentQuestion + 1) / totalQuestions) * 100;
+    
+    quizContainer.innerHTML = `
+        <div class="quiz-header">
+            <div class="quiz-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${progress}%"></div>
+                </div>
+                <span class="progress-text">Question ${currentQuestion + 1} of ${totalQuestions}</span>
+            </div>
+            <div class="quiz-info">
+                <span class="quiz-subject">${currentSubject}</span>
+                <span class="quiz-difficulty">${question.difficulty}</span>
+                <span class="quiz-points">${question.points} pts</span>
+            </div>
+        </div>
+        
+        <div class="question-container">
+            <h3 class="question-text">${question.question}</h3>
+            
+            <div class="options-container">
+                ${question.options.map((option, index) => `
+                    <button class="option-btn" data-option="${index}" onclick="selectAnswer(${index})">
+                        ${option}
+                    </button>
+                `).join('')}
+            </div>
+        </div>
+        
+        <div class="quiz-controls">
+            ${currentQuestion > 0 ? `<button class="btn btn-secondary" onclick="previousQuestion()">⬅️ Previous</button>` : ''}
+            <div class="control-buttons">
+                ${currentQuestion < totalQuestions - 1 
+                    ? `<button class="btn" onclick="nextQuestion()">Next ➡️</button>`
+                    : `<button class="btn btn-primary" onclick="submitQuiz()">🏆 Submit Quiz</button>`
+                }
+            </div>
+        </div>
+    `;
+    
+    // Highlight previously selected answer if any
+    if (answers[currentQuestion] !== undefined) {
+        const selectedButton = quizContainer.querySelector(`[data-option="${answers[currentQuestion]}"]`);
+        if (selectedButton) {
+            selectedButton.classList.add('selected');
+        }
+    }
+}
+
+function selectAnswer(optionIndex) {
+    const { currentQuestion } = window.quizState;
+    
+    // Update answer in quiz state
+    window.quizState.answers[currentQuestion] = optionIndex;
+    
+    // Update UI to show selection
+    const quizContainer = document.getElementById('quizContainer');
+    const optionButtons = quizContainer.querySelectorAll('.option-btn');
+    
+    optionButtons.forEach((btn, index) => {
+        btn.classList.remove('selected');
+        if (index === optionIndex) {
+            btn.classList.add('selected');
+        }
+    });
+}
+
+function nextQuestion() {
+    const { questions, currentQuestion } = window.quizState;
+    
+    if (currentQuestion < questions.length - 1) {
+        window.quizState.currentQuestion++;
+        renderQuestion();
+    }
+}
+
+function previousQuestion() {
+    if (window.quizState.currentQuestion > 0) {
+        window.quizState.currentQuestion--;
+        renderQuestion();
+    }
+}
+
+function submitQuiz() {
+    const { questions, answers, startTime } = window.quizState;
+    const endTime = new Date();
+    const timeTaken = Math.round((endTime - startTime) / 1000); // in seconds
+    
+    // Calculate score
+    let correctAnswers = 0;
+    let totalPoints = 0;
+    
+    questions.forEach((question, index) => {
+        const userAnswer = answers[index];
+        const correctAnswer = question.correctAnswer || 0; // Assuming first option is correct for now
+        
+        if (userAnswer === correctAnswer) {
+            correctAnswers++;
+            totalPoints += question.points;
+        }
+    });
+    
+    const percentage = Math.round((correctAnswers / questions.length) * 100);
+    
+    // Store results and show results section
+    window.quizResults = {
+        correctAnswers,
+        totalQuestions: questions.length,
+        percentage,
+        totalPoints,
+        timeTaken,
+        answers,
+        questions
+    };
+    
+    displayResults();
+}
+
+function displayResults() {
+    const results = window.quizResults;
+    showSection('resultsSection');
+    
+    const resultsContainer = document.getElementById('resultsContainer');
+    resultsContainer.innerHTML = `
+        <div class="results-header">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="score-display">
+                <div class="score-circle">
+                    <span class="score-percentage">${results.percentage}%</span>
+                </div>
+                <div class="score-details">
+                    <p>✅ Correct: ${results.correctAnswers}/${results.totalQuestions}</p>
+                    <p>⭐ Points: ${results.totalPoints}</p>
+                    <p>⏱️ Time: ${Math.floor(results.timeTaken / 60)}:${(results.timeTaken % 60).toString().padStart(2, '0')}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="results-actions">
+            <button class="btn" onclick="retakeQuiz()">🔄 Try Again</button>
+            <button class="btn btn-secondary" onclick="goHome()">🏠 Back to Home</button>
+        </div>
+    `;
+}
+
+function retakeQuiz() {
+    // Reset quiz state and restart with same parameters
+    startQuiz(window.quizState.questions[0].difficulty);
 }
 
 // Auth callback handler

@@ -430,6 +430,124 @@ input:focus, select:focus {
     border: 1px solid rgba(209, 213, 219, 0.3);
 }
 
+.progress-bar {
+    width: 200px;
+    height: 8px;
+    background: rgba(209, 213, 219, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.quiz-info {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.quiz-subject, .quiz-difficulty, .quiz-points {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    border: 1px solid rgba(209, 213, 219, 0.3);
+}
+
+.quiz-subject {
+    background: linear-gradient(135deg, #ddd6fe, #e0e7ff);
+    color: #6366f1;
+}
+
+.quiz-difficulty {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    color: #d97706;
+}
+
+.quiz-points {
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    color: #059669;
+}
+
+.question-container {
+    background: rgba(248, 250, 252, 0.8);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    padding: 40px;
+    border-radius: 24px;
+    margin: 32px 0;
+    border: 1px solid rgba(226, 232, 240, 0.5);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.control-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+/* Results Styles */
+.results-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.score-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin: 40px 0;
+}
+
+.score-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+}
+
+.score-percentage {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.score-details {
+    text-align: left;
+}
+
+.score-details p {
+    margin: 8px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.results-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+}
+
 .quiz-progress {
     font-size: 1.25rem;
     font-weight: 700;
