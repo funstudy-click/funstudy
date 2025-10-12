@@ -8,8 +8,9 @@ const https = require('https');
 
 console.log('Environment variables in authController:', {
     AWS_REGION: process.env.AWS_REGION,
-    USER_POOL_ID: process.env.USER_POOL_ID,
-    CLIENT_ID: process.env.CLIENT_ID,
+    USER_POOL_ID: process.env.COGNITO_USER_POOL_ID,
+    CLIENT_ID: process.env.COGNITO_CLIENT_ID,
+    COGNITO_DOMAIN: process.env.COGNITO_DOMAIN,
     REDIRECT_URI: process.env.REDIRECT_URI,
     HAS_SESSION_SECRET: !!process.env.SESSION_SECRET,
     HAS_CLIENT_SECRET: !!process.env.CLIENT_SECRET
@@ -36,7 +37,7 @@ function calculateSecretHash(username, clientId, clientSecret) {
 
 // UPDATED: Use the standard Cognito domain format
 // If you have a custom domain prefix, use it. Otherwise, use the user pool ID
-const COGNITO_DOMAIN_PREFIX = process.env.COGNITO_DOMAIN_PREFIX;
+const COGNITO_DOMAIN_PREFIX = process.env.COGNITO_DOMAIN;
 let COGNITO_DOMAIN;
 let AUTHORIZE_URL, TOKEN_URL, USERINFO_URL;
 
@@ -45,7 +46,7 @@ if (COGNITO_DOMAIN_PREFIX) {
     COGNITO_DOMAIN = `${COGNITO_DOMAIN_PREFIX}.auth.${process.env.AWS_REGION}.amazoncognito.com`;
 } else {
     // Use the user pool ID as domain (fallback)
-    COGNITO_DOMAIN = `${process.env.USER_POOL_ID}.auth.${process.env.AWS_REGION}.amazoncognito.com`;
+    COGNITO_DOMAIN = `${process.env.COGNITO_USER_POOL_ID}.auth.${process.env.AWS_REGION}.amazoncognito.com`;
 }
 
 AUTHORIZE_URL = `https://${COGNITO_DOMAIN}/oauth2/authorize`;
@@ -81,7 +82,7 @@ exports.login = async (req, res) => {
 
         const authParams = {
             response_type: 'code',
-            client_id: process.env.CLIENT_ID,
+            client_id: process.env.COGNITO_CLIENT_ID,
             redirect_uri: redirectUri,
             scope: 'email openid phone',
             state: state,
@@ -239,7 +240,7 @@ exports.register = async (req, res) => {
         });
 
         const params = {
-            ClientId: process.env.CLIENT_ID,
+            ClientId: process.env.COGNITO_CLIENT_ID,
             Username: email,
             Password: password,
             UserAttributes: [
@@ -258,7 +259,7 @@ exports.register = async (req, res) => {
 
         // Add SecretHash if client secret is configured
         if (process.env.CLIENT_SECRET) {
-            const secretHash = calculateSecretHash(email, process.env.CLIENT_ID, process.env.CLIENT_SECRET);
+            const secretHash = calculateSecretHash(email, process.env.COGNITO_CLIENT_ID, process.env.CLIENT_SECRET);
             params.SecretHash = secretHash;
             console.log('Added SecretHash to registration params');
         } else {
@@ -287,7 +288,7 @@ exports.register = async (req, res) => {
                 // If we get NotAuthorizedException without SecretHash,
                 // try again with SecretHash (client might require secret)
                 console.log('First attempt without SecretHash failed, trying with SecretHash...');
-                const secretHash = calculateSecretHash(email, process.env.CLIENT_ID, process.env.CLIENT_SECRET);
+                const secretHash = calculateSecretHash(email, process.env.COGNITO_CLIENT_ID, process.env.CLIENT_SECRET);
                 params.SecretHash = secretHash;
                 result = await cognitoIdentityServiceProvider.signUp(params).promise();
             } else {
@@ -397,7 +398,7 @@ function exchangeCodeForTokens(code, redirectUri) {
     return new Promise((resolve, reject) => {
         const postData = querystring.stringify({
             grant_type: 'authorization_code',
-            client_id: process.env.CLIENT_ID,
+            client_id: process.env.COGNITO_CLIENT_ID,
             client_secret: process.env.CLIENT_SECRET,
             code: code,
             redirect_uri: redirectUri
@@ -527,8 +528,8 @@ exports.debugCognitoConfig = (req, res) => {
     res.json({
         environment: {
             AWS_REGION: process.env.AWS_REGION,
-            USER_POOL_ID: process.env.USER_POOL_ID,
-            CLIENT_ID: process.env.CLIENT_ID,
+            USER_POOL_ID: process.env.COGNITO_USER_POOL_ID,
+            CLIENT_ID: process.env.COGNITO_CLIENT_ID,
             REDIRECT_URI_FROM_ENV: process.env.REDIRECT_URI,
             COGNITO_DOMAIN_PREFIX: process.env.COGNITO_DOMAIN_PREFIX
         },
@@ -587,7 +588,7 @@ exports.debugClientConfig = async (req, res) => {
             },
             environment: {
                 hasClientSecretInEnv: !!process.env.CLIENT_SECRET,
-                clientIdMatches: process.env.CLIENT_ID === result.UserPoolClient.ClientId
+                clientIdMatches: process.env.COGNITO_CLIENT_ID === result.UserPoolClient.ClientId
             }
         });
     } catch (error) {
@@ -620,14 +621,14 @@ exports.confirmRegistration = async (req, res) => {
         });
 
         const params = {
-            ClientId: process.env.CLIENT_ID,
+            ClientId: process.env.COGNITO_CLIENT_ID,
             Username: email,
             ConfirmationCode: confirmationCode
         };
 
         // Add SecretHash if needed (using same logic as registration)
         if (process.env.CLIENT_SECRET) {
-            params.SecretHash = calculateSecretHash(email, process.env.CLIENT_ID, process.env.CLIENT_SECRET);
+            params.SecretHash = calculateSecretHash(email, process.env.COGNITO_CLIENT_ID, process.env.CLIENT_SECRET);
         }
 
         await cognitoIdentityServiceProvider.confirmSignUp(params).promise();
@@ -687,13 +688,13 @@ exports.resendConfirmationCode = async (req, res) => {
         });
 
         const params = {
-            ClientId: process.env.CLIENT_ID,
+            ClientId: process.env.COGNITO_CLIENT_ID,
             Username: email
         };
 
         // Add SecretHash if needed
         if (process.env.CLIENT_SECRET) {
-            params.SecretHash = calculateSecretHash(email, process.env.CLIENT_ID, process.env.CLIENT_SECRET);
+            params.SecretHash = calculateSecretHash(email, process.env.COGNITO_CLIENT_ID, process.env.CLIENT_SECRET);
         }
 
         await cognitoIdentityServiceProvider.resendConfirmationCode(params).promise();
