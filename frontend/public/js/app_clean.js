@@ -529,10 +529,23 @@ async function submitQuiz() {
     
     try {
         // Prepare answers in the format expected by the backend
-        const formattedAnswers = questions.map((question, index) => ({
-            questionId: question.questionId,
-            selectedAnswer: answers[index] !== undefined ? answers[index] : -1 // -1 for unanswered
-        }));
+        const formattedAnswers = questions.map((question, index) => {
+            const selectedIndex = answers[index];
+            const selectedAnswerText = selectedIndex !== undefined ? question.options[selectedIndex] : null;
+            
+            return {
+                questionId: question.questionId,
+                selectedAnswer: selectedAnswerText // Send the actual answer text, not the index
+            };
+        });
+        
+        console.log('Quiz submission data:', {
+            answers: formattedAnswers,
+            grade: currentGrade,
+            subject: currentSubject,
+            difficulty: questions[0].difficulty,
+            rawAnswers: answers
+        });
         
         // Submit answers to backend for verification
         const response = await fetch(`${API_BASE_URL}/api/quiz/verify-answers`, {
@@ -555,10 +568,19 @@ async function submitQuiz() {
         
         const data = await response.json();
         
+        console.log('Backend response:', data);
+        
         if (data.success) {
             // Calculate percentage and correct answers from backend results
             const correctAnswers = data.results.filter(result => result.isCorrect).length;
             const percentage = Math.round((correctAnswers / questions.length) * 100);
+            
+            console.log('Score calculation:', {
+                correctAnswers,
+                totalQuestions: questions.length,
+                percentage,
+                totalScore: data.totalScore
+            });
             
             // Store results and show results section
             window.quizResults = {
