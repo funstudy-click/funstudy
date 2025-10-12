@@ -6,10 +6,22 @@ let currentSubject = '';
 // Utility functions
 function showSection(sectionId) {
     console.log('Switching to section:', sectionId);
+    
+    // Hide all sections
     document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('active');
     });
-    document.getElementById(sectionId).classList.add('active');
+    
+    // Show the target section with error handling
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+    } else {
+        console.error(`Section with ID '${sectionId}' not found. Available sections:`);
+        document.querySelectorAll('.section').forEach(section => {
+            console.log('- ' + section.id);
+        });
+    }
 }
 
 function showLoader() {
@@ -217,13 +229,13 @@ async function resendConfirmationCode() {
 function selectGrade(grade) {
     currentGrade = grade;
     console.log('Grade selected:', grade);
-    showSection('subjectSelection');
+    showSection('subjectSection');
 }
 
 function selectSubject(subject) {
     currentSubject = subject;
     console.log('Subject selected:', subject);
-    showSection('difficultySelection');
+    showSection('difficultySection');
 }
 
 function selectDifficulty(difficulty) {
@@ -232,7 +244,7 @@ function selectDifficulty(difficulty) {
 }
 
 function goHome() {
-    showSection('gradeSelection');
+    showSection('gradeSection');
 }
 
 function goBack() {
@@ -240,20 +252,20 @@ function goBack() {
     if (currentSection) {
         const sectionId = currentSection.id;
         switch (sectionId) {
-            case 'subjectSelection':
-                showSection('gradeSelection');
+            case 'subjectSection':
+                showSection('gradeSection');
                 break;
-            case 'difficultySelection':
-                showSection('subjectSelection');
+            case 'difficultySection':
+                showSection('subjectSection');
                 break;
             case 'quizSection':
-                showSection('difficultySelection');
+                showSection('difficultySection');
                 break;
             case 'resultsSection':
-                showSection('gradeSelection');
+                showSection('gradeSection');
                 break;
             default:
-                showSection('gradeSelection');
+                showSection('gradeSection');
         }
     }
 }
@@ -306,7 +318,7 @@ function handleAuthCallback() {
     if (authStatus === 'success') {
         console.log('✅ Authentication successful!');
         window.history.replaceState({}, document.title, window.location.pathname);
-        showSection('gradeSelection');
+        showSection('gradeSection');
         showGenericMessage('Login successful! Welcome to FunStudy!', 'success');
         return;
     }
