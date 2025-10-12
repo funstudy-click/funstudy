@@ -436,6 +436,51 @@ function selectSubject(subject) {
     showSection('difficultySection');
 }
 
+// Add this function to handle the auth success callback
+function handleAuthCallback() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const authStatus = urlParams.get('auth');
+    const error = urlParams.get('error');
+
+    if (authStatus === 'success') {
+        console.log('✅ Authentication successful!');
+        // Clean the URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        // Check authentication status
+        checkAuthentication();
+        return;
+    }
+
+    if (error) {
+        console.error('❌ Authentication error:', error);
+        let errorMessage = 'Authentication failed';
+        
+        switch (error) {
+            case 'invalid_state':
+                errorMessage = 'Security validation failed. Please try logging in again.';
+                break;
+            case 'access_denied':
+                errorMessage = 'Login was cancelled or access was denied.';
+                break;
+            case 'email_not_verified':
+                errorMessage = 'Please verify your email address before logging in.';
+                break;
+            default:
+                errorMessage = `Login failed: ${error}`;
+        }
+        
+        showError(errorMessage);
+        // Clean the URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+}
+
+// Call this when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    handleAuthCallback();
+    // ... rest of your initialization code
+});
+
 // Check URL for error parameters
 function checkUrlError() {
     const urlParams = new URLSearchParams(window.location.search);

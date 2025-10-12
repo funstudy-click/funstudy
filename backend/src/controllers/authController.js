@@ -154,24 +154,25 @@ exports.callback = async (req, res) => {
         // Check for errors
         if (req.query.error) {
             console.error('OAuth error:', req.query.error, req.query.error_description);
-            return res.redirect('/?error=' + encodeURIComponent(req.query.error));
+            return res.redirect(`https://funstudy-snowy.vercel.app/?error=${encodeURIComponent(req.query.error)}`);
         }
 
         // Verify state
         if (!req.session?.state || req.query.state !== req.session.state) {
             console.error('State mismatch or missing session');
-            return res.redirect('/?error=invalid_state');
+            console.log('Expected state:', req.session?.state);
+            console.log('Received state:', req.query.state);
+            return res.redirect('https://funstudy-snowy.vercel.app/?error=invalid_state');
         }
 
         // Exchange code for tokens
         const code = req.query.code;
         if (!code) {
             console.error('No authorization code received');
-            return res.redirect('/?error=no_code');
+            return res.redirect('https://funstudy-snowy.vercel.app/?error=no_code');
         }
 
         console.log('Exchanging code for tokens...');
-        // Use the redirect URI from environment variable
         const redirectUri = process.env.REDIRECT_URI;
 
         const tokenData = await exchangeCodeForTokens(code, redirectUri);
@@ -186,10 +187,10 @@ exports.callback = async (req, res) => {
             email_verified: userInfo.email_verified
         });
 
-        // Check if email is verified (this should be true for OAuth flow, but let's be explicit)
+        // Check if email is verified
         if (userInfo.email_verified !== 'true' && userInfo.email_verified !== true) {
             console.log('User email not verified, redirecting to verification page');
-            return res.redirect('/?error=email_not_verified&email=' + encodeURIComponent(userInfo.email));
+            return res.redirect(`https://funstudy-snowy.vercel.app/?error=email_not_verified&email=${encodeURIComponent(userInfo.email)}`);
         }
 
         // Save user to database
@@ -203,12 +204,13 @@ exports.callback = async (req, res) => {
         delete req.session.state;
         delete req.session.nonce;
 
-        console.log('Authentication successful, redirecting to dashboard');
-        res.redirect('/');
+        console.log('Authentication successful, redirecting to frontend');
+        // Redirect back to frontend with success
+        res.redirect('https://funstudy-snowy.vercel.app/?auth=success');
 
     } catch (error) {
         console.error('Auth callback error:', error);
-        res.redirect('/?error=auth_failed');
+        res.redirect('https://funstudy-snowy.vercel.app/?error=auth_failed');
     }
 };
 

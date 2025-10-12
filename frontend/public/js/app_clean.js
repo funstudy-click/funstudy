@@ -30,13 +30,11 @@ function showMessage(elementId, message, type) {
             element.style.display = 'none';
         }, 5000);
     } else {
-        // Fallback to generic message display
         showGenericMessage(message, type);
     }
 }
 
 function showGenericMessage(message, type) {
-    // Find any message element or create one
     let messageElement = document.querySelector('.message-display');
     if (!messageElement) {
         messageElement = document.createElement('div');
@@ -63,10 +61,9 @@ function showGenericMessage(message, type) {
 }
 
 // Authentication functions
-function login() {
+async function login() {
     try {
-        console.log('Login function called');
-        // Redirect to OAuth login - this is server-side redirect
+        console.log('🔐 Starting login process...');
         window.location.href = `${API_BASE_URL}/auth/login`;
     } catch (error) {
         console.error('Login redirect error:', error);
@@ -81,8 +78,6 @@ async function register() {
     const password = document.getElementById('registerPassword').value;
     const gradeLevel = document.getElementById('gradeLevel').value;
     
-    console.log('Registration form values:', { email, password: password ? '***' : '', gradeLevel });
-    
     if (!email || !password) {
         showMessage('registerMessage', 'Please fill in all fields', 'error');
         return;
@@ -96,8 +91,6 @@ async function register() {
     showLoader();
     
     try {
-        console.log('Sending registration request to:', `${API_BASE_URL}/auth/register`);
-        
         const response = await fetch(`${API_BASE_URL}/auth/register`, {
             method: 'POST',
             headers: {
@@ -110,25 +103,20 @@ async function register() {
             })
         });
         
-        console.log('Registration response status:', response.status);
         const data = await response.json();
-        console.log('Registration response data:', data);
         
         if (data.success) {
             showMessage('registerMessage', 'Registration successful! Please check your email for verification code.', 'success');
             
-            // Store email for verification
             const verificationEmailElement = document.getElementById('verificationEmail');
             if (verificationEmailElement) {
                 verificationEmailElement.value = email;
             }
             
-            // Clear registration form
             document.getElementById('registerEmail').value = '';
             document.getElementById('registerPassword').value = '';
             document.getElementById('gradeLevel').value = 'GradeA';
             
-            // Switch to verification section
             setTimeout(() => showSection('verificationSection'), 2000);
         } else {
             showMessage('registerMessage', data.error || 'Registration failed', 'error');
@@ -142,22 +130,15 @@ async function register() {
 }
 
 function logout() {
-    // Redirect to logout route on server
     window.location.href = `${API_BASE_URL}/auth/logout`;
 }
 
 // Email verification functions
 async function confirmEmail() {
-    console.log('confirmEmail function called');
-    
     const emailElement = document.getElementById('verificationEmail');
     const codeElement = document.getElementById('verificationCode');
     
-    console.log('Email element:', emailElement);
-    console.log('Code element:', codeElement);
-    
     if (!emailElement || !codeElement) {
-        console.error('Verification form elements not found');
         showGenericMessage('Verification form elements not found', 'error');
         return;
     }
@@ -165,16 +146,12 @@ async function confirmEmail() {
     const email = emailElement.value.trim();
     const code = codeElement.value.trim();
     
-    console.log('Email value:', email);
-    console.log('Code value:', code);
-    
     if (!email || !code) {
         showGenericMessage('Please enter both email and verification code', 'error');
         return;
     }
     
     try {
-        console.log('Sending verification request to:', `${API_BASE_URL}/auth/confirm-registration`);
         const response = await fetch(`${API_BASE_URL}/auth/confirm-registration`, {
             method: 'POST',
             headers: {
@@ -183,16 +160,12 @@ async function confirmEmail() {
             body: JSON.stringify({ email, confirmationCode: code })
         });
         
-        console.log('Response status:', response.status);
         const data = await response.json();
-        console.log('Response data:', data);
         
         if (response.ok) {
             showGenericMessage('Email verified successfully! You can now login.', 'success');
-            // Clear the verification form
             emailElement.value = '';
             codeElement.value = '';
-            // Redirect to login after a short delay
             setTimeout(() => showSection('loginSection'), 2000);
         } else {
             showGenericMessage(data.message || 'Email verification failed', 'error');
@@ -240,7 +213,129 @@ async function resendConfirmationCode() {
     }
 }
 
-// Health check function
+// Navigation functions
+function selectGrade(grade) {
+    currentGrade = grade;
+    console.log('Grade selected:', grade);
+    showSection('subjectSelection');
+}
+
+function selectSubject(subject) {
+    currentSubject = subject;
+    console.log('Subject selected:', subject);
+    showSection('difficultySelection');
+}
+
+function selectDifficulty(difficulty) {
+    console.log('Difficulty selected:', difficulty);
+    startQuiz(difficulty);
+}
+
+function goHome() {
+    showSection('gradeSelection');
+}
+
+function goBack() {
+    const currentSection = document.querySelector('.section.active');
+    if (currentSection) {
+        const sectionId = currentSection.id;
+        switch (sectionId) {
+            case 'subjectSelection':
+                showSection('gradeSelection');
+                break;
+            case 'difficultySelection':
+                showSection('subjectSelection');
+                break;
+            case 'quizSection':
+                showSection('difficultySelection');
+                break;
+            case 'resultsSection':
+                showSection('gradeSelection');
+                break;
+            default:
+                showSection('gradeSelection');
+        }
+    }
+}
+
+// Quiz functions
+async function startQuiz(difficulty) {
+    showLoader();
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/quiz/questions`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                grade: currentGrade,
+                subject: currentSubject,
+                difficulty: difficulty
+            })
+        });
+
+        const data = await response.json();
+        
+        if (data.success && data.questions) {
+            displayQuiz(data.questions);
+        } else {
+            showGenericMessage('Failed to load quiz questions', 'error');
+        }
+    } catch (error) {
+        console.error('Quiz loading error:', error);
+        showGenericMessage('Failed to load quiz', 'error');
+    } finally {
+        hideLoader();
+    }
+}
+
+function displayQuiz(questions) {
+    // Implementation for displaying quiz questions
+    console.log('Displaying quiz with questions:', questions);
+    showSection('quizSection');
+    // Add quiz display logic here
+}
+
+// Auth callback handler
+function handleAuthCallback() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const authStatus = urlParams.get('auth');
+    const error = urlParams.get('error');
+
+    if (authStatus === 'success') {
+        console.log('✅ Authentication successful!');
+        window.history.replaceState({}, document.title, window.location.pathname);
+        showSection('gradeSelection');
+        showGenericMessage('Login successful! Welcome to FunStudy!', 'success');
+        return;
+    }
+
+    if (error) {
+        console.error('❌ Authentication error:', error);
+        let errorMessage = 'Authentication failed';
+        
+        switch (error) {
+            case 'invalid_state':
+                errorMessage = 'Security validation failed. Please try logging in again.';
+                break;
+            case 'access_denied':
+                errorMessage = 'Login was cancelled or access was denied.';
+                break;
+            case 'email_not_verified':
+                errorMessage = 'Please verify your email address before logging in.';
+                break;
+            default:
+                errorMessage = `Login failed: ${error}`;
+        }
+        
+        showGenericMessage(errorMessage, 'error');
+        window.history.replaceState({}, document.title, window.location.pathname);
+        showSection('loginSection');
+    }
+}
+
+// Server health check
 async function checkServer() {
     try {
         const response = await fetch(`${API_BASE_URL}/health`);
@@ -255,15 +350,22 @@ async function checkServer() {
     }
 }
 
-// Initialize app
+// Initialize app - SINGLE DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', function() {
     console.log('=== FunStudy App Initialized ===');
     console.log('API Base URL:', API_BASE_URL);
     console.log('Current page URL:', window.location.href);
     console.log('Available sections:', document.querySelectorAll('.section').length);
     
+    // Handle auth callback first
+    handleAuthCallback();
+    
+    // Check server health
     checkServer();
     
-    // Make sure the login section is active by default
-    showSection('loginSection');
+    // Show default section if no auth callback
+    const urlParams = new URLSearchParams(window.location.search);
+    if (!urlParams.get('auth') && !urlParams.get('error')) {
+        showSection('loginSection');
+    }
 });
