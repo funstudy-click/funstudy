@@ -520,49 +520,96 @@ function previousQuestion() {
     }
 }
 
-function submitQuiz() {
+async function submitQuiz() {
     const { questions, answers, startTime } = window.quizState;
     const endTime = new Date();
     const timeTaken = Math.round((endTime - startTime) / 1000); // in seconds
     
-    // Calculate score
-    let correctAnswers = 0;
-    let totalPoints = 0;
+    showLoader();
     
-    questions.forEach((question, index) => {
-        const userAnswer = answers[index];
-        const correctAnswer = question.correctAnswer || 0; // Assuming first option is correct for now
+    try {
+        // Prepare answers in the format expected by the backend
+        const formattedAnswers = questions.map((question, index) => ({
+            questionId: question.questionId,
+            selectedAnswer: answers[index] !== undefined ? answers[index] : -1 // -1 for unanswered
+        }));
         
-        if (userAnswer === correctAnswer) {
-            correctAnswers++;
-            totalPoints += question.points;
+        // Submit answers to backend for verification
+        const response = await fetch(`${API_BASE_URL}/api/quiz/verify-answers`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                answers: formattedAnswers,
+                grade: currentGrade,
+                subject: currentSubject,
+                difficulty: questions[0].difficulty // Use difficulty from the first question
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-    });
-    
-    const percentage = Math.round((correctAnswers / questions.length) * 100);
-    
-    // Store results and show results section
-    window.quizResults = {
-        correctAnswers,
-        totalQuestions: questions.length,
-        percentage,
-        totalPoints,
-        timeTaken,
-        answers,
-        questions
-    };
-    
-    displayResults();
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Calculate percentage and correct answers from backend results
+            const correctAnswers = data.results.filter(result => result.isCorrect).length;
+            const percentage = Math.round((correctAnswers / questions.length) * 100);
+            
+            // Store results and show results section
+            window.quizResults = {
+                correctAnswers,
+                totalQuestions: questions.length,
+                percentage,
+                totalPoints: data.totalScore,
+                timeTaken,
+                answers,
+                questions,
+                detailedResults: data.results // Include detailed results from backend
+            };
+            
+            displayResults();
+        } else {
+            showGenericMessage(data.error || 'Failed to submit quiz', 'error');
+        }
+    } catch (error) {
+        console.error('Quiz submission error:', error);
+        showGenericMessage('Failed to submit quiz. Please try again.', 'error');
+    } finally {
+        hideLoader();
+    }
 }
 
 function displayResults() {
     const results = window.quizResults;
     showSection('resultsSection');
     
+    // Determine performance message
+    let performanceMessage = '';
+    let performanceIcon = '';
+    if (results.percentage >= 90) {
+        performanceMessage = 'Excellent work!';
+        performanceIcon = '🏆';
+    } else if (results.percentage >= 70) {
+        performanceMessage = 'Good job!';
+        performanceIcon = '👏';
+    } else if (results.percentage >= 50) {
+        performanceMessage = 'Keep practicing!';
+        performanceIcon = '💪';
+    } else {
+        performanceMessage = 'Need more study!';
+        performanceIcon = '📚';
+    }
+    
     const resultsContainer = document.getElementById('resultsContainer');
     resultsContainer.innerHTML = `
         <div class="results-header">
-            <h2>🎉 Quiz Complete!</h2>
+            <h2>${performanceIcon} Quiz Complete!</h2>
+            <p class="performance-message">${performanceMessage}</p>
             <div class="score-display">
                 <div class="score-circle">
                     <span class="score-percentage">${results.percentage}%</span>
@@ -574,6 +621,25 @@ function displayResults() {
                 </div>
             </div>
         </div>
+        
+        ${results.detailedResults ? `
+            <div class="detailed-results">
+                <h3>📊 Question Details</h3>
+                <div class="question-results">
+                    ${results.detailedResults.map((result, index) => `
+                        <div class="question-result ${result.isCorrect ? 'correct' : 'incorrect'}">
+                            <div class="question-summary">
+                                <span class="question-number">Q${index + 1}</span>
+                                <span class="result-icon">${result.isCorrect ? '✅' : '❌'}</span>
+                                <span class="points">${result.points} pts</span>
+                            </div>
+                            <div class="question-text">${result.question}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="btn btn-secondary" onclick="toggleDetailedResults()">Hide Details</button>
+            </div>
+        ` : ''}
         
         <div class="results-actions">
             <button class="btn" onclick="retakeQuiz()">🔄 Try Again</button>
