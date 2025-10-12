@@ -369,15 +369,18 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Current page URL:', window.location.href);
     console.log('Available sections:', document.querySelectorAll('.section').length);
     
-    // Handle auth callback first
-    handleAuthCallback();
+    // Check for auth callback parameters first
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasAuthCallback = urlParams.get('auth') || urlParams.get('error');
+    
+    // Handle auth callback first if present
+    if (hasAuthCallback) {
+        handleAuthCallback();
+    } else {
+        // Show default login section only if no auth callback
+        showSection('loginSection');
+    }
     
     // Check server health
     checkServer();
-    
-    // Show default section if no auth callback
-    const urlParams = new URLSearchParams(window.location.search);
-    if (!urlParams.get('auth') && !urlParams.get('error')) {
-        showSection('loginSection');
-    }
 });
