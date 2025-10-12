@@ -10,12 +10,13 @@ router.post('/register', authController.register);
 router.post('/confirm-registration', authController.confirmRegistration);
 router.post('/resend-confirmation', authController.resendConfirmationCode);
 
-// Debug route (add this)
+// Debug routes (fixed - no duplicates)
 router.get('/debug/session', authController.checkSession);
 router.get('/debug/cognito-config', authController.debugCognitoConfig);
 router.get('/debug/client-config', authController.debugClientConfig);
+router.get('/debug/domain-test', authController.testDomain);
 
-// Test route to see if auth routes are working
+// Test route
 router.get('/test', (req, res) => {
     res.json({
         message: 'Auth routes are working',
