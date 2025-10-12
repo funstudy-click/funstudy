@@ -405,6 +405,17 @@ input:focus, select:focus {
     border: 1px solid rgba(209, 213, 219, 0.5);
 }
 
+/* No data message styles */
+.no-data {
+    text-align: center;
+    color: #6b7280;
+    font-style: italic;
+    padding: 40px 20px;
+    background: rgba(243, 244, 246, 0.5);
+    border-radius: 16px;
+    margin: 20px 0;
+}
+
 /* Quiz Specific Styles */
 .quiz-header {
     display: flex;

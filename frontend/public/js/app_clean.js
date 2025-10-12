@@ -72,6 +72,105 @@ function showGenericMessage(message, type) {
     }, 5000);
 }
 
+// Data loading functions
+async function loadSubjects(grade) {
+    console.log('Loading subjects for grade:', grade);
+    showLoader();
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/quiz/subjects/${grade}`);
+        const data = await response.json();
+        
+        if (data.success) {
+            console.log('Subjects loaded:', data.subjects);
+            displaySubjects(data.subjects);
+        } else {
+            console.error('Failed to load subjects:', data.error);
+            showGenericMessage('Failed to load subjects. Please try again.', 'error');
+        }
+    } catch (error) {
+        console.error('Error loading subjects:', error);
+        showGenericMessage('Failed to connect to server. Please try again.', 'error');
+    } finally {
+        hideLoader();
+    }
+}
+
+function displaySubjects(subjects) {
+    const subjectOptionsContainer = document.getElementById('subject-options');
+    
+    if (!subjectOptionsContainer) {
+        console.error('Subject options container not found');
+        return;
+    }
+    
+    // Clear existing subjects
+    subjectOptionsContainer.innerHTML = '';
+    
+    if (subjects.length === 0) {
+        subjectOptionsContainer.innerHTML = '<p class="no-data">No subjects available for this grade.</p>';
+        return;
+    }
+    
+    // Create subject buttons
+    subjects.forEach(subject => {
+        const subjectButton = document.createElement('button');
+        subjectButton.className = 'btn subject-btn';
+        subjectButton.textContent = `📖 ${subject}`;
+        subjectButton.onclick = () => selectSubject(subject);
+        subjectOptionsContainer.appendChild(subjectButton);
+    });
+}
+
+async function loadDifficulties(grade, subject) {
+    console.log('Loading difficulties for grade:', grade, 'subject:', subject);
+    showLoader();
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/quiz/difficulties/${grade}/${subject}`);
+        const data = await response.json();
+        
+        if (data.success) {
+            console.log('Difficulties loaded:', data.difficulties);
+            displayDifficulties(data.difficulties);
+        } else {
+            console.error('Failed to load difficulties:', data.error);
+            showGenericMessage('Failed to load difficulty levels. Please try again.', 'error');
+        }
+    } catch (error) {
+        console.error('Error loading difficulties:', error);
+        showGenericMessage('Failed to connect to server. Please try again.', 'error');
+    } finally {
+        hideLoader();
+    }
+}
+
+function displayDifficulties(difficulties) {
+    const difficultyOptionsContainer = document.getElementById('difficulty-options');
+    
+    if (!difficultyOptionsContainer) {
+        console.error('Difficulty options container not found');
+        return;
+    }
+    
+    // Clear existing difficulties
+    difficultyOptionsContainer.innerHTML = '';
+    
+    if (difficulties.length === 0) {
+        difficultyOptionsContainer.innerHTML = '<p class="no-data">No difficulty levels available for this subject.</p>';
+        return;
+    }
+    
+    // Create difficulty buttons
+    difficulties.forEach(difficulty => {
+        const difficultyButton = document.createElement('button');
+        difficultyButton.className = 'btn difficulty-btn';
+        difficultyButton.textContent = `🎯 ${difficulty}`;
+        difficultyButton.onclick = () => selectDifficulty(difficulty);
+        difficultyOptionsContainer.appendChild(difficultyButton);
+    });
+}
+
 // Authentication functions
 async function login() {
     try {
@@ -230,12 +329,14 @@ function selectGrade(grade) {
     currentGrade = grade;
     console.log('Grade selected:', grade);
     showSection('subjectSection');
+    loadSubjects(grade); // Load subjects for the selected grade
 }
 
 function selectSubject(subject) {
     currentSubject = subject;
     console.log('Subject selected:', subject);
     showSection('difficultySection');
+    loadDifficulties(currentGrade, subject); // Load difficulties for the selected grade and subject
 }
 
 function selectDifficulty(difficulty) {
