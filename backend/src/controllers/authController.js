@@ -243,7 +243,20 @@ exports.callback = async (req, res) => {
 
     } catch (error) {
         console.error('Auth callback error:', error);
-        res.redirect('https://funstudy-snowy.vercel.app/?error=auth_failed');
+        console.error('Error stack:', error.stack);
+        console.error('Error message:', error.message);
+        
+        // Provide more specific error information in the redirect
+        let errorType = 'auth_failed';
+        if (error.message.includes('Token exchange failed')) {
+            errorType = 'token_exchange_failed';
+        } else if (error.message.includes('UserInfo fetch failed')) {
+            errorType = 'userinfo_failed';
+        } else if (error.message.includes('Failed to parse')) {
+            errorType = 'parse_error';
+        }
+        
+        res.redirect(`https://funstudy-snowy.vercel.app/?error=${errorType}&details=${encodeURIComponent(error.message)}`);
     }
 };
 
@@ -454,12 +467,14 @@ function exchangeCodeForTokens(code, redirectUri) {
             let data = '';
             res.on('data', (chunk) => data += chunk);
             res.on('end', () => {
+                console.log('Token exchange response status:', res.statusCode);
+                console.log('Token exchange response data:', data);
                 try {
                     const tokenData = JSON.parse(data);
                     if (res.statusCode === 200) {
                         resolve(tokenData);
                     } else {
-                        reject(new Error(`Token exchange failed: ${tokenData.error || data}`));
+                        reject(new Error(`Token exchange failed (${res.statusCode}): ${tokenData.error || data}`));
                     }
                 } catch (err) {
                     reject(new Error(`Failed to parse token response: ${data}`));
@@ -490,12 +505,14 @@ function fetchUserInfo(accessToken) {
             let data = '';
             res.on('data', (chunk) => data += chunk);
             res.on('end', () => {
+                console.log('UserInfo response status:', res.statusCode);
+                console.log('UserInfo response data:', data);
                 try {
                     const userInfo = JSON.parse(data);
                     if (res.statusCode === 200) {
                         resolve(userInfo);
                     } else {
-                        reject(new Error(`UserInfo fetch failed: ${userInfo.error || data}`));
+                        reject(new Error(`UserInfo fetch failed (${res.statusCode}): ${userInfo.error || data}`));
                     }
                 } catch (err) {
                     reject(new Error(`Failed to parse userinfo response: ${data}`));
