@@ -240,8 +240,43 @@ async function register() {
     }
 }
 
-function logout() {
-    window.location.href = `${API_BASE_URL}/auth/logout`;
+async function logout() {
+    try {
+        showLoader();
+        
+        // Call backend logout to destroy session
+        const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+            method: 'GET',
+            credentials: 'include'
+        });
+        
+        // Clear any local data
+        if (window.quizState) {
+            delete window.quizState;
+        }
+        if (window.quizResults) {
+            delete window.quizResults;
+        }
+        
+        console.log('✅ Logout successful');
+        showGenericMessage('You have been logged out successfully!', 'success');
+        
+        // Redirect to login section after a brief delay
+        setTimeout(() => {
+            showSection('loginSection');
+            hideLoader();
+        }, 1500);
+        
+    } catch (error) {
+        console.error('Logout error:', error);
+        hideLoader();
+        
+        // Even if backend logout fails, clear frontend and show login
+        showGenericMessage('Logged out (with some issues). Please sign in again.', 'warning');
+        setTimeout(() => {
+            showSection('loginSection');
+        }, 1500);
+    }
 }
 
 // Email verification functions

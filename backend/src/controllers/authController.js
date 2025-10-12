@@ -429,8 +429,8 @@ exports.logout = (req, res) => {
 
         // Check if user is authenticated
         if (!req.session?.user) {
-            console.log('No user session found, redirecting to home');
-            return res.redirect('/');
+            console.log('No user session found, redirecting to frontend');
+            return res.redirect('https://funstudy-snowy.vercel.app/');
         }
 
         req.session.destroy((err) => {
@@ -439,10 +439,9 @@ exports.logout = (req, res) => {
                 return res.status(500).json({ error: 'Failed to logout' });
             }
 
-            // For development, just redirect to home page instead of Cognito logout
-            // This avoids issues with Cognito logout URL configuration
-            console.log('Session destroyed, redirecting to home');
-            res.redirect('/');
+            // Redirect to frontend instead of backend root
+            console.log('Session destroyed, redirecting to frontend');
+            res.redirect('https://funstudy-snowy.vercel.app/');
         });
     } catch (error) {
         console.error('Logout error:', error);
