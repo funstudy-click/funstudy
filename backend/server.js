@@ -1,9 +1,24 @@
+const port = process.env.PORT || 3002;
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
 const path = require('path');
 const app = express();
+const corsOptions = {
+    origin: [
+        'http://localhost:3002', 
+        'http://localhost:3003', 
+        'http://localhost:8080', 
+        'http://localhost:8081', 
+        'http://localhost:8082',
+        'https://funstudy-snowy.vercel.app',
+        /\.vercel\.app$/
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}
 // Environment variables
 const PORT = process.env.PORT || 8900;
 
@@ -350,14 +365,9 @@ app.use((err, req, res, next) => {
 });
 
 // Start server with error handling
-const server = app.listen(PORT, () => {
-    console.log(`\n=== SERVER STARTED SUCCESSFULLY ===`);
-    console.log(`Server running on http://localhost:${PORT}`);
-    console.log(`Health check: http://localhost:${PORT}/health`);
-    console.log(`Debug session: http://localhost:${PORT}/debug/session`);
-    console.log(`DynamoDB test: http://localhost:${PORT}/debug/dynamodb-test`);
-    console.log(`Auth login: http://localhost:${PORT}/auth/login`);
-    console.log('==========================================\n');
+const server = app.listen(port, '0.0.0.0', () => {
+    console.log(`Server running on port ${port}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
 // Handle port already in use

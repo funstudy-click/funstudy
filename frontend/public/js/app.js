@@ -1,5 +1,7 @@
 // FunStudy App - Clean Version
-const API_BASE_URL = 'http://localhost:3002';
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://funstudy-backend.onrender.com'
+    : 'http://localhost:3002';
 let currentGrade = '';
 let currentSubject = '';
 
