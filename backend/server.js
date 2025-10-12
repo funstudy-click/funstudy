@@ -128,6 +128,17 @@ app.get('/debug/env', (req, res) => {
     });
 });
 
+// Add this to your server.js temporarily
+app.get('/debug/auth-config', (req, res) => {
+    res.json({
+        COGNITO_USER_POOL_ID: process.env.COGNITO_USER_POOL_ID || 'MISSING',
+        COGNITO_CLIENT_ID: process.env.COGNITO_CLIENT_ID || 'MISSING',
+        COGNITO_DOMAIN: process.env.COGNITO_DOMAIN || 'MISSING',
+        AWS_REGION: process.env.AWS_REGION || 'MISSING',
+        REDIRECT_URI: process.env.REDIRECT_URI || 'MISSING'
+    });
+});
+
 // Remove the frontend serving route for backend-only deployment
 // app.get('*', (req, res) => { ... })
 
