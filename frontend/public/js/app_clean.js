@@ -375,29 +375,34 @@ function goBack() {
 async function startQuiz(difficulty) {
     showLoader();
     try {
-        const response = await fetch(`${API_BASE_URL}/api/quiz/questions`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify({
-                grade: currentGrade,
-                subject: currentSubject,
-                difficulty: difficulty
-            })
+        // Use GET request with URL parameters instead of POST with body
+        const response = await fetch(`${API_BASE_URL}/api/quiz/questions/${currentGrade}/${currentSubject}/${difficulty}`, {
+            method: 'GET',
+            credentials: 'include'
         });
+
+        // Check if response is ok before parsing JSON
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
         const data = await response.json();
         
         if (data.success && data.questions) {
             displayQuiz(data.questions);
         } else {
-            showGenericMessage('Failed to load quiz questions', 'error');
+            console.error('Quiz API returned error:', data);
+            showGenericMessage(data.error || 'Failed to load quiz questions', 'error');
         }
     } catch (error) {
         console.error('Quiz loading error:', error);
-        showGenericMessage('Failed to load quiz', 'error');
+        if (error.message.includes('404')) {
+            showGenericMessage('Quiz questions not found for this combination. Please try a different selection.', 'error');
+        } else if (error.message.includes('HTTP error')) {
+            showGenericMessage(`Server error: ${error.message}`, 'error');
+        } else {
+            showGenericMessage('Failed to load quiz. Please check your connection.', 'error');
+        }
     } finally {
         hideLoader();
     }
