@@ -39,8 +39,8 @@ app.use((req, res, next) => {
 console.log('=== SERVER STARTUP ===');
 console.log('Environment check:', {
     AWS_REGION: process.env.AWS_REGION,
-    USER_POOL_ID: process.env.USER_POOL_ID ? '***SET***' : 'MISSING',
-    CLIENT_ID: process.env.CLIENT_ID ? '***SET***' : 'MISSING',
+    USER_POOL_ID: process.env.COGNITO_USER_POOL_ID ? '***SET***' : 'MISSING',
+    CLIENT_ID: process.env.COGNITO_CLIENT_ID ? '***SET***' : 'MISSING',
     REDIRECT_URI: process.env.REDIRECT_URI,
     PORT: PORT
 });
@@ -121,8 +121,8 @@ app.get('/health', (req, res) => {
 app.get('/debug/env', (req, res) => {
     res.json({
         AWS_REGION: process.env.AWS_REGION || 'not-set',
-        USER_POOL_ID: process.env.USER_POOL_ID ? 'Set' : 'Missing',
-        CLIENT_ID: process.env.CLIENT_ID ? 'Set' : 'Missing',
+        USER_POOL_ID: process.env.COGNITO_USER_POOL_ID ? 'Set' : 'Missing',
+        CLIENT_ID: process.env.COGNITO_CLIENT_ID ? 'Set' : 'Missing',
         REDIRECT_URI: process.env.REDIRECT_URI || 'not-set',
         PORT: PORT
     });
