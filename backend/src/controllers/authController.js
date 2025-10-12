@@ -260,6 +260,29 @@ exports.callback = async (req, res) => {
     }
 };
 
+exports.debugAuth = async (req, res) => {
+    try {
+        res.json({
+            environment: {
+                AWS_REGION: process.env.AWS_REGION,
+                COGNITO_USER_POOL_ID: process.env.COGNITO_USER_POOL_ID,
+                COGNITO_CLIENT_ID: process.env.COGNITO_CLIENT_ID,
+                COGNITO_DOMAIN: process.env.COGNITO_DOMAIN,
+                REDIRECT_URI: process.env.REDIRECT_URI,
+                HAS_CLIENT_SECRET: !!process.env.CLIENT_SECRET,
+                CLIENT_SECRET_LENGTH: process.env.CLIENT_SECRET ? process.env.CLIENT_SECRET.length : 0,
+                CLIENT_SECRET_PREVIEW: process.env.CLIENT_SECRET ? process.env.CLIENT_SECRET.substring(0, 15) + '...' : 'not set',
+                DOMAIN_CONSTRUCTED: COGNITO_DOMAIN
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+};
+
 exports.register = async (req, res) => {
     try {
         console.log('=== REGISTRATION REQUEST ===');

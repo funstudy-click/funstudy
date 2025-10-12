@@ -15,6 +15,7 @@ router.get('/debug/session', authController.checkSession);
 router.get('/debug/cognito-config', authController.debugCognitoConfig);
 router.get('/debug/client-config', authController.debugClientConfig);
 router.get('/debug/domain-test', authController.testDomain);
+router.get('/debug/auth', authController.debugAuth);
 
 // Test route
 router.get('/test', (req, res) => {
