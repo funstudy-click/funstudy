@@ -64,13 +64,12 @@ exports.login = async (req, res) => {
     try {
         console.log('=== LOGIN REQUEST ===');
         console.log('Request origin:', req.get('origin'));
-        console.log('Request headers:', req.headers);
         
         // Generate state and nonce for security
         const state = crypto.randomBytes(32).toString('hex');
         const nonce = crypto.randomBytes(32).toString('hex');
         
-        // Store in session (even if it might not persist cross-domain)
+        // Store in session
         req.session.state = state;
         req.session.nonce = nonce;
         
@@ -91,9 +90,11 @@ exports.login = async (req, res) => {
             nonce: nonce
         };
 
-        const authUrl = `${COGNITO_DOMAIN}/oauth2/authorize?${querystring.stringify(authParams)}`;
+        // ✅ FIXED: Add https:// protocol
+        const authUrl = `https://${COGNITO_DOMAIN}/oauth2/authorize?${querystring.stringify(authParams)}`;
         
         console.log('Redirecting to Cognito:', authUrl);
+        console.log('Full URL should be:', authUrl);
 
         // Redirect to Cognito
         res.redirect(authUrl);
