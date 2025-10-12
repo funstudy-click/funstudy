@@ -9,25 +9,62 @@ const app = express();
 const PORT = process.env.PORT || 3002;
 
 const corsOptions = {
-    origin: [
-        'http://localhost:3002', 
-        'http://localhost:3003', 
-        'http://localhost:8080', 
-        'http://localhost:8081', 
-        'http://localhost:8082',
-        'https://funstudy-snowy.vercel.app',
-        /\.vercel\.app$/,
-        'https://vercel.app',
-        'https://*.vercel.app'
-    ],
+    origin: function (origin, callback) {
+        const allowedOrigins = [
+            'http://localhost:3002', 
+            'http://localhost:3003', 
+            'http://localhost:8080', 
+            'http://localhost:8081', 
+            'http://localhost:8082',
+            'https://funstudy-snowy.vercel.app'
+        ];
+        
+        // Allow requests with no origin (like mobile apps or curl)
+        if (!origin) return callback(null, true);
+        
+        // Check exact match or vercel.app domain
+        if (allowedOrigins.includes(origin) || /\.vercel\.app$/.test(origin)) {
+            return callback(null, true);
+        }
+        
+        console.log('CORS blocked origin:', origin);
+        return callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'],
-    optionsSuccessStatus: 200
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
+    allowedHeaders: [
+        'Origin',
+        'X-Requested-With',
+        'Content-Type',
+        'Accept',
+        'Authorization',
+        'Cache-Control',
+        'Pragma',
+        'Expires',
+        'Access-Control-Allow-Origin',
+        'Access-Control-Allow-Headers',
+        'Access-Control-Allow-Methods'
+    ],
+    exposedHeaders: [
+        'Cache-Control',
+        'Content-Length', 
+        'Content-Type',
+        'Set-Cookie'
+    ],
+    optionsSuccessStatus: 200,
+    preflightContinue: false
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+
+// Handle preflight requests explicitly
+app.options('*', (req, res) => {
+    res.header('Access-Control-Allow-Origin', 'https://funstudy-snowy.vercel.app');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control, Pragma');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.sendStatus(200);
+});
 
 // Debug middleware
 app.use((req, res, next) => {
