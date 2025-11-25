@@ -500,11 +500,17 @@ function displayQuiz(questions) {
         currentQuestion: 0,
         answers: {},
         score: 0,
-        startTime: new Date()
+        startTime: new Date(),
+        timeRemaining: 30 * 60, // 30 minutes in seconds
+        isPaused: false,
+        timerInterval: null
     };
     
     // Render the first question
     renderQuestion();
+    
+    // Start the timer
+    startTimer();
 }
 
 function renderQuestion() {
@@ -522,6 +528,17 @@ function renderQuestion() {
                     <div class="progress-fill" style="width: ${progress}%"></div>
                 </div>
                 <span class="progress-text">Question ${currentQuestion + 1} of ${totalQuestions}</span>
+            </div>
+            <div class="quiz-timer">
+                <div class="timer-display" id="timerDisplay">
+                    <span class="timer-icon">⏰</span>
+                    <span class="timer-text" id="timerText">30:00</span>
+                </div>
+                <div class="timer-controls">
+                    <button class="btn btn-secondary timer-btn" id="pauseBtn" onclick="pauseTimer()">⏸️ Pause</button>
+                    <button class="btn btn-secondary timer-btn" id="resumeBtn" onclick="resumeTimer()" style="display: none;">▶️ Resume</button>
+                    <button class="btn btn-danger timer-btn" onclick="stopQuiz()">🛑 Stop Test</button>
+                </div>
             </div>
             <div class="quiz-info">
                 <span class="quiz-subject">${currentSubject}</span>
@@ -581,7 +598,13 @@ function selectAnswer(optionIndex) {
 }
 
 function nextQuestion() {
-    const { questions, currentQuestion } = window.quizState;
+    const { questions, currentQuestion, answers } = window.quizState;
+    
+    // Check if user has selected an answer for current question
+    if (answers[currentQuestion] === undefined) {
+        showGenericMessage('⚠️ Please select an answer before proceeding to the next question.', 'error');
+        return;
+    }
     
     if (currentQuestion < questions.length - 1) {
         window.quizState.currentQuestion++;
@@ -597,7 +620,17 @@ function previousQuestion() {
 }
 
 async function submitQuiz() {
-    const { questions, answers, startTime } = window.quizState;
+    const { questions, answers, startTime, currentQuestion } = window.quizState;
+    
+    // Check if user has selected an answer for the final question
+    if (answers[currentQuestion] === undefined) {
+        showGenericMessage('⚠️ Please select an answer before submitting the quiz.', 'error');
+        return;
+    }
+    
+    // Stop the timer
+    clearInterval(window.quizState.timerInterval);
+    
     const endTime = new Date();
     const timeTaken = Math.round((endTime - startTime) / 1000); // in seconds
     
@@ -811,14 +844,86 @@ async function checkServer() {
             showGenericMessage(`Server returned status ${response.status}. Please try again.`, 'warning');
         }
     } catch (error) {
-        console.error('❌ Server health check failed:', error);
+        console.error('❌ Server check failed:', error);
+        return false;
+    }
+}
+
+// Timer Functions
+function startTimer() {
+    if (window.quizState.timerInterval) {
+        clearInterval(window.quizState.timerInterval);
+    }
+    
+    window.quizState.timerInterval = setInterval(() => {
+        if (!window.quizState.isPaused && window.quizState.timeRemaining > 0) {
+            window.quizState.timeRemaining--;
+            updateTimerDisplay();
+            
+            if (window.quizState.timeRemaining <= 0) {
+                timeUp();
+            }
+        }
+    }, 1000);
+    
+    updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+    const timerText = document.getElementById('timerText');
+    if (timerText) {
+        const minutes = Math.floor(window.quizState.timeRemaining / 60);
+        const seconds = window.quizState.timeRemaining % 60;
+        timerText.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         
-        if (error.name === 'AbortError') {
-            showGenericMessage('Server is starting up (this may take 10-30 seconds on first visit). Please wait and try again.', 'warning');
-        } else {
-            showGenericMessage('Server connection failed. The server may be starting up. Please wait a moment and try again.', 'warning');
+        // Change color when time is running low
+        const timerDisplay = document.getElementById('timerDisplay');
+        if (timerDisplay) {
+            if (window.quizState.timeRemaining <= 300) { // 5 minutes
+                timerDisplay.classList.add('timer-warning');
+            }
+            if (window.quizState.timeRemaining <= 60) { // 1 minute
+                timerDisplay.classList.add('timer-danger');
+            }
         }
     }
+}
+
+function pauseTimer() {
+    if (!window.quizState.isPaused) {
+        window.quizState.isPaused = true;
+        document.getElementById('pauseBtn').style.display = 'none';
+        document.getElementById('resumeBtn').style.display = 'inline-block';
+        showGenericMessage('⏸️ Quiz paused. Click Resume to continue.', 'success');
+    }
+}
+
+function resumeTimer() {
+    if (window.quizState.isPaused) {
+        window.quizState.isPaused = false;
+        document.getElementById('pauseBtn').style.display = 'inline-block';
+        document.getElementById('resumeBtn').style.display = 'none';
+        showGenericMessage('▶️ Quiz resumed.', 'success');
+    }
+}
+
+function stopQuiz() {
+    if (confirm('⚠️ Are you sure you want to stop the test? Your current progress will be lost.')) {
+        clearInterval(window.quizState.timerInterval);
+        window.quizState = null;
+        showGenericMessage('🛑 Quiz stopped. Returning to grade selection.', 'success');
+        showSection('gradeSection');
+    }
+}
+
+function timeUp() {
+    clearInterval(window.quizState.timerInterval);
+    showGenericMessage('⏰ Time\'s up! Automatically submitting your quiz.', 'warning');
+    
+    // Auto-submit the quiz with current answers
+    setTimeout(() => {
+        submitQuiz();
+    }, 2000);
 }
 
 // Initialize app - SINGLE DOMContentLoaded event listener
