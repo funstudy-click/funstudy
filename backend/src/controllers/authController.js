@@ -429,23 +429,23 @@ exports.logout = (req, res) => {
 
         // Check if user is authenticated
         if (!req.session?.user) {
-            console.log('No user session found, redirecting to frontend');
-            return res.redirect('https://funstudy-snowy.vercel.app/');
+            console.log('No user session found, returning success');
+            return res.json({ success: true, message: 'Already logged out' });
         }
 
         req.session.destroy((err) => {
             if (err) {
                 console.error('Session destruction error:', err);
-                return res.status(500).json({ error: 'Failed to logout' });
+                return res.status(500).json({ success: false, error: 'Failed to logout' });
             }
 
-            // Redirect to frontend instead of backend root
-            console.log('Session destroyed, redirecting to frontend');
-            res.redirect('https://funstudy-snowy.vercel.app/');
+            // Return success response instead of redirecting
+            console.log('Session destroyed successfully');
+            res.json({ success: true, message: 'Logout successful' });
         });
     } catch (error) {
         console.error('Logout error:', error);
-        res.status(500).json({ error: 'Logout failed' });
+        res.status(500).json({ success: false, error: 'Logout failed' });
     }
 };
 

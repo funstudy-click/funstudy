@@ -275,21 +275,28 @@ async function logout() {
                 method: 'GET',
                 credentials: 'include'
             });
-            console.log('Backend logout response:', response.status);
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Backend logout response:', data);
+            } else {
+                console.log('Backend logout failed with status:', response.status);
+            }
         } catch (backendError) {
             console.log('Backend logout failed, but continuing with frontend logout:', backendError);
         }
         
-        // Force redirect to AWS Cognito logout URL to clear SSO session
-        const cognitoLogoutUrl = `https://eu-north-10lokrl3ie.auth.eu-north-1.amazoncognito.com/logout?client_id=4a2ghd0krgkrf1r9t8hf8ahmdq&logout_uri=https://funstudy-snowy.vercel.app/`;
+        // Clear frontend session and redirect to login
+        console.log('✅ Logout successful');
+        showGenericMessage('You have been logged out successfully!', 'success');
         
-        console.log('✅ Logout successful - redirecting to clear SSO session');
-        showGenericMessage('Logging out...', 'success');
-        
-        // Redirect to Cognito logout after brief delay
+        // Clear URL parameters and redirect to clean login page
         setTimeout(() => {
-            window.location.href = cognitoLogoutUrl;
-        }, 1000);
+            hideLoader();
+            // Clear any auth parameters from URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+            showSection('loginSection');
+        }, 1500);
         
     } catch (error) {
         console.error('Logout error:', error);
