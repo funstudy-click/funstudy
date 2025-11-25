@@ -112,8 +112,23 @@ function displaySubjects(subjects) {
         return;
     }
     
-    // Create subject buttons
-    subjects.forEach(subject => {
+    // Create subject buttons - Filter to only show Math subjects
+    const allowedSubjects = ['Maths', 'Math', 'Mathematics'];
+    const filteredSubjects = subjects.filter(subject => 
+        allowedSubjects.some(allowed => 
+            subject.toLowerCase().includes(allowed.toLowerCase())
+        )
+    );
+    
+    // Comment out Science and History subjects
+    // const allSubjects = subjects; // Original unfiltered subjects
+    
+    if (filteredSubjects.length === 0) {
+        subjectOptionsContainer.innerHTML = '<p class="no-data">Only Math subjects are currently available.</p>';
+        return;
+    }
+    
+    filteredSubjects.forEach(subject => {
         const subjectButton = document.createElement('button');
         subjectButton.className = 'btn subject-btn';
         subjectButton.textContent = `📖 ${subject}`;
@@ -187,7 +202,9 @@ async function register() {
     
     const email = document.getElementById('registerEmail').value;
     const password = document.getElementById('registerPassword').value;
-    const gradeLevel = document.getElementById('gradeLevel').value;
+    // Grade level dropdown is commented out, use default value
+    const gradeLevelElement = document.getElementById('gradeLevel');
+    const gradeLevel = gradeLevelElement ? gradeLevelElement.value : 'GradeA'; // Default to GradeA
     
     if (!email || !password) {
         showMessage('registerMessage', 'Please fill in all fields', 'error');
@@ -244,13 +261,7 @@ async function logout() {
     try {
         showLoader();
         
-        // Call backend logout to destroy session
-        const response = await fetch(`${API_BASE_URL}/auth/logout`, {
-            method: 'GET',
-            credentials: 'include'
-        });
-        
-        // Clear any local data
+        // Clear any local data first
         if (window.quizState) {
             delete window.quizState;
         }
@@ -258,21 +269,34 @@ async function logout() {
             delete window.quizResults;
         }
         
-        console.log('✅ Logout successful');
-        showGenericMessage('You have been logged out successfully!', 'success');
+        // Call backend logout to destroy session
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+                method: 'GET',
+                credentials: 'include'
+            });
+            console.log('Backend logout response:', response.status);
+        } catch (backendError) {
+            console.log('Backend logout failed, but continuing with frontend logout:', backendError);
+        }
         
-        // Redirect to login section after a brief delay
+        // Force redirect to AWS Cognito logout URL to clear SSO session
+        const cognitoLogoutUrl = `https://eu-north-10lokrl3ie.auth.eu-north-1.amazoncognito.com/logout?client_id=4a2ghd0krgkrf1r9t8hf8ahmdq&logout_uri=https://funstudy-snowy.vercel.app/`;
+        
+        console.log('✅ Logout successful - redirecting to clear SSO session');
+        showGenericMessage('Logging out...', 'success');
+        
+        // Redirect to Cognito logout after brief delay
         setTimeout(() => {
-            showSection('loginSection');
-            hideLoader();
-        }, 1500);
+            window.location.href = cognitoLogoutUrl;
+        }, 1000);
         
     } catch (error) {
         console.error('Logout error:', error);
         hideLoader();
         
-        // Even if backend logout fails, clear frontend and show login
-        showGenericMessage('Logged out (with some issues). Please sign in again.', 'warning');
+        // Fallback: just clear frontend and show login
+        showGenericMessage('Logged out successfully!', 'success');
         setTimeout(() => {
             showSection('loginSection');
         }, 1500);

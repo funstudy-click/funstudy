@@ -240,13 +240,23 @@ router.get('/subjects/:grade', async (req, res) => {
             }
         });
         
+        // Filter subjects to only include Math-related subjects (comment out Science and History)
+        const allowedSubjects = ['Maths', 'Math', 'Mathematics'];
+        const filteredSubjects = subjects.filter(subject => 
+            allowedSubjects.some(allowed => 
+                subject.toLowerCase().includes(allowed.toLowerCase())
+            )
+        );
+        
         console.log(`Found subjects for ${grade}:`, subjects);
+        console.log(`Filtered subjects (Math only):`, filteredSubjects);
         
         res.json({
             success: true,
             grade,
-            subjects: [...new Set(subjects)], // Remove duplicates
-            count: subjects.length
+            subjects: [...new Set(filteredSubjects)], // Remove duplicates, only Math subjects
+            count: filteredSubjects.length,
+            // allSubjects: [...new Set(subjects)] // Original subjects (commented out Science/History)
         });
         
     } catch (error) {
