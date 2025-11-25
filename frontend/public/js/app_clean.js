@@ -524,10 +524,12 @@ function renderQuestion() {
     quizContainer.innerHTML = `
         <div class="quiz-header">
             <div class="quiz-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: ${progress}%"></div>
+                <div class="progress-display">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${progress}%"></div>
+                    </div>
+                    <span class="progress-text">Question ${currentQuestion + 1} of ${totalQuestions}</span>
                 </div>
-                <span class="progress-text">Question ${currentQuestion + 1} of ${totalQuestions}</span>
             </div>
             <div class="quiz-timer">
                 <div class="timer-display" id="timerDisplay">
@@ -536,9 +538,11 @@ function renderQuestion() {
                 </div>
             </div>
             <div class="quiz-info">
-                <span class="quiz-subject">${currentSubject}</span>
-                <span class="quiz-difficulty">${question.difficulty}</span>
-                <span class="quiz-points">${question.points} pts</span>
+                <div class="info-display">
+                    <span class="quiz-subject">${currentSubject}</span>
+                    <span class="quiz-difficulty">${question.difficulty}</span>
+                    <span class="quiz-points">${question.points} pts</span>
+                </div>
             </div>
         </div>
         
