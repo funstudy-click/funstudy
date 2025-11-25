@@ -190,7 +190,9 @@ function displayDifficulties(difficulties) {
 async function login() {
     try {
         console.log('🔐 Starting login process...');
-        window.location.href = `${API_BASE_URL}/auth/login`;
+        // Add timestamp to prevent caching and force fresh login
+        const timestamp = new Date().getTime();
+        window.location.href = `${API_BASE_URL}/auth/login?t=${timestamp}`;
     } catch (error) {
         console.error('Login redirect error:', error);
         showMessage('loginMessage', 'Login redirect failed', 'error');
@@ -267,6 +269,15 @@ async function logout() {
         }
         if (window.quizResults) {
             delete window.quizResults;
+        }
+        
+        // Clear browser storage to ensure clean state
+        try {
+            localStorage.clear();
+            sessionStorage.clear();
+            console.log('Browser storage cleared');
+        } catch (storageError) {
+            console.log('Could not clear storage:', storageError);
         }
         
         // Call backend logout to destroy session

@@ -87,7 +87,8 @@ exports.login = async (req, res) => {
             redirect_uri: redirectUri,
             scope: 'email openid phone',
             state: state,
-            nonce: nonce
+            nonce: nonce,
+            prompt: 'login' // Force Cognito to always show login screen
         };
 
         // ✅ FIXED: Add https:// protocol
