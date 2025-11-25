@@ -131,7 +131,9 @@ function displaySubjects(subjects) {
     filteredSubjects.forEach(subject => {
         const subjectButton = document.createElement('button');
         subjectButton.className = 'btn subject-btn';
-        subjectButton.textContent = `📖 ${subject}`;
+        // Change Math to Maths for display
+        const displaySubject = subject === 'Math' ? 'Maths' : subject;
+        subjectButton.textContent = `📖 ${displaySubject}`;
         subjectButton.onclick = () => selectSubject(subject);
         subjectOptionsContainer.appendChild(subjectButton);
     });
@@ -180,7 +182,9 @@ function displayDifficulties(difficulties) {
     difficulties.forEach(difficulty => {
         const difficultyButton = document.createElement('button');
         difficultyButton.className = 'btn difficulty-btn';
-        difficultyButton.textContent = `🎯 ${difficulty}`;
+        // Capitalize first letter of difficulty
+        const capitalizedDifficulty = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+        difficultyButton.textContent = `🎯 ${capitalizedDifficulty}`;
         difficultyButton.onclick = () => selectDifficulty(difficulty);
         difficultyOptionsContainer.appendChild(difficultyButton);
     });
