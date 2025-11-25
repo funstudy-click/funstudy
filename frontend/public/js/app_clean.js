@@ -759,21 +759,23 @@ function displayResults() {
         </div>
         
         ${results.detailedResults ? `
-            <div class="detailed-results">
-                <h3>📊 Question Details</h3>
-                <div class="question-results">
-                    ${results.detailedResults.map((result, index) => `
-                        <div class="question-result ${result.isCorrect ? 'correct' : 'incorrect'}">
-                            <div class="question-summary">
-                                <span class="question-number">Q${index + 1}</span>
-                                <span class="result-icon">${result.isCorrect ? '✅' : '❌'}</span>
-                                <span class="points">${result.points} pts</span>
-                            </div>
-                            <div class="question-text">${result.question}</div>
-                        </div>
-                    `).join('')}
-                </div>
+            <div class="detailed-results-container">
                 <button class="btn btn-secondary" onclick="toggleDetailedResults()">Hide Details</button>
+                <div class="detailed-results">
+                    <h3>📊 Question Details</h3>
+                    <div class="question-results">
+                        ${results.detailedResults.map((result, index) => `
+                            <div class="question-result ${result.isCorrect ? 'correct' : 'incorrect'}">
+                                <div class="question-summary">
+                                    <span class="question-number">Q${index + 1}</span>
+                                    <span class="result-icon">${result.isCorrect ? '✅' : '❌'}</span>
+                                    <span class="points">${result.points} pts</span>
+                                </div>
+                                <div class="question-text">${result.question}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
             </div>
         ` : ''}
         
