@@ -294,12 +294,21 @@ input:focus, select:focus {
 
 /* Grade and Subject Button Grids */
 .grade-options,
-.subject-options,
 .difficulty-options,
 .grade-buttons,
 .subject-buttons {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 32px 0;
+    max-width: 100%;
+}
+
+/* Subject options centered for single button */
+.subject-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 20px;
     margin: 32px 0;
     max-width: 100%;
