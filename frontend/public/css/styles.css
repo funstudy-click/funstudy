@@ -545,16 +545,23 @@ input:focus, select:focus {
     color: #dc2626;
 }
 
-.timer-controls {
+.timer-controls-bottom {
     display: flex;
-    gap: 8px;
-    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 32px;
+    padding: 24px;
+    background: rgba(248, 250, 252, 0.8);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    border: 1px solid rgba(226, 232, 240, 0.5);
 }
 
 .timer-btn {
-    padding: 8px 16px;
+    padding: 12px 24px;
     font-size: 0.875rem;
-    min-width: auto;
+    min-width: 120px;
 }
 
 @keyframes pulse {
@@ -1238,13 +1245,16 @@ input:focus, select:focus {
         justify-self: center;
     }
     
-    .timer-controls {
+    .timer-controls-bottom {
         flex-direction: column;
-        gap: 8px;
+        gap: 12px;
+        margin-top: 24px;
+        padding: 20px;
     }
     
     .timer-btn {
         width: 100%;
+        min-width: auto;
     }
     
     .question-text {

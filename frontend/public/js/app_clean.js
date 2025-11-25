@@ -534,11 +534,6 @@ function renderQuestion() {
                     <span class="timer-icon">⏰</span>
                     <span class="timer-text" id="timerText">30:00</span>
                 </div>
-                <div class="timer-controls">
-                    <button class="btn btn-secondary timer-btn" id="pauseBtn" onclick="pauseTimer()">⏸️ Pause</button>
-                    <button class="btn btn-secondary timer-btn" id="resumeBtn" onclick="resumeTimer()" style="display: none;">▶️ Resume</button>
-                    <button class="btn btn-danger timer-btn" onclick="stopQuiz()">🛑 Stop Test</button>
-                </div>
             </div>
             <div class="quiz-info">
                 <span class="quiz-subject">${currentSubject}</span>
@@ -567,6 +562,12 @@ function renderQuestion() {
                     : `<button class="btn btn-primary" onclick="submitQuiz()">🏆 Submit Quiz</button>`
                 }
             </div>
+        </div>
+        
+        <div class="timer-controls-bottom">
+            <button class="btn btn-secondary timer-btn" id="pauseBtn" onclick="pauseTimer()">⏸️ Pause</button>
+            <button class="btn btn-secondary timer-btn" id="resumeBtn" onclick="resumeTimer()" style="display: none;">▶️ Resume</button>
+            <button class="btn btn-danger timer-btn" onclick="stopQuiz()">🛑 Stop Test</button>
         </div>
     `;
     
