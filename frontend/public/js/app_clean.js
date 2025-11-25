@@ -541,7 +541,7 @@ function renderQuestion() {
             </div>
             <div class="quiz-info">
                 <span class="quiz-subject">${currentSubject}</span>
-                <span class="quiz-difficulty">${question.difficulty}</span>
+                <span class="quiz-difficulty">${question.difficulty.charAt(0).toUpperCase() + question.difficulty.slice(1)}</span>
                 <span class="quiz-points">${question.points} pts</span>
             </div>
         </div>
@@ -929,6 +929,22 @@ function timeUp() {
     setTimeout(() => {
         submitQuiz();
     }, 2000);
+}
+
+// Toggle detailed results visibility
+function toggleDetailedResults() {
+    const detailsDiv = document.querySelector('.detailed-results');
+    const button = document.querySelector('button[onclick="toggleDetailedResults()"]');
+    
+    if (detailsDiv && button) {
+        if (detailsDiv.style.display === 'none') {
+            detailsDiv.style.display = 'block';
+            button.textContent = 'Hide Details';
+        } else {
+            detailsDiv.style.display = 'none';
+            button.textContent = 'Show Details';
+        }
+    }
 }
 
 // Initialize app - SINGLE DOMContentLoaded event listener
