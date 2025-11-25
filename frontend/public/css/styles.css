@@ -366,15 +366,16 @@ input:focus, select:focus {
     box-shadow: 0 12px 20px rgba(76, 175, 80, 0.4);
 }
 
-/* Subject Button Specific Styles */
+/* Subject Button Specific Styles - Match Grade Button Size */
 .subject-btn {
-    min-width: 160px !important;
-    max-width: 200px;
-    padding: 16px 24px !important;
-    font-size: 0.95rem !important;
+    padding: 16px 32px !important;
+    font-size: 1rem !important;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 200px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 /* Subject Button Specific Colors */
