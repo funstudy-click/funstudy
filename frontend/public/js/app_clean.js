@@ -190,9 +190,9 @@ function displayDifficulties(difficulties) {
 async function login() {
     try {
         console.log('🔐 Starting login process...');
-        // Add timestamp and force logout parameter to ensure fresh login
+        // Add timestamp to prevent caching
         const timestamp = new Date().getTime();
-        window.location.href = `${API_BASE_URL}/auth/login?t=${timestamp}&force_logout=true`;
+        window.location.href = `${API_BASE_URL}/auth/login?t=${timestamp}`;
     } catch (error) {
         console.error('Login redirect error:', error);
         showMessage('loginMessage', 'Login redirect failed', 'error');
@@ -297,24 +297,16 @@ async function logout() {
             console.log('Backend logout failed, but continuing with frontend logout:', backendError);
         }
         
-        // Try to clear Cognito session by opening logout URL in hidden iframe, then redirect
-        console.log('✅ Logout successful - attempting to clear Cognito session');
-        showGenericMessage('Logging out...', 'success');
+        // Simple frontend logout without Cognito session interference
+        console.log('✅ Logout successful');
+        showGenericMessage('You have been logged out successfully!', 'success');
         
-        // Create hidden iframe to call Cognito logout silently
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = `https://eu-north-10lokrl3ie.auth.eu-north-1.amazoncognito.com/logout?client_id=4a2ghd0krgkrf1r9t8hf8ahmdq`;
-        document.body.appendChild(iframe);
-        
-        // After attempting Cognito logout, redirect to clean login page
+        // Clean redirect to login page
         setTimeout(() => {
-            document.body.removeChild(iframe);
             hideLoader();
             window.history.replaceState({}, document.title, window.location.pathname);
             showSection('loginSection');
-            showGenericMessage('You have been logged out successfully! Please sign in again.', 'success');
-        }, 2000);
+        }, 1500);
         
     } catch (error) {
         console.error('Logout error:', error);

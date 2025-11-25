@@ -65,11 +65,19 @@ exports.login = async (req, res) => {
         console.log('=== LOGIN REQUEST ===');
         console.log('Request origin:', req.get('origin'));
         
-        // Generate state and nonce for security
+        // Generate fresh state and nonce for each login attempt
         const state = crypto.randomBytes(32).toString('hex');
         const nonce = crypto.randomBytes(32).toString('hex');
         
-        // Store in session
+        // Ensure clean session state
+        if (req.session.state) {
+            delete req.session.state;
+        }
+        if (req.session.nonce) {
+            delete req.session.nonce;
+        }
+        
+        // Store new state and nonce
         req.session.state = state;
         req.session.nonce = nonce;
         
@@ -80,7 +88,7 @@ exports.login = async (req, res) => {
         const redirectUri = process.env.REDIRECT_URI;
         console.log('Redirect URI:', redirectUri);
 
-        // Build Cognito authorization URL
+        // Build Cognito authorization URL with standard parameters
         const authParams = {
             response_type: 'code',
             client_id: process.env.COGNITO_CLIENT_ID,
@@ -90,10 +98,9 @@ exports.login = async (req, res) => {
             nonce: nonce
         };
         
-        // If force_logout is requested, add parameters to force re-authentication
+        // Only add prompt=login to encourage fresh login without max_age
         if (req.query.force_logout === 'true') {
-            authParams.prompt = 'login';
-            authParams.max_age = '0'; // Force immediate re-authentication
+            authParams.prompt = 'login'; // Encourage fresh login without forcing it
         }
 
         // ✅ FIXED: Add https:// protocol
