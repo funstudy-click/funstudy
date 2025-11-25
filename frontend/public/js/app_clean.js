@@ -74,8 +74,7 @@ function showGenericMessage(message, type) {
 
 // Data loading functions
 async function loadSubjects(grade) {
-    console.log('🔍 loadSubjects CALLED for grade:', grade);
-    console.log('🔍 Call stack:', new Error().stack);
+    console.log('Loading subjects for grade:', grade);
     showLoader();
     
     try {
@@ -83,9 +82,7 @@ async function loadSubjects(grade) {
         const data = await response.json();
         
         if (data.success) {
-            console.log('🔍 RAW API Response:', data);
-            console.log('🔍 Subjects received from API:', data.subjects);
-            console.log('🔍 Subjects array length:', data.subjects.length);
+            console.log('Subjects loaded:', data.subjects);
             displaySubjects(data.subjects);
         } else {
             console.error('Failed to load subjects:', data.error);
@@ -115,8 +112,6 @@ function displaySubjects(subjects) {
         return;
     }
     
-    console.log('🔍 DisplaySubjects called with:', subjects);
-    
     // Create subject buttons - Filter to only show Math subjects
     const allowedSubjects = ['Maths', 'Math', 'Mathematics'];
     const filteredSubjects = subjects.filter(subject => 
@@ -124,9 +119,6 @@ function displaySubjects(subjects) {
             subject.toLowerCase().includes(allowed.toLowerCase())
         )
     );
-    
-    console.log('🔍 Filtered subjects:', filteredSubjects);
-    console.log('🔍 About to create', filteredSubjects.length, 'buttons');
     
     // Comment out Science and History subjects
     // const allSubjects = subjects; // Original unfiltered subjects
