@@ -87,9 +87,14 @@ exports.login = async (req, res) => {
             redirect_uri: redirectUri,
             scope: 'email openid phone',
             state: state,
-            nonce: nonce,
-            prompt: 'login' // Force Cognito to always show login screen
+            nonce: nonce
         };
+        
+        // If force_logout is requested, add parameters to force re-authentication
+        if (req.query.force_logout === 'true') {
+            authParams.prompt = 'login';
+            authParams.max_age = '0'; // Force immediate re-authentication
+        }
 
         // ✅ FIXED: Add https:// protocol
         const authUrl = `https://${COGNITO_DOMAIN}/oauth2/authorize?${querystring.stringify(authParams)}`;
