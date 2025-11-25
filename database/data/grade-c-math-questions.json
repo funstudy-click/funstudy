@@ -1,0 +1,1204 @@
+{
+    "GradeC_Math_Questions": [
+        {
+            "questionId": "GradeC_Math_Simple_001",
+            "question": "What is 15² - 8²?",
+            "options": ["161", "163", "165", "167"],
+            "correctAnswer": "161",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_002",
+            "question": "Calculate 7/12 + 5/16",
+            "options": ["43/48", "12/28", "35/48", "47/48"],
+            "correctAnswer": "43/48",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_003",
+            "question": "If x + 7 = 15, what is the value of x?",
+            "options": ["6", "7", "8", "9"],
+            "correctAnswer": "8",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_004",
+            "question": "What are the coordinates of the point where the line y = x + 2 crosses the y-axis?",
+            "options": ["(0, 2)", "(2, 0)", "(0, -2)", "(-2, 0)"],
+            "correctAnswer": "(0, 2)",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_005",
+            "question": "Find the mean of: 12, 15, 18, 21, 24",
+            "options": ["17", "18", "19", "20"],
+            "correctAnswer": "18",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_006",
+            "question": "A train leaves at 14:35 and arrives at 17:18. How long is the journey?",
+            "options": ["2h 43m", "2h 53m", "3h 17m", "3h 43m"],
+            "correctAnswer": "2h 43m",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_007",
+            "question": "Convert £25.40 to euros if £1 = €1.15",
+            "options": ["€29.21", "€29.46", "€30.12", "€31.25"],
+            "correctAnswer": "€29.21",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_008",
+            "question": "Calculate 23 × 17",
+            "options": ["381", "391", "401", "411"],
+            "correctAnswer": "391",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_009",
+            "question": "What is 3/8 as a decimal?",
+            "options": ["0.325", "0.375", "0.425", "0.475"],
+            "correctAnswer": "0.375",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_010",
+            "question": "If 3y - 4 = 14, what is y?",
+            "options": ["5", "6", "7", "8"],
+            "correctAnswer": "6",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_011",
+            "question": "Find the mode of: 3, 7, 5, 3, 9, 7, 3, 6",
+            "options": ["3", "5", "6", "7"],
+            "correctAnswer": "3",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_012",
+            "question": "Calculate 456 ÷ 24",
+            "options": ["17", "19", "21", "23"],
+            "correctAnswer": "19",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_013",
+            "question": "What is 5/6 - 2/9?",
+            "options": ["11/18", "13/18", "7/15", "3/15"],
+            "correctAnswer": "11/18",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_014",
+            "question": "A rectangle has length 8cm and width 5cm. What is its perimeter?",
+            "options": ["24cm", "26cm", "28cm", "30cm"],
+            "correctAnswer": "26cm",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_015",
+            "question": "If a = 4 and b = 3, what is 2a + 3b?",
+            "options": ["15", "16", "17", "18"],
+            "correctAnswer": "17",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_016",
+            "question": "Convert 2 hours 45 minutes to minutes",
+            "options": ["155", "165", "175", "185"],
+            "correctAnswer": "165",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_017",
+            "question": "What is 18² ÷ 9?",
+            "options": ["32", "34", "36", "38"],
+            "correctAnswer": "36",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_018",
+            "question": "Find the median of: 8, 12, 15, 20, 25",
+            "options": ["12", "15", "16", "20"],
+            "correctAnswer": "15",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_019",
+            "question": "Calculate 7/10 × 4/5",
+            "options": ["28/50", "11/15", "14/25", "3/4"],
+            "correctAnswer": "14/25",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_020",
+            "question": "If £1 = $1.28, how much is £15 in dollars?",
+            "options": ["$18.20", "$19.20", "$20.20", "$21.20"],
+            "correctAnswer": "$19.20",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_021",
+            "question": "What is the area of a triangle with base 12cm and height 8cm?",
+            "options": ["46cm²", "48cm²", "50cm²", "52cm²"],
+            "correctAnswer": "48cm²",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_022",
+            "question": "Solve for x: 2x + 5 = 19",
+            "options": ["6", "7", "8", "9"],
+            "correctAnswer": "7",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_023",
+            "question": "What is 0.75 as a fraction in lowest terms?",
+            "options": ["3/4", "6/8", "9/12", "15/20"],
+            "correctAnswer": "3/4",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_024",
+            "question": "Calculate 144 ÷ 12 + 8 × 3",
+            "options": ["34", "36", "38", "40"],
+            "correctAnswer": "36",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_025",
+            "question": "A clock shows 3:20. What is the time 2 hours 40 minutes later?",
+            "options": ["5:00", "5:40", "6:00", "6:40"],
+            "correctAnswer": "6:00",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_026",
+            "question": "Find the range of: 15, 23, 18, 31, 27",
+            "options": ["14", "15", "16", "17"],
+            "correctAnswer": "16",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_027",
+            "question": "What is 13 × 19?",
+            "options": ["247", "257", "267", "277"],
+            "correctAnswer": "247",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_028",
+            "question": "Calculate 4/7 + 3/14",
+            "options": ["11/14", "7/21", "1/2", "9/14"],
+            "correctAnswer": "11/14",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_029",
+            "question": "If y = 2x + 3 and x = 5, what is y?",
+            "options": ["11", "12", "13", "14"],
+            "correctAnswer": "13",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_030",
+            "question": "Convert 0.6 to a percentage",
+            "options": ["6%", "60%", "0.6%", "600%"],
+            "correctAnswer": "60%",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_031",
+            "question": "What is the perimeter of a square with side length 7cm?",
+            "options": ["21cm", "28cm", "35cm", "49cm"],
+            "correctAnswer": "28cm",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_032",
+            "question": "Calculate 625 ÷ 25",
+            "options": ["23", "24", "25", "26"],
+            "correctAnswer": "25",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_033",
+            "question": "Find the sum of angles in a quadrilateral",
+            "options": ["180°", "270°", "360°", "540°"],
+            "correctAnswer": "360°",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_034",
+            "question": "What is 5/8 - 1/4?",
+            "options": ["3/8", "4/8", "1/4", "1/2"],
+            "correctAnswer": "3/8",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_035",
+            "question": "If 4x = 28, what is x?",
+            "options": ["6", "7", "8", "9"],
+            "correctAnswer": "7",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_036",
+            "question": "A journey takes 3.5 hours. If it starts at 09:15, when does it end?",
+            "options": ["12:15", "12:30", "12:45", "13:00"],
+            "correctAnswer": "12:45",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_037",
+            "question": "What is 11²?",
+            "options": ["121", "131", "141", "151"],
+            "correctAnswer": "121",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_038",
+            "question": "Calculate 2/3 × 9/10",
+            "options": ["18/30", "3/5", "6/10", "11/13"],
+            "correctAnswer": "3/5",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_039",
+            "question": "Convert 1.25 to a fraction",
+            "options": ["5/4", "4/3", "3/2", "6/5"],
+            "correctAnswer": "5/4",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_040",
+            "question": "What is the area of a circle with radius 3cm? (Use π = 3.14)",
+            "options": ["28.26cm²", "28.27cm²", "28.28cm²", "28.29cm²"],
+            "correctAnswer": "28.26cm²",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_041",
+            "question": "Find the mean of: 24, 28, 32, 36",
+            "options": ["28", "29", "30", "31"],
+            "correctAnswer": "30",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_042",
+            "question": "Calculate 17 × 23",
+            "options": ["381", "391", "401", "411"],
+            "correctAnswer": "391",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_043",
+            "question": "What is 7/12 + 1/3?",
+            "options": ["8/15", "11/12", "3/4", "5/6"],
+            "correctAnswer": "11/12",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_044",
+            "question": "If n - 8 = 15, what is n?",
+            "options": ["21", "22", "23", "24"],
+            "correctAnswer": "23",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_045",
+            "question": "Convert 45 minutes to hours as a decimal",
+            "options": ["0.65", "0.70", "0.75", "0.80"],
+            "correctAnswer": "0.75",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_046",
+            "question": "What is the circumference of a circle with diameter 8cm? (Use π = 3.14)",
+            "options": ["25.12cm", "50.24cm", "100.48cm", "201.06cm"],
+            "correctAnswer": "25.12cm",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_047",
+            "question": "Calculate 8² - 6²",
+            "options": ["26", "28", "30", "32"],
+            "correctAnswer": "28",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_048",
+            "question": "Find 40% of 75",
+            "options": ["28", "30", "32", "35"],
+            "correctAnswer": "30",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_049",
+            "question": "What is 3/5 ÷ 2/3?",
+            "options": ["9/10", "6/15", "2/5", "1/2"],
+            "correctAnswer": "9/10",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Simple_050",
+            "question": "If 5y + 3 = 23, what is y?",
+            "options": ["3", "4", "5", "6"],
+            "correctAnswer": "4",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeC_Math_Medium_001",
+            "question": "Calculate 3²/₅ + 1³/₄ - 2¹/₂",
+            "options": ["2³/₂₀", "2⁷/₂₀", "2¹¹/₂₀", "2¹⁵/₂₀"],
+            "correctAnswer": "2⁷/₂₀",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_002",
+            "question": "Convert 0.325 to a percentage",
+            "options": ["3.25%", "32.5%", "325%", "0.325%"],
+            "correctAnswer": "32.5%",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_003",
+            "question": "A circle has a radius of 7cm. What is the area of the sector with angle 60°? (Use π = 22/7)",
+            "options": ["25²/₃cm²", "25⁵/₆cm²", "26¹/₃cm²", "26²/₃cm²"],
+            "correctAnswer": "25²/₃cm²",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_004",
+            "question": "Solve for x: 3x - 7 = 2x + 11",
+            "options": ["16", "17", "18", "19"],
+            "correctAnswer": "18",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_005",
+            "question": "The ratio of boys to girls in a class is 3:4. If there are 21 boys, how many girls are there?",
+            "options": ["26", "27", "28", "29"],
+            "correctAnswer": "28",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_006",
+            "question": "£500 is invested at 4% simple interest per year. What is the total amount after 3 years?",
+            "options": ["£560", "£580", "£600", "£620"],
+            "correctAnswer": "£560",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_007",
+            "question": "A bar chart shows: Mon-15, Tue-23, Wed-18, Thu-27, Fri-22. What is the mean number per day?",
+            "options": ["20", "21", "22", "23"],
+            "correctAnswer": "21",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_008",
+            "question": "Find the area of a trapezium with parallel sides 8cm and 12cm, and height 5cm",
+            "options": ["48cm²", "50cm²", "52cm²", "54cm²"],
+            "correctAnswer": "50cm²",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_009",
+            "question": "Simplify: 4a + 3b - 2a + 5b",
+            "options": ["2a + 8b", "6a + 2b", "2a + 2b", "6a + 8b"],
+            "correctAnswer": "2a + 8b",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_010",
+            "question": "A recipe for 6 people needs 450g flour. How much flour for 8 people?",
+            "options": ["580g", "600g", "620g", "640g"],
+            "correctAnswer": "600g",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_011",
+            "question": "What is 65% of 240?",
+            "options": ["154", "156", "158", "160"],
+            "correctAnswer": "156",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_012",
+            "question": "A triangle has sides 5cm, 12cm, and 13cm. What type of triangle is it?",
+            "options": ["Acute", "Right-angled", "Obtuse", "Isosceles"],
+            "correctAnswer": "Right-angled",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_013",
+            "question": "Calculate 2¾ × 1⅗",
+            "options": ["4⅖", "4⅗", "4⅘", "5⅖"],
+            "correctAnswer": "4⅖",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_014",
+            "question": "Convert 5/8 to a decimal",
+            "options": ["0.615", "0.625", "0.635", "0.645"],
+            "correctAnswer": "0.625",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_015",
+            "question": "A cube has a volume of 125cm³. What is the length of each edge?",
+            "options": ["4cm", "5cm", "6cm", "7cm"],
+            "correctAnswer": "5cm",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_016",
+            "question": "Solve: 2(x + 3) = 18",
+            "options": ["5", "6", "7", "8"],
+            "correctAnswer": "6",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_017",
+            "question": "A shop increases prices by 15%. If a shirt originally cost £20, what is the new price?",
+            "options": ["£22", "£23", "£24", "£25"],
+            "correctAnswer": "£23",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_018",
+            "question": "Find the area of a rhombus with diagonals 8cm and 12cm",
+            "options": ["46cm²", "48cm²", "50cm²", "52cm²"],
+            "correctAnswer": "48cm²",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_019",
+            "question": "What is the gradient of the line passing through (2, 5) and (6, 13)?",
+            "options": ["1", "2", "3", "4"],
+            "correctAnswer": "2",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_020",
+            "question": "A car travels 180 miles in 3 hours. What is its average speed in km/h? (1 mile = 1.6 km)",
+            "options": ["94 km/h", "95 km/h", "96 km/h", "97 km/h"],
+            "correctAnswer": "96 km/h",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_021",
+            "question": "Calculate 7/12 ÷ 5/8",
+            "options": ["14/15", "35/96", "56/60", "2/3"],
+            "correctAnswer": "14/15",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_022",
+            "question": "A rectangle has perimeter 32cm and length 10cm. What is its area?",
+            "options": ["58cm²", "60cm²", "62cm²", "64cm²"],
+            "correctAnswer": "60cm²",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_023",
+            "question": "If 3x + 2y = 20 and x = 4, what is y?",
+            "options": ["3", "4", "5", "6"],
+            "correctAnswer": "4",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_024",
+            "question": "What percentage is 42 out of 168?",
+            "options": ["23%", "24%", "25%", "26%"],
+            "correctAnswer": "25%",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_025",
+            "question": "A cylinder has radius 4cm and height 10cm. What is its volume? (Use π = 3.14)",
+            "options": ["502.4cm³", "502.6cm³", "502.8cm³", "503.2cm³"],
+            "correctAnswer": "502.4cm³",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_026",
+            "question": "Expand: 3(2x - 5)",
+            "options": ["6x - 15", "6x + 15", "5x - 15", "5x + 15"],
+            "correctAnswer": "6x - 15",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_027",
+            "question": "A class has 30 students. 18 are boys. What fraction are girls?",
+            "options": ["2/5", "3/5", "1/2", "3/4"],
+            "correctAnswer": "2/5",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_028",
+            "question": "Calculate the surface area of a cube with edge 6cm",
+            "options": ["214cm²", "215cm²", "216cm²", "217cm²"],
+            "correctAnswer": "216cm²",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_029",
+            "question": "Convert 2.75 hours to hours and minutes",
+            "options": ["2h 40m", "2h 45m", "2h 50m", "2h 55m"],
+            "correctAnswer": "2h 45m",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_030",
+            "question": "Find the nth term formula for: 7, 11, 15, 19, 23...",
+            "options": ["4n + 3", "4n - 3", "3n + 4", "n + 6"],
+            "correctAnswer": "4n + 3",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_031",
+            "question": "A regular hexagon has perimeter 42cm. What is the length of each side?",
+            "options": ["6cm", "7cm", "8cm", "9cm"],
+            "correctAnswer": "7cm",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_032",
+            "question": "What is 150% of 80?",
+            "options": ["110", "115", "120", "125"],
+            "correctAnswer": "120",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_033",
+            "question": "A bag contains 5 red, 3 blue, and 2 green marbles. What is the probability of drawing a blue marble?",
+            "options": ["3/10", "1/3", "2/5", "1/2"],
+            "correctAnswer": "3/10",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_034",
+            "question": "Solve for y: y/4 + 3 = 8",
+            "options": ["18", "19", "20", "21"],
+            "correctAnswer": "20",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_035",
+            "question": "A parallelogram has base 12cm and height 8cm. What is its area?",
+            "options": ["94cm²", "95cm²", "96cm²", "97cm²"],
+            "correctAnswer": "96cm²",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_036",
+            "question": "Calculate 4² × 3² - 2³",
+            "options": ["134", "136", "138", "140"],
+            "correctAnswer": "136",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_037",
+            "question": "A scale model has a ratio of 1:50. If the model is 12cm long, what is the actual length?",
+            "options": ["5.5m", "6m", "6.5m", "7m"],
+            "correctAnswer": "6m",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_038",
+            "question": "What is the complement of an angle measuring 73°?",
+            "options": ["17°", "27°", "37°", "47°"],
+            "correctAnswer": "17°",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_039",
+            "question": "Calculate 3.6 × 2.5",
+            "options": ["8.8", "9.0", "9.2", "9.4"],
+            "correctAnswer": "9.0",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_040",
+            "question": "A triangle has angles 45°, 67°, and x°. What is x?",
+            "options": ["66°", "67°", "68°", "69°"],
+            "correctAnswer": "68°",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_041",
+            "question": "Find the area of a sector with radius 6cm and central angle 120°. (Use π = 3.14)",
+            "options": ["37.68cm²", "37.70cm²", "37.72cm²", "37.74cm²"],
+            "correctAnswer": "37.68cm²",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_042",
+            "question": "Solve: 5x - 3(x - 2) = 16",
+            "options": ["4", "5", "6", "7"],
+            "correctAnswer": "5",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_043",
+            "question": "A shop reduces prices by 20%. If an item now costs £24, what was the original price?",
+            "options": ["£28", "£30", "£32", "£34"],
+            "correctAnswer": "£30",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_044",
+            "question": "What is the volume of a triangular prism with base area 15cm² and length 8cm?",
+            "options": ["118cm³", "119cm³", "120cm³", "121cm³"],
+            "correctAnswer": "120cm³",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_045",
+            "question": "Calculate the distance between points (3, 4) and (7, 7)",
+            "options": ["4", "5", "6", "7"],
+            "correctAnswer": "5",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_046",
+            "question": "A number is increased by 25% to give 60. What was the original number?",
+            "options": ["46", "47", "48", "49"],
+            "correctAnswer": "48",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_047",
+            "question": "Find the median of: 15, 23, 18, 31, 27, 19, 25",
+            "options": ["22", "23", "24", "25"],
+            "correctAnswer": "23",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_048",
+            "question": "Calculate 2⅓ ÷ 1¼",
+            "options": ["1 13/15", "1 14/15", "1 17/15", "2 2/15"],
+            "correctAnswer": "1 14/15",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_049",
+            "question": "A rectangular garden is 15m by 12m. A path 2m wide surrounds it. What is the area of the path?",
+            "options": ["124m²", "126m²", "128m²", "130m²"],
+            "correctAnswer": "128m²",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Medium_050",
+            "question": "If f(x) = 3x + 5, what is f(4)?",
+            "options": ["15", "16", "17", "18"],
+            "correctAnswer": "17",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeC_Math_Hard_001",
+            "question": "Solve simultaneously: 3x + 2y = 16 and x - y = 1",
+            "options": ["x = 3, y = 2", "x = 4, y = 2", "x = 4, y = 3", "x = 5, y = 2"],
+            "correctAnswer": "x = 4, y = 3",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_002",
+            "question": "A frustum of a cone has radii 6cm and 4cm, and height 8cm. What is its volume? (Use π = 3.14)",
+            "options": ["502.4cm³", "703.4cm³", "804.8cm³", "905.6cm³"],
+            "correctAnswer": "804.8cm³",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_003",
+            "question": "The mean of 5 numbers is 24. Four of the numbers are 18, 23, 26, and 29. What is the fifth number?",
+            "options": ["22", "23", "24", "25"],
+            "correctAnswer": "24",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_004",
+            "question": "A bag contains coins worth £3.60. There are twice as many 10p coins as 20p coins, and 5 more 5p coins than 20p coins. How many 20p coins are there?",
+            "options": ["6", "7", "8", "9"],
+            "correctAnswer": "7",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_005",
+            "question": "In a right triangle, one angle is 30° and the hypotenuse is 12cm. What is the length of the side opposite the 30° angle?",
+            "options": ["5cm", "6cm", "7cm", "8cm"],
+            "correctAnswer": "6cm",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_006",
+            "question": "A quadratic expression x² + bx + c has factors (x + 3) and (x - 5). What is the value of b + c?",
+            "options": ["-17", "-16", "-15", "-14"],
+            "correctAnswer": "-17",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_007",
+            "question": "A cylinder and sphere have the same volume. If the cylinder has radius 3cm and height 4cm, what is the radius of the sphere? (Use π = 3.14)",
+            "options": ["2.29cm", "2.39cm", "2.49cm", "2.59cm"],
+            "correctAnswer": "2.29cm",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_008",
+            "question": "Two dice are rolled. What is the probability that the sum is greater than 8?",
+            "options": ["5/18", "1/3", "7/18", "4/9"],
+            "correctAnswer": "5/18",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_009",
+            "question": "A shop offers successive discounts of 20% and 15%. What single discount is equivalent to these two discounts?",
+            "options": ["32%", "33%", "34%", "35%"],
+            "correctAnswer": "32%",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_010",
+            "question": "The ratio of the areas of two similar triangles is 9:16. If the perimeter of the smaller triangle is 18cm, what is the perimeter of the larger triangle?",
+            "options": ["22cm", "23cm", "24cm", "25cm"],
+            "correctAnswer": "24cm",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_011",
+            "question": "If log₂(x) = 5, what is x?",
+            "options": ["10", "25", "32", "64"],
+            "correctAnswer": "32",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_012",
+            "question": "A regular octagon is inscribed in a circle of radius 10cm. What is the area of the octagon? (Use √2 = 1.414)",
+            "options": ["282.8cm²", "284.2cm²", "285.6cm²", "287.0cm²"],
+            "correctAnswer": "282.8cm²",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_013",
+            "question": "A sequence follows the rule: aₙ = 3n² - 2n + 1. What is the 6th term?",
+            "options": ["95", "97", "99", "101"],
+            "correctAnswer": "97",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_014",
+            "question": "Three numbers are in the ratio 2:3:5. Their sum is 120. Find the largest number.",
+            "options": ["58", "59", "60", "61"],
+            "correctAnswer": "60",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_015",
+            "question": "A cone has base radius 9cm and slant height 15cm. What is its curved surface area? (Use π = 22/7)",
+            "options": ["424 2/7 cm²", "425 5/7 cm²", "427 1/7 cm²", "428 4/7 cm²"],
+            "correctAnswer": "427 1/7 cm²",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_016",
+            "question": "Solve for x: √(2x + 3) = x - 3",
+            "options": ["6", "7", "8", "9"],
+            "correctAnswer": "7",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_017",
+            "question": "A compound is made by mixing two solutions in the ratio 3:7. If 250ml of the compound contains 75ml of the first solution, how much of the second solution is there?",
+            "options": ["173ml", "174ml", "175ml", "176ml"],
+            "correctAnswer": "175ml",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_018",
+            "question": "The graph of y = ax² + bx + c passes through (0,3), (1,6), and (2,13). What is the value of a?",
+            "options": ["1", "2", "3", "4"],
+            "correctAnswer": "2",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_019",
+            "question": "A rectangle is inscribed in a semicircle of radius 8cm. If the rectangle has width 6cm, what is its area?",
+            "options": ["42.2cm²", "42.4cm²", "42.6cm²", "42.8cm²"],
+            "correctAnswer": "42.4cm²",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_020",
+            "question": "A car's value depreciates by 15% each year. If it's worth £8500 after 2 years, what was its original value?",
+            "options": ["£11,764", "£11,765", "£11,766", "£11,767"],
+            "correctAnswer": "£11,765",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_021",
+            "question": "In triangle ABC, angle A = 60°, side b = 8cm, side c = 12cm. Find the length of side a using the cosine rule.",
+            "options": ["4√7 cm", "5√7 cm", "6√7 cm", "7√7 cm"],
+            "correctAnswer": "4√7 cm",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_022",
+            "question": "A geometric series has first term 3 and common ratio 0.8. What is the sum to infinity?",
+            "options": ["13", "14", "15", "16"],
+            "correctAnswer": "15",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_023",
+            "question": "Two circles with radii 5cm and 3cm are externally tangent. What is the length of their common external tangent?",
+            "options": ["4cm", "5cm", "6cm", "7cm"],
+            "correctAnswer": "4cm",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_024",
+            "question": "A function f(x) = x³ - 6x² + 9x + 2. At what value of x does f(x) have a local minimum?",
+            "options": ["x = 1", "x = 2", "x = 3", "x = 4"],
+            "correctAnswer": "x = 3",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_025",
+            "question": "A pyramid has a square base of side 12cm and height 8cm. What is the length of its slant height?",
+            "options": ["9cm", "10cm", "11cm", "12cm"],
+            "correctAnswer": "10cm",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_026",
+            "question": "The equation x² - 8x + k = 0 has equal roots. What is the value of k?",
+            "options": ["14", "15", "16", "17"],
+            "correctAnswer": "16",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_027",
+            "question": "A box contains 8 red balls and 12 blue balls. Three balls are drawn without replacement. What is the probability that all three are red?",
+            "options": ["14/285", "28/285", "42/285", "56/285"],
+            "correctAnswer": "14/285",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_028",
+            "question": "The sum of an arithmetic progression with 20 terms is 610. If the first term is 5, what is the common difference?",
+            "options": ["2.8", "2.9", "3.0", "3.1"],
+            "correctAnswer": "3.0",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_029",
+            "question": "A sphere is cut by a plane 3cm from its center. If the radius of the circular cross-section is 4cm, what is the radius of the sphere?",
+            "options": ["4cm", "5cm", "6cm", "7cm"],
+            "correctAnswer": "5cm",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_030",
+            "question": "In how many ways can the letters of MATHEMATICS be arranged if no two M's are adjacent?",
+            "options": ["907,200", "1,814,400", "2,721,600", "3,628,800"],
+            "correctAnswer": "907,200",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_031",
+            "question": "A triangle has vertices at A(2,3), B(6,7), and C(4,1). What is the area of the triangle?",
+            "options": ["6", "7", "8", "9"],
+            "correctAnswer": "8",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_032",
+            "question": "The inverse function of f(x) = 3x + 7 is f⁻¹(x). What is f⁻¹(16)?",
+            "options": ["2", "3", "4", "5"],
+            "correctAnswer": "3",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_033",
+            "question": "A regular tetrahedron has edge length 6cm. What is its volume?",
+            "options": ["18√2 cm³", "9√2 cm³", "12√2 cm³", "6√2 cm³"],
+            "correctAnswer": "18√2 cm³",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_034",
+            "question": "The coefficient of x² in the expansion of (2x - 3)⁵ is:",
+            "options": ["720", "1080", "1440", "1800"],
+            "correctAnswer": "1080",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_035",
+            "question": "A sector of a circle has area 50cm² and radius 10cm. What is the angle of the sector in radians?",
+            "options": ["0.8", "0.9", "1.0", "1.1"],
+            "correctAnswer": "1.0",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_036",
+            "question": "The equation 2ˣ = 32 has solution x = k. What is the value of 3k - 1?",
+            "options": ["13", "14", "15", "16"],
+            "correctAnswer": "14",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_037",
+            "question": "A cylindrical tank has diameter 4m and height 6m. Water flows in at 0.2 m³/min. How long to fill half the tank?",
+            "options": ["94.2 min", "94.25 min", "94.3 min", "94.35 min"],
+            "correctAnswer": "94.25 min",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_038",
+            "question": "The roots of x² + px + q = 0 are α and β. If α + β = 6 and αβ = 8, what is p + q?",
+            "options": ["1", "2", "3", "4"],
+            "correctAnswer": "2",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_039",
+            "question": "A rectangle is rotated about one of its sides to form a cylinder. If the rectangle has dimensions 8cm by 5cm, what is the maximum possible volume? (Use π = 3.14)",
+            "options": ["628cm³", "1005.3cm³", "1256cm³", "2010.6cm³"],
+            "correctAnswer": "1005.3cm³",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_040",
+            "question": "The mean of n numbers is 15. When another number x is added, the mean becomes 16. If n = 9, what is x?",
+            "options": ["24", "25", "26", "27"],
+            "correctAnswer": "25",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_041",
+            "question": "A parabola y = ax² + bx + c passes through (0,5), (2,1), and (4,5). What is the value of a + b + c?",
+            "options": ["4", "5", "6", "7"],
+            "correctAnswer": "5",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_042",
+            "question": "The sum of the first n terms of a series is Sₙ = 3n² - n. What is the 8th term?",
+            "options": ["43", "44", "45", "46"],
+            "correctAnswer": "44",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_043",
+            "question": "A cone and cylinder have equal base radii and volumes. If the cylinder height is 6cm, what is the cone height?",
+            "options": ["16cm", "17cm", "18cm", "19cm"],
+            "correctAnswer": "18cm",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_044",
+            "question": "The equation |2x - 3| = 7 has solutions. What is their sum?",
+            "options": ["2", "3", "4", "5"],
+            "correctAnswer": "3",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_045",
+            "question": "A cuboid has dimensions in the ratio 2:3:4. If its volume is 48cm³, what is its surface area?",
+            "options": ["52cm²", "54cm²", "56cm²", "58cm²"],
+            "correctAnswer": "52cm²",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_046",
+            "question": "The parametric equations x = 3t + 1, y = 2t - 5 represent a line. What is the gradient of this line?",
+            "options": ["1/2", "2/3", "3/2", "2"],
+            "correctAnswer": "2/3",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_047",
+            "question": "A bag contains coins totaling £2.40. There are equal numbers of 5p, 10p, and 20p coins. How many coins are there in total?",
+            "options": ["18", "19", "20", "21"],
+            "correctAnswer": "21",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_048",
+            "question": "The transformation matrix [2 1; 0 3] is applied to the point (4, 2). What are the new coordinates?",
+            "options": ["(9, 6)", "(10, 6)", "(11, 6)", "(12, 6)"],
+            "correctAnswer": "(10, 6)",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_049",
+            "question": "A circle has equation x² + y² - 6x + 4y - 12 = 0. What is the radius of the circle?",
+            "options": ["4", "5", "6", "7"],
+            "correctAnswer": "5",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeC_Math_Hard_050",
+            "question": "The nth term of a sequence is given by aₙ = 2ⁿ⁻¹ + 3. What is the sum of the first 5 terms?",
+            "options": ["58", "59", "60", "61"],
+            "correctAnswer": "60",
+            "difficulty": "hard",
+            "points": 15
+        }
+    ]
+}

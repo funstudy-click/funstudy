@@ -1,0 +1,1204 @@
+{
+  "GradeB_Math_Questions": [
+    {
+      "questionId": "GradeB_Math_Simple_001",
+      "question": "What is 8 × 7?",
+      "options": ["54", "55", "56", "57"],
+      "correctAnswer": "56",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_002",
+      "question": "What is 9 × 6?",
+      "options": ["52", "53", "54", "55"],
+      "correctAnswer": "54",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_003",
+      "question": "What is 84 ÷ 7?",
+      "options": ["11", "12", "13", "14"],
+      "correctAnswer": "12",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_004",
+      "question": "What is 11 × 9?",
+      "options": ["97", "98", "99", "100"],
+      "correctAnswer": "99",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_005",
+      "question": "What is 96 ÷ 8?",
+      "options": ["11", "12", "13", "14"],
+      "correctAnswer": "12",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_006",
+      "question": "What is 1/2 + 1/4?",
+      "options": ["2/6", "2/4", "3/4", "1/3"],
+      "correctAnswer": "3/4",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_007",
+      "question": "Sarah has £2.50. She buys a pencil for £0.85. How much money does she have left?",
+      "options": ["£1.65", "£1.75", "£1.55", "£1.45"],
+      "correctAnswer": "£1.65",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_008",
+      "question": "What is 7 × 12?",
+      "options": ["82", "83", "84", "85"],
+      "correctAnswer": "84",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_009",
+      "question": "How many minutes are in 2 hours and 15 minutes?",
+      "options": ["125", "130", "135", "140"],
+      "correctAnswer": "135",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_010",
+      "question": "What is 144 ÷ 12?",
+      "options": ["11", "12", "13", "14"],
+      "correctAnswer": "12",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_011",
+      "question": "What fraction of this shape is shaded if 3 out of 4 parts are coloured?",
+      "options": ["1/4", "2/4", "3/4", "4/4"],
+      "correctAnswer": "3/4",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_012",
+      "question": "Tom has 24 sweets. He shares them equally among 6 friends. How many sweets does each friend get?",
+      "options": ["3", "4", "5", "6"],
+      "correctAnswer": "4",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_013",
+      "question": "What is the sum of the angles in a triangle?",
+      "options": ["90°", "180°", "270°", "360°"],
+      "correctAnswer": "180°",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_014",
+      "question": "What is 6 × 11?",
+      "options": ["64", "65", "66", "67"],
+      "correctAnswer": "66",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_015",
+      "question": "If it is 2:45 PM now, what time will it be in 30 minutes?",
+      "options": ["3:15 PM", "3:25 PM", "3:05 PM", "3:35 PM"],
+      "correctAnswer": "3:15 PM",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_016",
+      "question": "What is 72 ÷ 9?",
+      "options": ["7", "8", "9", "10"],
+      "correctAnswer": "8",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_017",
+      "question": "Emma buys 3 apples at 25p each. How much does she spend?",
+      "options": ["65p", "70p", "75p", "80p"],
+      "correctAnswer": "75p",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_018",
+      "question": "What is 1/2 of 24?",
+      "options": ["11", "12", "13", "14"],
+      "correctAnswer": "12",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_019",
+      "question": "How many sides does a hexagon have?",
+      "options": ["5", "6", "7", "8"],
+      "correctAnswer": "6",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_020",
+      "question": "What is 8 × 9?",
+      "options": ["70", "71", "72", "73"],
+      "correctAnswer": "72",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_021",
+      "question": "What remainder do you get when you divide 50 by 7?",
+      "options": ["0", "1", "2", "3"],
+      "correctAnswer": "1",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_022",
+      "question": "Lucy has £5.00. She buys a book for £3.25. How much change does she get?",
+      "options": ["£1.75", "£1.85", "£1.65", "£1.95"],
+      "correctAnswer": "£1.75",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_023",
+      "question": "What is 12 × 5?",
+      "options": ["58", "59", "60", "61"],
+      "correctAnswer": "60",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_024",
+      "question": "What is 1/4 + 1/4?",
+      "options": ["1/8", "2/8", "1/2", "3/4"],
+      "correctAnswer": "1/2",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_025",
+      "question": "A rectangle has a length of 8cm and width of 3cm. What is its perimeter?",
+      "options": ["20cm", "21cm", "22cm", "23cm"],
+      "correctAnswer": "22cm",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_026",
+      "question": "What is 110 ÷ 10?",
+      "options": ["10", "11", "12", "13"],
+      "correctAnswer": "11",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_027",
+      "question": "James has 36 marbles. He puts them in bags of 4. How many bags does he need?",
+      "options": ["8", "9", "10", "11"],
+      "correctAnswer": "9",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_028",
+      "question": "What is 9 × 7?",
+      "options": ["61", "62", "63", "64"],
+      "correctAnswer": "63",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_029",
+      "question": "How many degrees are in a right angle?",
+      "options": ["45°", "90°", "180°", "270°"],
+      "correctAnswer": "90°",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_030",
+      "question": "What is 3/4 - 1/4?",
+      "options": ["1/4", "2/4", "1/2", "3/8"],
+      "correctAnswer": "1/2",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_031",
+      "question": "Sam starts work at 9:30 AM and finishes at 12:30 PM. How long does he work?",
+      "options": ["2 hours", "3 hours", "3.5 hours", "4 hours"],
+      "correctAnswer": "3 hours",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_032",
+      "question": "What is 7 × 8?",
+      "options": ["54", "55", "56", "57"],
+      "correctAnswer": "56",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_033",
+      "question": "What is 63 ÷ 7?",
+      "options": ["8", "9", "10", "11"],
+      "correctAnswer": "9",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_034",
+      "question": "Katie has 40p. She buys 2 stickers for 15p each. How much money does she have left?",
+      "options": ["10p", "15p", "20p", "25p"],
+      "correctAnswer": "10p",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_035",
+      "question": "What is 11 × 8?",
+      "options": ["86", "87", "88", "89"],
+      "correctAnswer": "88",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_036",
+      "question": "What is 1/2 of 18?",
+      "options": ["8", "9", "10", "11"],
+      "correctAnswer": "9",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_037",
+      "question": "A square has sides of 5cm. What is its perimeter?",
+      "options": ["15cm", "20cm", "25cm", "30cm"],
+      "correctAnswer": "20cm",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_038",
+      "question": "What is 132 ÷ 11?",
+      "options": ["11", "12", "13", "14"],
+      "correctAnswer": "12",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_039",
+      "question": "Ben has 28 cards. He shares them equally with his brother. How many cards does each boy get?",
+      "options": ["12", "13", "14", "15"],
+      "correctAnswer": "14",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_040",
+      "question": "What is 6 × 9?",
+      "options": ["52", "53", "54", "55"],
+      "correctAnswer": "54",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_041",
+      "question": "What remainder do you get when you divide 25 by 4?",
+      "options": ["0", "1", "2", "3"],
+      "correctAnswer": "1",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_042",
+      "question": "What is 1/4 of 20?",
+      "options": ["4", "5", "6", "7"],
+      "correctAnswer": "5",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_043",
+      "question": "How many minutes are in 1 hour and 45 minutes?",
+      "options": ["95", "100", "105", "110"],
+      "correctAnswer": "105",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_044",
+      "question": "What is 9 × 8?",
+      "options": ["70", "71", "72", "73"],
+      "correctAnswer": "72",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_045",
+      "question": "What is 91 ÷ 7?",
+      "options": ["12", "13", "14", "15"],
+      "correctAnswer": "13",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_046",
+      "question": "Anna buys 4 pencils at 12p each. How much does she spend?",
+      "options": ["44p", "46p", "48p", "50p"],
+      "correctAnswer": "48p",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_047",
+      "question": "What is 12 × 7?",
+      "options": ["82", "83", "84", "85"],
+      "correctAnswer": "84",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_048",
+      "question": "What is 3/4 + 1/4?",
+      "options": ["4/8", "1", "3/8", "5/4"],
+      "correctAnswer": "1",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_049",
+      "question": "A triangle has angles of 60°, 60°, and what?",
+      "options": ["30°", "45°", "60°", "90°"],
+      "correctAnswer": "60°",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Simple_050",
+      "question": "What is 10 × 11?",
+      "options": ["100", "110", "120", "130"],
+      "correctAnswer": "110",
+      "difficulty": "simple",
+      "points": 5
+    },
+    {
+      "questionId": "GradeB_Math_Medium_051",
+      "question": "Sarah has 24 stickers. She gives away 1/3 of them and then buys 8 more. How many stickers does she have now?",
+      "options": ["22", "23", "24", "25"],
+      "correctAnswer": "24",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_052",
+      "question": "What is 25% of 80?",
+      "options": ["15", "20", "25", "30"],
+      "correctAnswer": "20",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_053",
+      "question": "A rectangle has length 12cm and width 5cm. What is its area?",
+      "options": ["50 cm²", "55 cm²", "60 cm²", "65 cm²"],
+      "correctAnswer": "60 cm²",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_054",
+      "question": "Tom has £15. He spends 2/5 of it on a book. How much does the book cost?",
+      "options": ["£5", "£6", "£7", "£8"],
+      "correctAnswer": "£6",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_055",
+      "question": "What is 3.5 + 2.8?",
+      "options": ["6.3", "6.2", "5.3", "6.1"],
+      "correctAnswer": "6.3",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_056",
+      "question": "A train travels 45km in 30 minutes. At the same speed, how far will it travel in 1 hour?",
+      "options": ["75km", "80km", "85km", "90km"],
+      "correctAnswer": "90km",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_057",
+      "question": "What is 50% of 76?",
+      "options": ["36", "37", "38", "39"],
+      "correctAnswer": "38",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_058",
+      "question": "Emma has 48 sweets. She eats 1/4 of them and gives 1/3 of the remainder to her sister. How many sweets does Emma have left?",
+      "options": ["22", "23", "24", "25"],
+      "correctAnswer": "24",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_059",
+      "question": "The perimeter of a square is 28cm. What is the length of each side?",
+      "options": ["6cm", "7cm", "8cm", "9cm"],
+      "correctAnswer": "7cm",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_060",
+      "question": "What is 7.2 - 3.6?",
+      "options": ["3.4", "3.5", "3.6", "3.7"],
+      "correctAnswer": "3.6",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_061",
+      "question": "In a class of 32 students, 3/8 are boys. How many girls are in the class?",
+      "options": ["18", "19", "20", "21"],
+      "correctAnswer": "20",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_062",
+      "question": "What is 75% of 60?",
+      "options": ["43", "44", "45", "46"],
+      "correctAnswer": "45",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_063",
+      "question": "A triangle has a base of 8cm and height of 6cm. What is its area?",
+      "options": ["22 cm²", "23 cm²", "24 cm²", "25 cm²"],
+      "correctAnswer": "24 cm²",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_064",
+      "question": "James buys 3 books for £4.50 each and 2 pens for £1.25 each. What is the total cost?",
+      "options": ["£16.00", "£16.50", "£17.00", "£17.50"],
+      "correctAnswer": "£16.00",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_065",
+      "question": "What is 2/3 + 1/6?",
+      "options": ["3/9", "4/6", "5/6", "7/9"],
+      "correctAnswer": "5/6",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_066",
+      "question": "A shop sells apples in bags of 6. If they have 156 apples, how many full bags can they make?",
+      "options": ["24", "25", "26", "27"],
+      "correctAnswer": "26",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_067",
+      "question": "What is 10% of 250?",
+      "options": ["20", "25", "30", "35"],
+      "correctAnswer": "25",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_068",
+      "question": "Lucy has £20. She spends 3/4 of it. How much money does she have left?",
+      "options": ["£4", "£5", "£6", "£7"],
+      "correctAnswer": "£5",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_069",
+      "question": "What is 4.7 × 3?",
+      "options": ["14.0", "14.1", "14.2", "14.3"],
+      "correctAnswer": "14.1",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_070",
+      "question": "A rectangular garden is 15m long and 8m wide. What is its perimeter?",
+      "options": ["44m", "45m", "46m", "47m"],
+      "correctAnswer": "46m",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_071",
+      "question": "In a bag of 40 marbles, 15 are red, 10 are blue, and the rest are green. What fraction are green?",
+      "options": ["3/8", "1/3", "2/5", "5/8"],
+      "correctAnswer": "3/8",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_072",
+      "question": "What is 25% of 144?",
+      "options": ["34", "35", "36", "37"],
+      "correctAnswer": "36",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_073",
+      "question": "Sam has 72 stickers. He gives 1/3 to his brother and 1/4 of the remainder to his sister. How many does Sam keep?",
+      "options": ["36", "37", "38", "39"],
+      "correctAnswer": "36",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_074",
+      "question": "What is 6.8 + 2.7?",
+      "options": ["9.4", "9.5", "9.6", "9.7"],
+      "correctAnswer": "9.5",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_075",
+      "question": "A box contains 84 chocolates arranged in 7 equal rows. How many chocolates are in each row?",
+      "options": ["11", "12", "13", "14"],
+      "correctAnswer": "12",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_076",
+      "question": "What is 3/5 - 1/5?",
+      "options": ["1/5", "2/5", "3/5", "4/5"],
+      "correctAnswer": "2/5",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_077",
+      "question": "Katie buys 4 notebooks at £2.75 each. She pays with a £20 note. How much change does she get?",
+      "options": ["£8.00", "£9.00", "£10.00", "£11.00"],
+      "correctAnswer": "£9.00",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_078",
+      "question": "What is 50% of 88?",
+      "options": ["42", "43", "44", "45"],
+      "correctAnswer": "44",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_079",
+      "question": "A rectangle has area 48 cm² and width 6cm. What is its length?",
+      "options": ["7cm", "8cm", "9cm", "10cm"],
+      "correctAnswer": "8cm",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_080",
+      "question": "What is 8.4 ÷ 3?",
+      "options": ["2.6", "2.7", "2.8", "2.9"],
+      "correctAnswer": "2.8",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_081",
+      "question": "Ben has 60 cards. He sorts them into groups where each group has 8 cards. How many complete groups can he make?",
+      "options": ["6", "7", "8", "9"],
+      "correctAnswer": "7",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_082",
+      "question": "What is 2/3 × 12?",
+      "options": ["6", "7", "8", "9"],
+      "correctAnswer": "8",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_083",
+      "question": "A school has 480 students. If 25% are in Year 6, how many Year 6 students are there?",
+      "options": ["110", "115", "120", "125"],
+      "correctAnswer": "120",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_084",
+      "question": "What is 5.6 - 2.9?",
+      "options": ["2.6", "2.7", "2.8", "2.9"],
+      "correctAnswer": "2.7",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_085",
+      "question": "Emma reads 15 pages of her book each day. How many pages will she read in 8 days?",
+      "options": ["110", "115", "120", "125"],
+      "correctAnswer": "120",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_086",
+      "question": "What is 3/4 - 2/4?",
+      "options": ["1/8", "1/4", "2/4", "3/4"],
+      "correctAnswer": "1/4",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_087",
+      "question": "A triangle has angles of 45°, 65°, and what?",
+      "options": ["60°", "65°", "70°", "75°"],
+      "correctAnswer": "70°",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_088",
+      "question": "What is 75% of 40?",
+      "options": ["28", "29", "30", "31"],
+      "correctAnswer": "30",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_089",
+      "question": "Tom has £35. He spends 2/7 of it on a game. How much does he have left?",
+      "options": ["£23", "£24", "£25", "£26"],
+      "correctAnswer": "£25",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_090",
+      "question": "What is 9.1 + 4.6?",
+      "options": ["13.6", "13.7", "13.8", "13.9"],
+      "correctAnswer": "13.7",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_091",
+      "question": "A rectangular field is 25m by 16m. What is its area?",
+      "options": ["380 m²", "390 m²", "400 m²", "410 m²"],
+      "correctAnswer": "400 m²",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_092",
+      "question": "What is 4/5 + 1/5?",
+      "options": ["4/5", "5/5", "6/5", "5/10"],
+      "correctAnswer": "5/5",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_093",
+      "question": "Lucy saves £3.50 each week. How much will she save in 6 weeks?",
+      "options": ["£20.00", "£21.00", "£22.00", "£23.00"],
+      "correctAnswer": "£21.00",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_094",
+      "question": "What is 10% of 360?",
+      "options": ["34", "35", "36", "37"],
+      "correctAnswer": "36",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_095",
+      "question": "A cube has edges of 4cm each. What is the area of one face?",
+      "options": ["14 cm²", "15 cm²", "16 cm²", "17 cm²"],
+      "correctAnswer": "16 cm²",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_096",
+      "question": "What is 7.8 ÷ 6?",
+      "options": ["1.2", "1.3", "1.4", "1.5"],
+      "correctAnswer": "1.3",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_097",
+      "question": "Sam has 96 stickers. He gives away 3/8 of them. How many stickers does he give away?",
+      "options": ["34", "35", "36", "37"],
+      "correctAnswer": "36",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_098",
+      "question": "What is 25% of 200?",
+      "options": ["48", "49", "50", "51"],
+      "correctAnswer": "50",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_099",
+      "question": "A garden path is 18m long and 1.5m wide. What is its area?",
+      "options": ["25 m²", "26 m²", "27 m²", "28 m²"],
+      "correctAnswer": "27 m²",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Medium_100",
+      "question": "What is 12.5 - 7.8?",
+      "options": ["4.6", "4.7", "4.8", "4.9"],
+      "correctAnswer": "4.7",
+      "difficulty": "medium",
+      "points": 10
+    },
+    {
+      "questionId": "GradeB_Math_Hard_101",
+      "question": "A rectangular swimming pool is 20m long, 12m wide, and 2m deep. What is its volume?",
+      "options": ["460 m³", "470 m³", "480 m³", "490 m³"],
+      "correctAnswer": "480 m³",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_102",
+      "question": "Tom has £180. He spends 35% on clothes and 25% on games. How much money does he have left?",
+      "options": ["£70", "£71", "£72", "£73"],
+      "correctAnswer": "£72",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_103",
+      "question": "What is 5/6 + 2/3 - 1/4?",
+      "options": ["5/4", "13/12", "7/6", "25/12"],
+      "correctAnswer": "5/4",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_104",
+      "question": "A train travels 240km in 3 hours. At this rate, how long will it take to travel 400km?",
+      "options": ["4 hours", "5 hours", "5.5 hours", "6 hours"],
+      "correctAnswer": "5 hours",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_105",
+      "question": "Emma buys 15 books. 2/5 are fiction, 1/3 are science, and the rest are history. How many history books did she buy?",
+      "options": ["3", "4", "5", "6"],
+      "correctAnswer": "4",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_106",
+      "question": "What is 87.5% of 160?",
+      "options": ["135", "140", "145", "150"],
+      "correctAnswer": "140",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_107",
+      "question": "A circular garden has a radius of 7m. What is its area? (Use π = 22/7)",
+      "options": ["150 m²", "152 m²", "154 m²", "156 m²"],
+      "correctAnswer": "154 m²",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_108",
+      "question": "Lucy has 144 stickers. She gives 1/4 to Amy, 1/3 of the remainder to Ben, and keeps the rest. How many does Lucy keep?",
+      "options": ["70", "71", "72", "73"],
+      "correctAnswer": "72",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_109",
+      "question": "A recipe for 6 people uses 450g of flour. How much flour is needed for 10 people?",
+      "options": ["720g", "730g", "740g", "750g"],
+      "correctAnswer": "750g",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_110",
+      "question": "What is 3.75 × 8?",
+      "options": ["29", "30", "31", "32"],
+      "correctAnswer": "30",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_111",
+      "question": "A box contains red, blue, and green balls in the ratio 3:4:5. If there are 24 blue balls, how many balls are there in total?",
+      "options": ["70", "71", "72", "73"],
+      "correctAnswer": "72",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_112",
+      "question": "Sam invests £500 and earns 6% interest per year. How much money will he have after 2 years?",
+      "options": ["£560", "£562", "£564", "£565"],
+      "correctAnswer": "£562",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_113",
+      "question": "What is 7/8 - 5/12?",
+      "options": ["11/24", "13/24", "15/24", "17/24"],
+      "correctAnswer": "11/24",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_114",
+      "question": "A triangular field has a base of 24m and height of 15m. What is its area?",
+      "options": ["175 m²", "180 m²", "185 m²", "190 m²"],
+      "correctAnswer": "180 m²",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_115",
+      "question": "Katie runs 2.5km each morning and 1.8km each evening. How far does she run in a week?",
+      "options": ["29.1km", "30.1km", "31.1km", "32.1km"],
+      "correctAnswer": "30.1km",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_116",
+      "question": "A school has 420 students. 45% are boys. How many more girls than boys are there?",
+      "options": ["40", "41", "42", "43"],
+      "correctAnswer": "42",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_117",
+      "question": "What is 16.8 ÷ 2.4?",
+      "options": ["6", "6.5", "7", "7.5"],
+      "correctAnswer": "7",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_118",
+      "question": "Ben has £240. He spends 5/8 of it on a bicycle and 1/6 of the remainder on accessories. How much money does he have left?",
+      "options": ["£75", "£80", "£85", "£90"],
+      "correctAnswer": "£75",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_119",
+      "question": "A rectangular prism has dimensions 8cm × 6cm × 4cm. What is its volume?",
+      "options": ["190 cm³", "191 cm³", "192 cm³", "193 cm³"],
+      "correctAnswer": "192 cm³",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_120",
+      "question": "What is 2/3 × 3/4 × 4/5?",
+      "options": ["2/5", "3/5", "1/2", "3/4"],
+      "correctAnswer": "2/5",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_121",
+      "question": "A car travels at 60 km/h for 2.5 hours, then at 80 km/h for 1.5 hours. What is the total distance traveled?",
+      "options": ["260km", "270km", "280km", "290km"],
+      "correctAnswer": "270km",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_122",
+      "question": "Anna has 180 marbles. She puts them in boxes where each box holds 15 marbles. If she fills 8 boxes completely, how many marbles are left over?",
+      "options": ["58", "59", "60", "61"],
+      "correctAnswer": "60",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_123",
+      "question": "What is 62.5% of 96?",
+      "options": ["58", "59", "60", "61"],
+      "correctAnswer": "60",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_124",
+      "question": "A cylinder has a base radius of 3cm and height of 10cm. What is its volume? (Use π = 22/7)",
+      "options": ["282 cm³", "283 cm³", "284 cm³", "285 cm³"],
+      "correctAnswer": "283 cm³",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_125",
+      "question": "Tom buys items costing £12.50, £8.75, and £15.25. He pays with a £50 note. What is his change?",
+      "options": ["£13.50", "£13.75", "£14.00", "£14.25"],
+      "correctAnswer": "£13.50",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_126",
+      "question": "What is 5/6 ÷ 2/3?",
+      "options": ["5/4", "3/4", "6/5", "4/3"],
+      "correctAnswer": "5/4",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_127",
+      "question": "A bakery makes 480 cakes. They sell 65% on Monday and 20% of the remainder on Tuesday. How many cakes are left?",
+      "options": ["134", "135", "136", "137"],
+      "correctAnswer": "134",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_128",
+      "question": "What is 25.6 - 18.9?",
+      "options": ["6.6", "6.7", "6.8", "6.9"],
+      "correctAnswer": "6.7",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_129",
+      "question": "Lucy saves money in the ratio of spending to saving as 7:3. If she spends £140, how much does she save?",
+      "options": ["£58", "£59", "£60", "£61"],
+      "correctAnswer": "£60",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_130",
+      "question": "A square pyramid has a base side of 6cm and height of 8cm. What is the area of its base?",
+      "options": ["34 cm²", "35 cm²", "36 cm²", "37 cm²"],
+      "correctAnswer": "36 cm²",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_131",
+      "question": "What is 3.6 × 2.5?",
+      "options": ["8.8", "8.9", "9.0", "9.1"],
+      "correctAnswer": "9.0",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_132",
+      "question": "Emma has 225 stickers. She gives 2/5 to her sister and 1/3 of the remainder to her brother. How many does Emma keep?",
+      "options": ["88", "89", "90", "91"],
+      "correctAnswer": "90",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_133",
+      "question": "A rectangular garden is 18m by 12m. A path 1m wide runs around the inside edge. What is the area of the path?",
+      "options": ["58 m²", "59 m²", "60 m²", "61 m²"],
+      "correctAnswer": "60 m²",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_134",
+      "question": "What is 4/7 + 3/14 - 1/2?",
+      "options": ["1/14", "2/14", "3/14", "4/14"],
+      "correctAnswer": "1/14",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_135",
+      "question": "A factory produces 1,440 items in 8 hours. At this rate, how many items will it produce in 12 hours?",
+      "options": ["2,150", "2,160", "2,170", "2,180"],
+      "correctAnswer": "2,160",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_136",
+      "question": "Sam has £300. He spends 40% on a tablet and 25% of what remains on games. How much money does he have left?",
+      "options": ["£133", "£134", "£135", "£136"],
+      "correctAnswer": "£135",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_137",
+      "question": "What is 91.2 ÷ 3.8?",
+      "options": ["23", "24", "25", "26"],
+      "correctAnswer": "24",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_138",
+      "question": "A triangle has sides of 9cm, 12cm, and 15cm. Is this a right-angled triangle?",
+      "options": ["Yes", "No", "Cannot tell", "Need more info"],
+      "correctAnswer": "Yes",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_139",
+      "question": "Katie buys 12 items. 1/4 cost £3 each, 1/3 cost £5 each, and the rest cost £2 each. What is the total cost?",
+      "options": ["£42", "£43", "£44", "£45"],
+      "correctAnswer": "£44",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_140",
+      "question": "What is 7/12 × 8/21?",
+      "options": ["1/9", "2/9", "1/8", "2/7"],
+      "correctAnswer": "2/9",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_141",
+      "question": "A cube has a volume of 216 cm³. What is the length of each edge?",
+      "options": ["5cm", "6cm", "7cm", "8cm"],
+      "correctAnswer": "6cm",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_142",
+      "question": "Tom runs 3.2km on Monday, 4.8km on Wednesday, and 5.6km on Friday. What is his average daily distance over these three days?",
+      "options": ["4.4km", "4.5km", "4.6km", "4.7km"],
+      "correctAnswer": "4.5km",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_143",
+      "question": "What is 156% of 75?",
+      "options": ["115", "116", "117", "118"],
+      "correctAnswer": "117",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_144",
+      "question": "A parallelogram has a base of 14cm and height of 9cm. What is its area?",
+      "options": ["124 cm²", "125 cm²", "126 cm²", "127 cm²"],
+      "correctAnswer": "126 cm²",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_145",
+      "question": "Lucy has 168 buttons. She uses 3/7 for a dress and 2/5 of the remainder for a shirt. How many buttons are left?",
+      "options": ["70", "71", "72", "73"],
+      "correctAnswer": "72",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_146",
+      "question": "What is 42.3 ÷ 9?",
+      "options": ["4.6", "4.7", "4.8", "4.9"],
+      "correctAnswer": "4.7",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_147",
+      "question": "A cinema has 240 seats arranged in 15 equal rows. If 5/6 of the seats are occupied, how many empty seats are there?",
+      "options": ["38", "39", "40", "41"],
+      "correctAnswer": "40",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_148",
+      "question": "What is 11/15 - 2/5?",
+      "options": ["1/3", "4/15", "5/15", "1/5"],
+      "correctAnswer": "1/3",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_149",
+      "question": "A trapezium has parallel sides of 8cm and 12cm, and height 5cm. What is its area?",
+      "options": ["48 cm²", "49 cm²", "50 cm²", "51 cm²"],
+      "correctAnswer": "50 cm²",
+      "difficulty": "hard",
+      "points": 15
+    },
+    {
+      "questionId": "GradeB_Math_Hard_150",
+      "question": "Ben saves £15 per week. After 8 weeks, he spends 60% of his savings on a game. How much money does he have left?",
+      "options": ["£46", "£47", "£48", "£49"],
+      "correctAnswer": "£48",
+      "difficulty": "hard",
+      "points": 15
+    }
+  ]
+}

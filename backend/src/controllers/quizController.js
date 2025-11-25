@@ -70,9 +70,11 @@ exports.getQuestions = async (req, res) => {
             }
         }
         
-        // Shuffle questions and select 10 random ones
-        const shuffledQuestions = data.Items.sort(() => 0.5 - Math.random());
-        const selectedQuestions = shuffledQuestions.slice(0, 10);
+        // Generate session ID for unique question tracking
+        const sessionId = req.sessionID || `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        
+        // Get 30 unique questions using enhanced randomization
+        const selectedQuestions = this.getUniqueQuestions(data.Items, sessionId, 30);
         
         // Remove correct answers before sending to client
         const questionsWithoutAnswers = selectedQuestions.map(q => ({
@@ -242,3 +244,49 @@ async function saveQuizAttempt(userId, grade, subject, difficulty, answers, scor
     await dynamodb.put(params).promise();
     return attemptId;
 }
+
+// Enhanced shuffle algorithm for better randomization
+exports.shuffleArray = function(array) {
+    const shuffled = [...array];
+    
+    // Fisher-Yates shuffle algorithm for better randomization
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    
+    return shuffled;
+};
+
+// Session tracking for preventing duplicate questions
+const sessionQuestions = new Map();
+
+exports.getUniqueQuestions = function(allQuestions, sessionId, count = 30) {
+    const sessionKey = `session_${sessionId}`;
+    const usedQuestions = sessionQuestions.get(sessionKey) || new Set();
+    
+    // Filter out already used questions
+    const availableQuestions = allQuestions.filter(q => !usedQuestions.has(q.questionId));
+    
+    // If we don't have enough unused questions, reset the session
+    if (availableQuestions.length < count) {
+        sessionQuestions.delete(sessionKey);
+        return this.getUniqueQuestions(allQuestions, sessionId, count);
+    }
+    
+    // Shuffle and select questions
+    const shuffled = this.shuffleArray(availableQuestions);
+    const selected = shuffled.slice(0, count);
+    
+    // Track used questions
+    selected.forEach(q => usedQuestions.add(q.questionId));
+    sessionQuestions.set(sessionKey, usedQuestions);
+    
+    // Clean up old sessions (keep only last 100 sessions)
+    if (sessionQuestions.size > 100) {
+        const oldestKey = sessionQuestions.keys().next().value;
+        sessionQuestions.delete(oldestKey);
+    }
+    
+    return selected;
+};

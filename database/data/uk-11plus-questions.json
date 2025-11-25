@@ -1,0 +1,1204 @@
+{
+    "GradeA_Math_Questions": [
+        {
+            "questionId": "GradeA_Math_Simple_001",
+            "question": "What is 7 + 8?",
+            "options": ["14", "15", "16", "17"],
+            "correctAnswer": "15",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_002",
+            "question": "What is 12 - 5?",
+            "options": ["6", "7", "8", "9"],
+            "correctAnswer": "7",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_003",
+            "question": "What is 3 × 4?",
+            "options": ["10", "11", "12", "13"],
+            "correctAnswer": "12",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_004",
+            "question": "What is 18 ÷ 2?",
+            "options": ["8", "9", "10", "11"],
+            "correctAnswer": "9",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_005",
+            "question": "What is half of 16?",
+            "options": ["6", "7", "8", "9"],
+            "correctAnswer": "8",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_006",
+            "question": "What is 9 + 6?",
+            "options": ["14", "15", "16", "17"],
+            "correctAnswer": "15",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_007",
+            "question": "What is 20 - 7?",
+            "options": ["12", "13", "14", "15"],
+            "correctAnswer": "13",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_008",
+            "question": "What is 5 × 3?",
+            "options": ["13", "14", "15", "16"],
+            "correctAnswer": "15",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_009",
+            "question": "What is 24 ÷ 4?",
+            "options": ["5", "6", "7", "8"],
+            "correctAnswer": "6",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_010",
+            "question": "What is double 7?",
+            "options": ["12", "13", "14", "15"],
+            "correctAnswer": "14",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_011",
+            "question": "What is 11 + 9?",
+            "options": ["19", "20", "21", "22"],
+            "correctAnswer": "20",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_012",
+            "question": "What is 15 - 8?",
+            "options": ["6", "7", "8", "9"],
+            "correctAnswer": "7",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_013",
+            "question": "What is 6 × 2?",
+            "options": ["10", "11", "12", "13"],
+            "correctAnswer": "12",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_014",
+            "question": "What is 21 ÷ 3?",
+            "options": ["6", "7", "8", "9"],
+            "correctAnswer": "7",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_015",
+            "question": "What is half of 14?",
+            "options": ["6", "7", "8", "9"],
+            "correctAnswer": "7",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_016",
+            "question": "What is 4 + 8?",
+            "options": ["10", "11", "12", "13"],
+            "correctAnswer": "12",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_017",
+            "question": "What is 17 - 9?",
+            "options": ["7", "8", "9", "10"],
+            "correctAnswer": "8",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_018",
+            "question": "What is 2 × 8?",
+            "options": ["14", "15", "16", "17"],
+            "correctAnswer": "16",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_019",
+            "question": "What is 30 ÷ 5?",
+            "options": ["5", "6", "7", "8"],
+            "correctAnswer": "6",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_020",
+            "question": "What is double 9?",
+            "options": ["16", "17", "18", "19"],
+            "correctAnswer": "18",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_021",
+            "question": "What is 13 + 7?",
+            "options": ["19", "20", "21", "22"],
+            "correctAnswer": "20",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_022",
+            "question": "What is 25 - 6?",
+            "options": ["18", "19", "20", "21"],
+            "correctAnswer": "19",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_023",
+            "question": "What is 7 × 3?",
+            "options": ["20", "21", "22", "23"],
+            "correctAnswer": "21",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_024",
+            "question": "What is 28 ÷ 4?",
+            "options": ["6", "7", "8", "9"],
+            "correctAnswer": "7",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_025",
+            "question": "What is half of 22?",
+            "options": ["10", "11", "12", "13"],
+            "correctAnswer": "11",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_026",
+            "question": "Which number comes next: 2, 4, 6, 8, ?",
+            "options": ["9", "10", "11", "12"],
+            "correctAnswer": "10",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_027",
+            "question": "How many sides does a triangle have?",
+            "options": ["2", "3", "4", "5"],
+            "correctAnswer": "3",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_028",
+            "question": "What is 10 + 5?",
+            "options": ["13", "14", "15", "16"],
+            "correctAnswer": "15",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_029",
+            "question": "What is 16 - 7?",
+            "options": ["8", "9", "10", "11"],
+            "correctAnswer": "9",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_030",
+            "question": "What is 4 × 5?",
+            "options": ["18", "19", "20", "21"],
+            "correctAnswer": "20",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_031",
+            "question": "What is 35 ÷ 7?",
+            "options": ["4", "5", "6", "7"],
+            "correctAnswer": "5",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_032",
+            "question": "What is double 6?",
+            "options": ["10", "11", "12", "13"],
+            "correctAnswer": "12",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_033",
+            "question": "How many corners does a square have?",
+            "options": ["3", "4", "5", "6"],
+            "correctAnswer": "4",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_034",
+            "question": "What is 8 + 7?",
+            "options": ["14", "15", "16", "17"],
+            "correctAnswer": "15",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_035",
+            "question": "What is 19 - 5?",
+            "options": ["13", "14", "15", "16"],
+            "correctAnswer": "14",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_036",
+            "question": "What is 9 × 2?",
+            "options": ["16", "17", "18", "19"],
+            "correctAnswer": "18",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_037",
+            "question": "What is 36 ÷ 6?",
+            "options": ["5", "6", "7", "8"],
+            "correctAnswer": "6",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_038",
+            "question": "What is half of 18?",
+            "options": ["8", "9", "10", "11"],
+            "correctAnswer": "9",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_039",
+            "question": "Which number is missing: 5, 10, ?, 20",
+            "options": ["12", "13", "15", "17"],
+            "correctAnswer": "15",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_040",
+            "question": "What is 6 + 9?",
+            "options": ["14", "15", "16", "17"],
+            "correctAnswer": "15",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_041",
+            "question": "What is 22 - 8?",
+            "options": ["13", "14", "15", "16"],
+            "correctAnswer": "14",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_042",
+            "question": "What is 8 × 3?",
+            "options": ["22", "23", "24", "25"],
+            "correctAnswer": "24",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_043",
+            "question": "What is 42 ÷ 6?",
+            "options": ["6", "7", "8", "9"],
+            "correctAnswer": "7",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_044",
+            "question": "What is double 8?",
+            "options": ["14", "15", "16", "17"],
+            "correctAnswer": "16",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_045",
+            "question": "How many minutes in 1 hour?",
+            "options": ["50", "60", "70", "80"],
+            "correctAnswer": "60",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_046",
+            "question": "What is 14 + 6?",
+            "options": ["19", "20", "21", "22"],
+            "correctAnswer": "20",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_047",
+            "question": "What is 26 - 9?",
+            "options": ["16", "17", "18", "19"],
+            "correctAnswer": "17",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_048",
+            "question": "What is 5 × 4?",
+            "options": ["18", "19", "20", "21"],
+            "correctAnswer": "20",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_049",
+            "question": "What is 45 ÷ 5?",
+            "options": ["8", "9", "10", "11"],
+            "correctAnswer": "9",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Simple_050",
+            "question": "What is half of 26?",
+            "options": ["12", "13", "14", "15"],
+            "correctAnswer": "13",
+            "difficulty": "simple",
+            "points": 5
+        },
+        {
+            "questionId": "GradeA_Math_Medium_001",
+            "question": "What is 15 × 6?",
+            "options": ["80", "85", "90", "95"],
+            "correctAnswer": "90",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_002",
+            "question": "What is 144 ÷ 12?",
+            "options": ["11", "12", "13", "14"],
+            "correctAnswer": "12",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_003",
+            "question": "What is 3/4 of 20?",
+            "options": ["14", "15", "16", "17"],
+            "correctAnswer": "15",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_004",
+            "question": "If a book costs £3.50 and I pay with £5, what change do I get?",
+            "options": ["£1.40", "£1.50", "£1.60", "£1.70"],
+            "correctAnswer": "£1.50",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_005",
+            "question": "What is the perimeter of a rectangle 8cm by 5cm?",
+            "options": ["24cm", "26cm", "28cm", "30cm"],
+            "correctAnswer": "26cm",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_006",
+            "question": "What is 25% of 80?",
+            "options": ["15", "18", "20", "22"],
+            "correctAnswer": "20",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_007",
+            "question": "What is 18 × 4?",
+            "options": ["70", "72", "74", "76"],
+            "correctAnswer": "72",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_008",
+            "question": "What is 156 ÷ 13?",
+            "options": ["11", "12", "13", "14"],
+            "correctAnswer": "12",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_009",
+            "question": "What is 2/3 of 24?",
+            "options": ["14", "15", "16", "18"],
+            "correctAnswer": "16",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_010",
+            "question": "What is the area of a square with sides 7cm?",
+            "options": ["42cm²", "45cm²", "49cm²", "52cm²"],
+            "correctAnswer": "49cm²",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_011",
+            "question": "What is 14 × 7?",
+            "options": ["96", "98", "100", "102"],
+            "correctAnswer": "98",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_012",
+            "question": "What is 195 ÷ 15?",
+            "options": ["12", "13", "14", "15"],
+            "correctAnswer": "13",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_013",
+            "question": "What is 1/4 of 36?",
+            "options": ["8", "9", "10", "12"],
+            "correctAnswer": "9",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_014",
+            "question": "How many 50p coins make £4?",
+            "options": ["6", "7", "8", "9"],
+            "correctAnswer": "8",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_015",
+            "question": "What is 50% of 46?",
+            "options": ["21", "23", "25", "27"],
+            "correctAnswer": "23",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_016",
+            "question": "What is 16 × 5?",
+            "options": ["75", "78", "80", "82"],
+            "correctAnswer": "80",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_017",
+            "question": "What is 168 ÷ 14?",
+            "options": ["11", "12", "13", "14"],
+            "correctAnswer": "12",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_018",
+            "question": "What is 3/5 of 30?",
+            "options": ["16", "17", "18", "20"],
+            "correctAnswer": "18",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_019",
+            "question": "What is the perimeter of a triangle with sides 6cm, 8cm, and 10cm?",
+            "options": ["22cm", "24cm", "26cm", "28cm"],
+            "correctAnswer": "24cm",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_020",
+            "question": "What is 75% of 32?",
+            "options": ["22", "24", "26", "28"],
+            "correctAnswer": "24",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_021",
+            "question": "What is 19 × 3?",
+            "options": ["55", "56", "57", "58"],
+            "correctAnswer": "57",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_022",
+            "question": "What is 216 ÷ 18?",
+            "options": ["11", "12", "13", "14"],
+            "correctAnswer": "12",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_023",
+            "question": "What is 5/6 of 42?",
+            "options": ["33", "35", "37", "39"],
+            "correctAnswer": "35",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_024",
+            "question": "If I buy 3 books for £2.50 each, what is the total cost?",
+            "options": ["£7.00", "£7.50", "£8.00", "£8.50"],
+            "correctAnswer": "£7.50",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_025",
+            "question": "What is 20% of 45?",
+            "options": ["7", "8", "9", "10"],
+            "correctAnswer": "9",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_026",
+            "question": "What is 13 × 8?",
+            "options": ["102", "104", "106", "108"],
+            "correctAnswer": "104",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_027",
+            "question": "What is 228 ÷ 19?",
+            "options": ["11", "12", "13", "14"],
+            "correctAnswer": "12",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_028",
+            "question": "What is 2/7 of 35?",
+            "options": ["8", "9", "10", "12"],
+            "correctAnswer": "10",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_029",
+            "question": "What is the area of a rectangle 9cm by 6cm?",
+            "options": ["52cm²", "54cm²", "56cm²", "58cm²"],
+            "correctAnswer": "54cm²",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_030",
+            "question": "What is 60% of 25?",
+            "options": ["13", "14", "15", "16"],
+            "correctAnswer": "15",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_031",
+            "question": "What is 17 × 4?",
+            "options": ["66", "68", "70", "72"],
+            "correctAnswer": "68",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_032",
+            "question": "What is 252 ÷ 21?",
+            "options": ["11", "12", "13", "14"],
+            "correctAnswer": "12",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_033",
+            "question": "What is 4/5 of 40?",
+            "options": ["30", "32", "34", "36"],
+            "correctAnswer": "32",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_034",
+            "question": "How many 25p coins make £3.25?",
+            "options": ["11", "12", "13", "14"],
+            "correctAnswer": "13",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_035",
+            "question": "What is 40% of 35?",
+            "options": ["12", "13", "14", "15"],
+            "correctAnswer": "14",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_036",
+            "question": "What is 21 × 6?",
+            "options": ["124", "126", "128", "130"],
+            "correctAnswer": "126",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_037",
+            "question": "What is 285 ÷ 15?",
+            "options": ["17", "18", "19", "20"],
+            "correctAnswer": "19",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_038",
+            "question": "What is 7/8 of 48?",
+            "options": ["40", "42", "44", "46"],
+            "correctAnswer": "42",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_039",
+            "question": "What is the perimeter of a square with sides 12cm?",
+            "options": ["44cm", "46cm", "48cm", "50cm"],
+            "correctAnswer": "48cm",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_040",
+            "question": "What is 80% of 30?",
+            "options": ["22", "23", "24", "25"],
+            "correctAnswer": "24",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_041",
+            "question": "What is 22 × 5?",
+            "options": ["108", "110", "112", "114"],
+            "correctAnswer": "110",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_042",
+            "question": "What is 323 ÷ 17?",
+            "options": ["17", "18", "19", "20"],
+            "correctAnswer": "19",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_043",
+            "question": "What is 3/8 of 56?",
+            "options": ["19", "20", "21", "22"],
+            "correctAnswer": "21",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_044",
+            "question": "If a pizza is cut into 8 slices and I eat 3, what fraction is left?",
+            "options": ["3/8", "4/8", "5/8", "6/8"],
+            "correctAnswer": "5/8",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_045",
+            "question": "What is 30% of 50?",
+            "options": ["13", "14", "15", "16"],
+            "correctAnswer": "15",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_046",
+            "question": "What is 24 × 7?",
+            "options": ["166", "168", "170", "172"],
+            "correctAnswer": "168",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_047",
+            "question": "What is 364 ÷ 14?",
+            "options": ["24", "25", "26", "27"],
+            "correctAnswer": "26",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_048",
+            "question": "What is 9/10 of 60?",
+            "options": ["52", "54", "56", "58"],
+            "correctAnswer": "54",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_049",
+            "question": "What is the area of a triangle with base 8cm and height 6cm?",
+            "options": ["22cm²", "24cm²", "26cm²", "28cm²"],
+            "correctAnswer": "24cm²",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Medium_050",
+            "question": "What is 70% of 40?",
+            "options": ["26", "27", "28", "29"],
+            "correctAnswer": "28",
+            "difficulty": "medium",
+            "points": 10
+        },
+        {
+            "questionId": "GradeA_Math_Hard_001",
+            "question": "What is 127 × 23?",
+            "options": ["2921", "2923", "2925", "2927"],
+            "correctAnswer": "2921",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_002",
+            "question": "What is 7845 ÷ 35?",
+            "options": ["223", "224", "225", "226"],
+            "correctAnswer": "224",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_003",
+            "question": "What is 13/20 of 240?",
+            "options": ["154", "156", "158", "160"],
+            "correctAnswer": "156",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_004",
+            "question": "A rectangular garden is 15m long and 8m wide. What is its area?",
+            "options": ["118m²", "120m²", "122m²", "124m²"],
+            "correctAnswer": "120m²",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_005",
+            "question": "What is 85% of 120?",
+            "options": ["100", "102", "104", "106"],
+            "correctAnswer": "102",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_006",
+            "question": "What is 246 × 18?",
+            "options": ["4426", "4428", "4430", "4432"],
+            "correctAnswer": "4428",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_007",
+            "question": "What is 6732 ÷ 28?",
+            "options": ["238", "240", "242", "244"],
+            "correctAnswer": "240",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_008",
+            "question": "What is 17/25 of 150?",
+            "options": ["100", "102", "104", "106"],
+            "correctAnswer": "102",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_009",
+            "question": "If 3 identical books weigh 450g, what does 7 books weigh?",
+            "options": ["1.05kg", "1.1kg", "1.15kg", "1.2kg"],
+            "correctAnswer": "1.05kg",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_010",
+            "question": "What is 65% of 80?",
+            "options": ["50", "52", "54", "56"],
+            "correctAnswer": "52",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_011",
+            "question": "What is 189 × 17?",
+            "options": ["3211", "3213", "3215", "3217"],
+            "correctAnswer": "3213",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_012",
+            "question": "What is 5292 ÷ 36?",
+            "options": ["145", "146", "147", "148"],
+            "correctAnswer": "147",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_013",
+            "question": "What is 11/16 of 96?",
+            "options": ["64", "66", "68", "70"],
+            "correctAnswer": "66",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_014",
+            "question": "A circle has a diameter of 14cm. What is its circumference? (Use π = 22/7)",
+            "options": ["42cm", "44cm", "46cm", "48cm"],
+            "correctAnswer": "44cm",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_015",
+            "question": "What is 95% of 160?",
+            "options": ["150", "152", "154", "156"],
+            "correctAnswer": "152",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_016",
+            "question": "What is 354 × 29?",
+            "options": ["10264", "10266", "10268", "10270"],
+            "correctAnswer": "10266",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_017",
+            "question": "What is 8736 ÷ 48?",
+            "options": ["180", "182", "184", "186"],
+            "correctAnswer": "182",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_018",
+            "question": "What is 19/24 of 144?",
+            "options": ["112", "114", "116", "118"],
+            "correctAnswer": "114",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_019",
+            "question": "If a train travels 240km in 3 hours, what is its speed in km/h?",
+            "options": ["78km/h", "80km/h", "82km/h", "84km/h"],
+            "correctAnswer": "80km/h",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_020",
+            "question": "What is 45% of 220?",
+            "options": ["97", "99", "101", "103"],
+            "correctAnswer": "99",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_021",
+            "question": "What is 267 × 34?",
+            "options": ["9076", "9078", "9080", "9082"],
+            "correctAnswer": "9078",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_022",
+            "question": "What is 7488 ÷ 52?",
+            "options": ["142", "143", "144", "145"],
+            "correctAnswer": "144",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_023",
+            "question": "What is 23/30 of 180?",
+            "options": ["136", "138", "140", "142"],
+            "correctAnswer": "138",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_024",
+            "question": "A rectangular field is 25m by 18m. If fencing costs £12 per metre, what is the total cost?",
+            "options": ["£1032", "£1034", "£1036", "£1038"],
+            "correctAnswer": "£1032",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_025",
+            "question": "What is 75% of 248?",
+            "options": ["184", "186", "188", "190"],
+            "correctAnswer": "186",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_026",
+            "question": "What is 428 × 37?",
+            "options": ["15834", "15836", "15838", "15840"],
+            "correctAnswer": "15836",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_027",
+            "question": "What is 9576 ÷ 56?",
+            "options": ["169", "170", "171", "172"],
+            "correctAnswer": "171",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_028",
+            "question": "What is 29/40 of 200?",
+            "options": ["143", "145", "147", "149"],
+            "correctAnswer": "145",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_029",
+            "question": "A cylinder has a radius of 7cm and height 10cm. What is its volume? (Use π = 22/7)",
+            "options": ["1540cm³", "1542cm³", "1544cm³", "1546cm³"],
+            "correctAnswer": "1540cm³",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_030",
+            "question": "What is 55% of 340?",
+            "options": ["185", "187", "189", "191"],
+            "correctAnswer": "187",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_031",
+            "question": "What is 573 × 46?",
+            "options": ["26356", "26358", "26360", "26362"],
+            "correctAnswer": "26358",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_032",
+            "question": "What is 11232 ÷ 64?",
+            "options": ["173", "174", "175", "176"],
+            "correctAnswer": "175",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_033",
+            "question": "What is 37/50 of 250?",
+            "options": ["183", "185", "187", "189"],
+            "correctAnswer": "185",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_034",
+            "question": "If 5 pencils cost £2.25, what do 12 pencils cost?",
+            "options": ["£5.20", "£5.30", "£5.40", "£5.50"],
+            "correctAnswer": "£5.40",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_035",
+            "question": "What is 85% of 180?",
+            "options": ["151", "152", "153", "154"],
+            "correctAnswer": "153",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_036",
+            "question": "What is 694 × 58?",
+            "options": ["40250", "40252", "40254", "40256"],
+            "correctAnswer": "40252",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_037",
+            "question": "What is 12768 ÷ 72?",
+            "options": ["175", "176", "177", "178"],
+            "correctAnswer": "177",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_038",
+            "question": "What is 41/60 of 300?",
+            "options": ["203", "205", "207", "209"],
+            "correctAnswer": "205",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_039",
+            "question": "A triangle has angles of 45° and 60°. What is the third angle?",
+            "options": ["73°", "74°", "75°", "76°"],
+            "correctAnswer": "75°",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_040",
+            "question": "What is 65% of 280?",
+            "options": ["180", "182", "184", "186"],
+            "correctAnswer": "182",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_041",
+            "question": "What is 847 × 39?",
+            "options": ["33033", "33035", "33037", "33039"],
+            "correctAnswer": "33033",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_042",
+            "question": "What is 14976 ÷ 84?",
+            "options": ["176", "177", "178", "179"],
+            "correctAnswer": "178",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_043",
+            "question": "What is 43/80 of 400?",
+            "options": ["213", "215", "217", "219"],
+            "correctAnswer": "215",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_044",
+            "question": "If a car uses 6 litres of fuel for 72km, how much fuel for 120km?",
+            "options": ["9L", "10L", "11L", "12L"],
+            "correctAnswer": "10L",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_045",
+            "question": "What is 95% of 320?",
+            "options": ["302", "304", "306", "308"],
+            "correctAnswer": "304",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_046",
+            "question": "What is 756 × 47?",
+            "options": ["35532", "35534", "35536", "35538"],
+            "correctAnswer": "35532",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_047",
+            "question": "What is 16128 ÷ 96?",
+            "options": ["166", "167", "168", "169"],
+            "correctAnswer": "168",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_048",
+            "question": "What is 47/75 of 450?",
+            "options": ["280", "282", "284", "286"],
+            "correctAnswer": "282",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_049",
+            "question": "A square has an area of 144cm². What is the length of each side?",
+            "options": ["11cm", "12cm", "13cm", "14cm"],
+            "correctAnswer": "12cm",
+            "difficulty": "hard",
+            "points": 15
+        },
+        {
+            "questionId": "GradeA_Math_Hard_050",
+            "question": "What is 75% of 384?",
+            "options": ["286", "287", "288", "289"],
+            "correctAnswer": "288",
+            "difficulty": "hard",
+            "points": 15
+        }
+    ]
+}
