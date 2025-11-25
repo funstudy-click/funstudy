@@ -51,36 +51,43 @@ router.get('/questions/:grade/:subject/:difficulty', async (req, res) => {
             });
         }
         
-        // Construct table name (ensure consistent naming)
-        const tableName = `${grade}_${subject}_Questions`;
-        console.log('Table name:', tableName);
+        // Try different table naming conventions for Math/Maths
+        let tableName;
+        let tableExists = false;
         
-        // Check if table exists using the correct service instance
-        try {
-            const tableExists = await checkTableExists(tableName);
+        if (subject.toLowerCase() === 'math') {
+            // Try both 'Math' and 'Maths' table naming
+            const possibleNames = [
+                `${grade}_Math_Questions`,
+                `${grade}_Maths_Questions`
+            ];
             
-            if (!tableExists) {
-                console.log(`❌ Table ${tableName} does not exist`);
-                
-                // Get available tables for debugging
-                const availableTables = await getAvailableTables();
-                console.log('Available tables:', availableTables);
-                
-                return res.status(404).json({
-                    success: false,
-                    error: `Table ${tableName} not found`,
-                    availableTables: availableTables,
-                    suggestion: 'Check if the table name matches exactly with your DynamoDB tables'
-                });
+            for (const name of possibleNames) {
+                console.log(`Checking table: ${name}`);
+                if (await checkTableExists(name)) {
+                    tableName = name;
+                    tableExists = true;
+                    console.log(`✅ Found table: ${tableName}`);
+                    break;
+                }
             }
+        } else {
+            tableName = `${grade}_${subject}_Questions`;
+            tableExists = await checkTableExists(tableName);
+        }
+        
+        if (!tableExists) {
+            console.log(`❌ No suitable table found for ${grade} ${subject}`);
             
-            console.log(`✅ Table ${tableName} exists`);
-        } catch (error) {
-            console.log(`❌ Error checking table ${tableName}:`, error.message);
-            return res.status(500).json({
+            // Get available tables for debugging
+            const availableTables = await getAvailableTables();
+            console.log('Available tables:', availableTables);
+            
+            return res.status(404).json({
                 success: false,
-                error: 'Database connection error',
-                details: error.message
+                error: `No table found for ${grade} ${subject}`,
+                availableTables: availableTables,
+                suggestion: 'Check if the table name matches exactly with your DynamoDB tables'
             });
         }
         
@@ -242,20 +249,32 @@ router.get('/subjects/:grade', async (req, res) => {
         
         // Filter subjects to only include Math-related subjects (comment out Science and History)
         const allowedSubjects = ['Maths', 'Math', 'Mathematics'];
-        const filteredSubjects = subjects.filter(subject => 
+        const mathSubjects = subjects.filter(subject => 
             allowedSubjects.some(allowed => 
                 subject.toLowerCase().includes(allowed.toLowerCase())
             )
         );
         
+        // Normalize all math variants to just 'Math' to avoid duplicates
+        const normalizedSubjects = mathSubjects.map(subject => {
+            if (subject.toLowerCase().includes('math')) {
+                return 'Math';
+            }
+            return subject;
+        });
+        
+        // Remove duplicates
+        const uniqueSubjects = [...new Set(normalizedSubjects)];
+        
         console.log(`Found subjects for ${grade}:`, subjects);
-        console.log(`Filtered subjects (Math only):`, filteredSubjects);
+        console.log(`Math subjects found:`, mathSubjects);
+        console.log(`Normalized unique subjects:`, uniqueSubjects);
         
         res.json({
             success: true,
             grade,
-            subjects: [...new Set(filteredSubjects)], // Remove duplicates, only Math subjects
-            count: filteredSubjects.length,
+            subjects: uniqueSubjects, // Only unique Math subjects
+            count: uniqueSubjects.length,
             // allSubjects: [...new Set(subjects)] // Original subjects (commented out Science/History)
         });
         
