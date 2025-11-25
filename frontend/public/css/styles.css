@@ -438,25 +438,13 @@ input:focus, select:focus {
     justify-self: end;
 }
 
-.progress-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 12px 20px;
-    border-radius: 20px;
-    border: 2px solid rgba(99, 102, 241, 0.3);
-    box-shadow: 0 4px 6px rgba(99, 102, 241, 0.1);
-    transition: all 0.3s ease;
-}
-
 .progress-bar {
-    width: 100px;
-    height: 6px;
+    width: 200px;
+    height: 8px;
     background: rgba(209, 213, 219, 0.3);
     border-radius: 4px;
     overflow: hidden;
+    margin-bottom: 8px;
 }
 
 .progress-fill {
@@ -468,11 +456,8 @@ input:focus, select:focus {
 
 .progress-text {
     font-size: 0.875rem;
-    color: #1f2937;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    min-width: 80px;
-    text-align: center;
+    color: #6b7280;
+    font-weight: 500;
 }
 
 .info-display {
@@ -1286,10 +1271,6 @@ input:focus, select:focus {
         flex-direction: column;
         gap: 4px;
         text-align: center;
-    }
-    
-    .progress-display {
-        padding: 10px 16px;
     }
     
     .timer-controls-bottom {
