@@ -536,11 +536,9 @@ function renderQuestion() {
                 </div>
             </div>
             <div class="quiz-info">
-                <div class="info-display">
-                    <span class="quiz-subject">${currentSubject}</span>
-                    <span class="quiz-difficulty">${question.difficulty}</span>
-                    <span class="quiz-points">${question.points} pts</span>
-                </div>
+                <span class="quiz-subject">${currentSubject}</span>
+                <span class="quiz-difficulty">${question.difficulty}</span>
+                <span class="quiz-points">${question.points} pts</span>
             </div>
         </div>
         
