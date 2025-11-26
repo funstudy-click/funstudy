@@ -428,11 +428,21 @@ function goHome() {
     showSection('gradeSection');
 }
 
+// Skip subscription and continue with limited access
+function skipSubscription() {
+    console.log('User skipped subscription');
+    showSection('gradeSection');
+    showGenericMessage('Continuing with limited access. Subscribe anytime for full features!', 'info');
+}
+
 function goBack() {
     const currentSection = document.querySelector('.section.active');
     if (currentSection) {
         const sectionId = currentSection.id;
         switch (sectionId) {
+            case 'gradeSection':
+                showSection('subscriptionSection');
+                break;
             case 'subjectSection':
                 showSection('gradeSection');
                 break;
@@ -800,8 +810,8 @@ function handleAuthCallback() {
     if (authStatus === 'success') {
         console.log('✅ Authentication successful!');
         window.history.replaceState({}, document.title, window.location.pathname);
-        showSection('gradeSection');
-        showGenericMessage('Login successful! Welcome to FunStudy!', 'success');
+        showSection('subscriptionSection');
+        showGenericMessage('Login successful! Please choose your subscription to access quizzes!', 'success');
         return;
     }
 

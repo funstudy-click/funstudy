@@ -78,6 +78,61 @@
             <div id="verificationMessage"></div>
         </section>
 
+        <!-- Subscription Section -->
+        <section id="subscriptionSection" class="section">
+            <h2>💳 Subscribe to Access Quizzes</h2>
+            <div class="subscription-container">
+                <div class="subscription-info">
+                    <h3>🎓 Premium Features</h3>
+                    <ul class="features-list">
+                        <li>✅ Access to all Grade A, B & C quizzes</li>
+                        <li>✅ Unlimited quiz attempts</li>
+                        <li>✅ Detailed performance analytics</li>
+                        <li>✅ Progress tracking</li>
+                        <li>✅ Subject-specific practice</li>
+                    </ul>
+                </div>
+                
+                <div class="paypal-form-container">
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="paypal-form">
+                        <input type="hidden" name="cmd" value="_s-xclick" />
+                        <input type="hidden" name="hosted_button_id" value="SNZ2KRHA49UVQ" />
+                        
+                        <div class="subscription-options">
+                            <label class="subscription-label">
+                                <input type="hidden" name="on0" value="Subscribe Using PayPal"/>
+                                <span class="subscription-title">📅 Choose Your Subscription</span>
+                            </label>
+                            
+                            <div class="subscription-select">
+                                <select name="os0" class="subscription-dropdown" title="Choose subscription duration">
+                                    <option value="1 Year">📊 1 Year Subscription</option>
+                                    <option value="Subscription For One Year">🎯 Annual Premium Access</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <input type="hidden" name="currency_code" value="GBP" />
+                        
+                        <div class="payment-button-container">
+                            <input type="image" 
+                                   src="https://www.paypalobjects.com/en_GB/i/btn/btn_subscribe_LG.gif" 
+                                   border="0" 
+                                   name="submit" 
+                                   title="PayPal - The safer, easier way to pay online!" 
+                                   alt="Subscribe" 
+                                   class="paypal-button" />
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="subscription-footer">
+                    <p><small>🔒 Secure payment processing by PayPal</small></p>
+                    <button class="btn btn-secondary" onclick="skipSubscription()">⏭️ Continue without subscription (Limited Access)</button>
+                </div>
+            </div>
+        </section>
+
         <!-- Grade Selection Section -->
         <section id="gradeSection" class="section">
             <h2>🎯 Choose Your Grade Level</h2>
@@ -86,7 +141,8 @@
                 <button class="btn grade-btn" onclick="selectGrade('GradeB')">🚀 Grade B (Ages 8-10)</button>
                 <button class="btn grade-btn" onclick="selectGrade('GradeC')">⚡ Grade C (Ages 11-13)</button>
             </div>
-            <div class="logout-container">
+            <div class="grade-navigation">
+                <button class="btn btn-secondary" onclick="showSection('subscriptionSection')">🔙 Back to Subscription</button>
                 <button class="btn btn-secondary logout-btn" onclick="logout()">🚪 Logout</button>
             </div>
         </section>

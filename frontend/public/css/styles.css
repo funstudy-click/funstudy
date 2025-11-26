@@ -1655,3 +1655,193 @@ input:focus, select:focus {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
+
+/* Subscription Section Styles */
+.subscription-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.subscription-info {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.subscription-info h3 {
+    color: #1f2937;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.features-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.features-list li {
+    padding: 8px 0;
+    font-size: 1.1rem;
+    color: #374151;
+    font-weight: 500;
+}
+
+.paypal-form-container {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 16px;
+    padding: 25px;
+    margin: 25px 0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.paypal-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.subscription-options {
+    width: 100%;
+    max-width: 350px;
+}
+
+.subscription-label {
+    display: block;
+    margin-bottom: 15px;
+}
+
+.subscription-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1f2937;
+    display: block;
+}
+
+.subscription-select {
+    margin-bottom: 20px;
+}
+
+.subscription-dropdown {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid rgba(79, 172, 254, 0.2);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1f2937;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234B5563'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.subscription-dropdown:focus {
+    outline: none;
+    border-color: #4facfe;
+    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+}
+
+.subscription-dropdown:hover {
+    border-color: #4facfe;
+    background: rgba(255, 255, 255, 1);
+}
+
+.payment-button-container {
+    margin: 20px 0;
+}
+
+.paypal-button {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.paypal-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.subscription-footer {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.subscription-footer p {
+    margin-bottom: 15px;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.subscription-footer .btn {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+}
+
+/* Responsive Design for Subscription */
+@media (max-width: 768px) {
+    .subscription-container {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    .paypal-form-container {
+        padding: 20px;
+    }
+    
+    .subscription-info h3 {
+        font-size: 1.5rem;
+    }
+    
+    .features-list {
+        max-width: 100%;
+    }
+    
+    .features-list li {
+        font-size: 1rem;
+    }
+    
+    .subscription-dropdown {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Grade Navigation Styles */
+.grade-navigation {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 568px) {
+    .grade-navigation {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .grade-navigation .btn {
+        width: 250px;
+    }
+}
