@@ -457,16 +457,85 @@ function goHome() {
 }
 
 // PayPal Integration Functions
+function loadPayPalSDK() {
+    return new Promise((resolve, reject) => {
+        // Check if PayPal is already loaded
+        if (typeof paypal !== 'undefined') {
+            resolve();
+            return;
+        }
+
+        // Check if script is already being loaded
+        if (document.querySelector('script[src*="paypal.com/sdk"]')) {
+            console.log('🔄 PayPal SDK already loading...');
+            // Wait for it to load
+            let attempts = 0;
+            const checkInterval = setInterval(() => {
+                if (typeof paypal !== 'undefined') {
+                    clearInterval(checkInterval);
+                    resolve();
+                } else if (attempts++ > 20) {
+                    clearInterval(checkInterval);
+                    reject(new Error('PayPal SDK loading timeout'));
+                }
+            }, 500);
+            return;
+        }
+
+        // Create and load PayPal SDK script
+        const script = document.createElement('script');
+        script.src = 'https://www.paypal.com/sdk/js?client-id=AUGMktJNOV7R6xb7KBd1A9oLcZZnvGZpBOBjbE0vGVtNPtfK77iY5cHq5B50HU8MQSZvLpjQVU5dXOZd&vault=true&intent=subscription&components=buttons';
+        script.onload = () => {
+            console.log('✅ PayPal SDK dynamically loaded');
+            resolve();
+        };
+        script.onerror = () => {
+            console.error('❌ PayPal SDK failed to load dynamically');
+            reject(new Error('PayPal SDK load error'));
+        };
+        document.head.appendChild(script);
+    });
+}
+
 async function initializePayPal() {
     console.log('🎯 Initializing PayPal...');
     
-    if (typeof paypal === 'undefined') {
-        console.error('❌ PayPal SDK not loaded');
-        showGenericMessage('PayPal SDK failed to load. Please refresh the page.', 'error');
+    try {
+        // First try to load PayPal SDK if not already loaded
+        await loadPayPalSDK();
+        console.log('✅ PayPal SDK ready');
+    } catch (error) {
+        console.error('❌ Failed to load PayPal SDK:', error);
+        showGenericMessage('Failed to load PayPal payment system. Please check your internet connection and try again.', 'error');
+        
+        // Show alternative payment info
+        const container = document.getElementById('paypal-button-container');
+        if (container) {
+            container.innerHTML = `
+                <div style="padding: 20px; text-align: center; background: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6;">
+                    <h4 style="color: #dc3545; margin-bottom: 10px;">⚠️ Payment System Issue</h4>
+                    <p style="margin-bottom: 15px;">Unable to load PayPal payment system. This could be due to:</p>
+                    <ul style="text-align: left; margin-bottom: 15px;">
+                        <li>Internet connectivity issues</li>
+                        <li>Ad blocker or browser security settings</li>
+                        <li>PayPal service temporarily unavailable</li>
+                    </ul>
+                    <div style="margin-top: 15px;">
+                        <button onclick="initializePayPal()" style="background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-right: 10px;">
+                            🔄 Try Again
+                        </button>
+                        <button onclick="location.reload()" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                            🔄 Refresh Page
+                        </button>
+                    </div>
+                    <p style="margin-top: 15px; font-size: 0.9em; color: #6c757d;">
+                        If this issue persists, please contact support or try a different browser.
+                    </p>
+                </div>
+            `;
+        }
         return;
     }
-    
-    console.log('✅ PayPal SDK loaded successfully');
 
     try {
         const userEmail = getCurrentUserEmail(); // Get user email from session

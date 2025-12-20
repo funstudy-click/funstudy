@@ -9,7 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://www.paypal.com/sdk/js?client-id=AUGMktJNOV7R6xb7KBd1A9oLcZZnvGZpBOBjbE0vGVtNPtfK77iY5cHq5B50HU8MQSZvLpjQVU5dXOZd&vault=true&intent=subscription"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AUGMktJNOV7R6xb7KBd1A9oLcZZnvGZpBOBjbE0vGVtNPtfK77iY5cHq5B50HU8MQSZvLpjQVU5dXOZd&vault=true&intent=subscription&components=buttons" 
+            onload="console.log('✅ PayPal SDK loaded successfully'); window.paypalLoaded = true;" 
+            onerror="console.error('❌ PayPal SDK failed to load'); window.paypalLoadError = true;"></script>
 </head>
 <body>
     <div class="container">
