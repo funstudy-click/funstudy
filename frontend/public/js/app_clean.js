@@ -16,6 +16,21 @@ function showSection(sectionId) {
     const targetSection = document.getElementById(sectionId);
     if (targetSection) {
         targetSection.classList.add('active');
+        
+        // Initialize PayPal when showing subscription section
+        if (sectionId === 'subscriptionSection') {
+            // Check if user already has subscription
+            if (checkSubscriptionStatus()) {
+                showGenericMessage('You already have an active subscription! Redirecting to quizzes...', 'success');
+                setTimeout(() => showSection('gradeSection'), 2000);
+                return;
+            }
+            
+            // Initialize PayPal buttons after a short delay to ensure DOM is ready
+            setTimeout(() => {
+                initializePayPal();
+            }, 100);
+        }
     } else {
         console.error(`Section with ID '${sectionId}' not found. Available sections:`);
         document.querySelectorAll('.section').forEach(section => {
@@ -240,6 +255,9 @@ async function register() {
         const data = await response.json();
         
         if (data.success) {
+            // Store user email for PayPal integration
+            localStorage.setItem('userEmail', email);
+            
             showMessage('registerMessage', 'Registration successful! Please check your email for verification code.', 'success');
             
             const verificationEmailElement = document.getElementById('verificationEmail');
@@ -426,6 +444,156 @@ function selectDifficulty(difficulty) {
 
 function goHome() {
     showSection('gradeSection');
+}
+
+// PayPal Integration Functions
+async function initializePayPal() {
+    if (typeof paypal === 'undefined') {
+        console.error('PayPal SDK not loaded');
+        return;
+    }
+
+    try {
+        const userEmail = getCurrentUserEmail(); // Get user email from session
+        
+        paypal.Buttons({
+            createSubscription: async function(data, actions) {
+                try {
+                    showPaymentLoading(true);
+                    
+                    // Create subscription via our backend
+                    const response = await fetch(`${API_BASE_URL}/api/paypal/create-subscription`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            planId: 'P-2UF78835G6687705SMZC3NRI', // Your plan ID
+                            userEmail: userEmail
+                        })
+                    });
+
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        return result.subscriptionId;
+                    } else {
+                        throw new Error(result.message || 'Failed to create subscription');
+                    }
+                } catch (error) {
+                    console.error('Subscription creation error:', error);
+                    showGenericMessage('Failed to create subscription. Please try again.', 'error');
+                    showPaymentLoading(false);
+                    throw error;
+                }
+            },
+            
+            onApprove: async function(data, actions) {
+                try {
+                    showGenericMessage('Subscription approved! Processing...', 'success');
+                    
+                    // Get subscription details
+                    const response = await fetch(`${API_BASE_URL}/api/paypal/subscription/${data.subscriptionID}`);
+                    const result = await response.json();
+                    
+                    if (result.success && result.subscription.status === 'ACTIVE') {
+                        // Store subscription info locally
+                        localStorage.setItem('funstudySubscription', JSON.stringify({
+                            id: data.subscriptionID,
+                            status: 'ACTIVE',
+                            planId: result.subscription.planId,
+                            activatedAt: new Date().toISOString()
+                        }));
+                        
+                        showGenericMessage('🎉 Subscription activated! You now have full access to FunStudy Premium!', 'success');
+                        setTimeout(() => {
+                            showSection('gradeSection');
+                        }, 2000);
+                    } else {
+                        throw new Error('Subscription not activated properly');
+                    }
+                    
+                } catch (error) {
+                    console.error('Subscription approval error:', error);
+                    showGenericMessage('Subscription approved but activation failed. Please contact support.', 'error');
+                } finally {
+                    showPaymentLoading(false);
+                }
+            },
+            
+            onError: function(err) {
+                console.error('PayPal error:', err);
+                showGenericMessage('Payment failed. Please try again or contact support.', 'error');
+                showPaymentLoading(false);
+            },
+            
+            onCancel: function(data) {
+                console.log('Payment cancelled:', data);
+                showGenericMessage('Payment cancelled. You can try again anytime!', 'info');
+                showPaymentLoading(false);
+            },
+            
+            style: {
+                shape: 'pill',
+                color: 'blue',
+                layout: 'vertical',
+                label: 'subscribe'
+            }
+        }).render('#paypal-button-container');
+        
+    } catch (error) {
+        console.error('PayPal initialization error:', error);
+        showGenericMessage('Failed to load payment options. Please refresh and try again.', 'error');
+    }
+}
+
+function getCurrentUserEmail() {
+    // Try to get email from various sources
+    // This might need to be adapted based on how you store user info
+    const verificationEmail = document.getElementById('verificationEmail');
+    if (verificationEmail && verificationEmail.value) {
+        return verificationEmail.value;
+    }
+    
+    const registerEmail = document.getElementById('registerEmail');
+    if (registerEmail && registerEmail.value) {
+        return registerEmail.value;
+    }
+    
+    // Fallback - you might want to store this in localStorage after login
+    return localStorage.getItem('userEmail') || 'user@example.com';
+}
+
+function showPaymentLoading(show) {
+    const loadingElement = document.getElementById('paymentLoading');
+    const buttonContainer = document.getElementById('paypal-button-container');
+    
+    if (loadingElement && buttonContainer) {
+        if (show) {
+            loadingElement.style.display = 'block';
+            buttonContainer.style.display = 'none';
+        } else {
+            loadingElement.style.display = 'none';
+            buttonContainer.style.display = 'block';
+        }
+    }
+}
+
+function checkSubscriptionStatus() {
+    const subscription = localStorage.getItem('funstudySubscription');
+    if (subscription) {
+        try {
+            const subscriptionData = JSON.parse(subscription);
+            if (subscriptionData.status === 'ACTIVE') {
+                console.log('User has active subscription:', subscriptionData.id);
+                return true;
+            }
+        } catch (error) {
+            console.error('Error parsing subscription data:', error);
+            localStorage.removeItem('funstudySubscription');
+        }
+    }
+    return false;
 }
 
 // Skip subscription and continue with limited access

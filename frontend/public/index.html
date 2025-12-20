@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://www.paypal.com/sdk/js?client-id=AUGMktJNOV7R6xb7KBd1A9oLcZZnvGZpBOBjbE0vGVtNPtfK77iY5cHq5B50HU8MQSZvLpjQVU5dXOZd&vault=true&intent=subscription"></script>
 </head>
 <body>
     <div class="container">
@@ -94,36 +95,26 @@
                 </div>
                 
                 <div class="paypal-form-container">
-                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="paypal-form">
-                        <input type="hidden" name="cmd" value="_s-xclick" />
-                        <input type="hidden" name="hosted_button_id" value="SNZ2KRHA49UVQ" />
-                        
-                        <div class="subscription-options">
-                            <label class="subscription-label">
-                                <input type="hidden" name="on0" value="Subscribe Using PayPal"/>
-                                <span class="subscription-title">📅 Choose Your Subscription</span>
-                            </label>
-                            
-                            <div class="subscription-select">
-                                <select name="os0" class="subscription-dropdown" title="Choose subscription duration">
-                                    <option value="1 Year">📊 1 Year Subscription</option>
-                                    <option value="Subscription For One Year">🎯 Annual Premium Access</option>
-                                </select>
+                    <div class="subscription-plans-container">
+                        <div class="plan-card">
+                            <h4>🎓 Annual Premium</h4>
+                            <div class="price">£29.99<span class="period">/year</span></div>
+                            <ul class="plan-features">
+                                <li>✅ All premium features</li>
+                                <li>✅ Unlimited access</li>
+                                <li>✅ Priority support</li>
+                                <li>✅ Best value!</li>
+                            </ul>
+                            <div id="paypal-button-container" class="paypal-button-wrapper">
+                                <!-- PayPal Buttons will render here -->
                             </div>
                         </div>
-                        
-                        <input type="hidden" name="currency_code" value="GBP" />
-                        
-                        <div class="payment-button-container">
-                            <input type="image" 
-                                   src="https://www.paypalobjects.com/en_GB/i/btn/btn_subscribe_LG.gif" 
-                                   border="0" 
-                                   name="submit" 
-                                   title="PayPal - The safer, easier way to pay online!" 
-                                   alt="Subscribe" 
-                                   class="paypal-button" />
-                        </div>
-                    </form>
+                    </div>
+                    
+                    <div class="payment-loading" id="paymentLoading" style="display: none;">
+                        <div class="loading-spinner"></div>
+                        <p>Processing your subscription...</p>
+                    </div>
                 </div>
                 
                 <div class="subscription-footer">

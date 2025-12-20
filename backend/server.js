@@ -113,7 +113,7 @@ app.use((req, res, next) => {
 });
 
 // Load routes
-let authRoutes, quizRoutes, userRoutes;
+let authRoutes, quizRoutes, userRoutes, paypalRoutes;
 
 try {
     authRoutes = require('./src/routes/authRoutes');
@@ -139,10 +139,19 @@ try {
     userRoutes = express.Router();
 }
 
+try {
+    paypalRoutes = require('./src/routes/paypalRoutes');
+    console.log('✅ PayPal routes loaded successfully');
+} catch (error) {
+    console.error('❌ Error loading PayPal routes:', error.message);
+    paypalRoutes = express.Router();
+}
+
 // Use routes
 app.use('/auth', authRoutes);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/paypal', paypalRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
