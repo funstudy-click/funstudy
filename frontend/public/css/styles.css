@@ -14,8 +14,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    line-height: 1.6;
+    padding: 10px;
+    line-height: 1.4;
     color: #1f2937;
 }
 
@@ -31,21 +31,23 @@ body {
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-radius: 24px;
-    padding: 48px;
+    padding: 24px;
     box-shadow: 
         0 25px 50px -12px rgba(0, 0, 0, 0.25),
         0 0 0 1px rgba(255, 255, 255, 0.1);
-    width: 90%;
-    max-width: 900px;
+    width: 95%;
+    max-width: 700px;
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    max-height: 95vh;
+    overflow-y: auto;
 }
 
 /* Typography */
 h1 {
     color: #1f2937;
-    margin-bottom: 40px;
-    font-size: 3rem;
+    margin-bottom: 20px;
+    font-size: 2.2rem;
     font-weight: 800;
     background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
     -webkit-background-clip: text;
@@ -57,23 +59,23 @@ h1 {
 
 h2 {
     color: #1f2937;
-    margin-bottom: 32px;
-    font-size: 1.875rem;
+    margin-bottom: 16px;
+    font-size: 1.6rem;
     font-weight: 700;
 }
 
 h3 {
     color: #2d3748;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
 }
 
 h4 {
     color: #2d3748;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 /* Section Management */
