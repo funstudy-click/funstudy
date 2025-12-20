@@ -26,6 +26,16 @@ function showSection(sectionId) {
                 return;
             }
             
+            // Check if PayPal container exists
+            const paypalContainer = document.getElementById('paypal-button-container');
+            if (!paypalContainer) {
+                console.error('❌ PayPal button container not found!');
+                showGenericMessage('PayPal integration error: button container missing', 'error');
+                return;
+            }
+            
+            console.log('🎯 PayPal container found, initializing...');
+            
             // Initialize PayPal buttons after a short delay to ensure DOM is ready
             setTimeout(() => {
                 initializePayPal();
@@ -448,13 +458,21 @@ function goHome() {
 
 // PayPal Integration Functions
 async function initializePayPal() {
+    console.log('🎯 Initializing PayPal...');
+    
     if (typeof paypal === 'undefined') {
-        console.error('PayPal SDK not loaded');
+        console.error('❌ PayPal SDK not loaded');
+        showGenericMessage('PayPal SDK failed to load. Please refresh the page.', 'error');
         return;
     }
+    
+    console.log('✅ PayPal SDK loaded successfully');
 
     try {
         const userEmail = getCurrentUserEmail(); // Get user email from session
+        console.log('📧 User email for PayPal:', userEmail);
+        
+        console.log('🔨 Creating PayPal buttons...');
         
         paypal.Buttons({
             createSubscription: async function(data, actions) {
@@ -539,7 +557,12 @@ async function initializePayPal() {
                 layout: 'vertical',
                 label: 'subscribe'
             }
-        }).render('#paypal-button-container');
+        }).render('#paypal-button-container').then(function() {
+            console.log('✅ PayPal buttons rendered successfully');
+        }).catch(function(error) {
+            console.error('❌ PayPal buttons render failed:', error);
+            showGenericMessage('Failed to display PayPal buttons. Please refresh the page.', 'error');
+        });
         
     } catch (error) {
         console.error('PayPal initialization error:', error);
