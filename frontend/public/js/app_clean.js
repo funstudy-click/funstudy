@@ -27,19 +27,16 @@ function showSection(sectionId) {
             }
             
             // Check if PayPal container exists
-            const paypalContainer = document.getElementById('paypal-button-container');
+            const paypalContainer = document.getElementById('paypal-container-SZHCP43RV4RAA');
             if (!paypalContainer) {
                 console.error('❌ PayPal button container not found!');
                 showGenericMessage('PayPal integration error: button container missing', 'error');
                 return;
             }
             
-            console.log('🎯 PayPal container found, initializing...');
+            console.log('🎯 PayPal hosted button container found');
             
-            // Initialize PayPal buttons after a short delay to ensure DOM is ready
-            setTimeout(() => {
-                initializePayPal();
-            }, 100);
+            // PayPal hosted button should load automatically via the inline script
         }
     } else {
         console.error(`Section with ID '${sectionId}' not found. Available sections:`);
@@ -456,188 +453,9 @@ function goHome() {
     showSection('gradeSection');
 }
 
-// PayPal Integration Functions
-function loadPayPalSDK() {
-    return new Promise((resolve, reject) => {
-        // Check if PayPal is already loaded
-        if (typeof paypal !== 'undefined') {
-            resolve();
-            return;
-        }
-
-        // Check if script is already being loaded
-        if (document.querySelector('script[src*="paypal.com/sdk"]')) {
-            console.log('🔄 PayPal SDK already loading...');
-            // Wait for it to load
-            let attempts = 0;
-            const checkInterval = setInterval(() => {
-                if (typeof paypal !== 'undefined') {
-                    clearInterval(checkInterval);
-                    resolve();
-                } else if (attempts++ > 20) {
-                    clearInterval(checkInterval);
-                    reject(new Error('PayPal SDK loading timeout'));
-                }
-            }, 500);
-            return;
-        }
-
-        // Create and load PayPal SDK script
-        const script = document.createElement('script');
-        script.src = 'https://www.paypal.com/sdk/js?client-id=AUGMktJNOV7R6xb7KBd1A9oLcZZnvGZpBOBjbE0vGVtNPtfK77iY5cHq5B50HU8MQSZvLpjQVU5dXOZd&vault=true&intent=subscription&components=buttons';
-        script.onload = () => {
-            console.log('✅ PayPal SDK dynamically loaded');
-            resolve();
-        };
-        script.onerror = () => {
-            console.error('❌ PayPal SDK failed to load dynamically');
-            reject(new Error('PayPal SDK load error'));
-        };
-        document.head.appendChild(script);
-    });
-}
-
-async function initializePayPal() {
-    console.log('🎯 Initializing PayPal...');
-    
-    try {
-        // First try to load PayPal SDK if not already loaded
-        await loadPayPalSDK();
-        console.log('✅ PayPal SDK ready');
-    } catch (error) {
-        console.error('❌ Failed to load PayPal SDK:', error);
-        showGenericMessage('Failed to load PayPal payment system. Please check your internet connection and try again.', 'error');
-        
-        // Show alternative payment info
-        const container = document.getElementById('paypal-button-container');
-        if (container) {
-            container.innerHTML = `
-                <div style="padding: 20px; text-align: center; background: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6;">
-                    <h4 style="color: #dc3545; margin-bottom: 10px;">⚠️ Payment System Issue</h4>
-                    <p style="margin-bottom: 15px;">Unable to load PayPal payment system. This could be due to:</p>
-                    <ul style="text-align: left; margin-bottom: 15px;">
-                        <li>Internet connectivity issues</li>
-                        <li>Ad blocker or browser security settings</li>
-                        <li>PayPal service temporarily unavailable</li>
-                    </ul>
-                    <div style="margin-top: 15px;">
-                        <button onclick="initializePayPal()" style="background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-right: 10px;">
-                            🔄 Try Again
-                        </button>
-                        <button onclick="location.reload()" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
-                            🔄 Refresh Page
-                        </button>
-                    </div>
-                    <p style="margin-top: 15px; font-size: 0.9em; color: #6c757d;">
-                        If this issue persists, please contact support or try a different browser.
-                    </p>
-                </div>
-            `;
-        }
-        return;
-    }
-
-    try {
-        const userEmail = getCurrentUserEmail(); // Get user email from session
-        console.log('📧 User email for PayPal:', userEmail);
-        
-        console.log('🔨 Creating PayPal buttons...');
-        
-        paypal.Buttons({
-            createSubscription: async function(data, actions) {
-                try {
-                    showPaymentLoading(true);
-                    
-                    // Create subscription via our backend
-                    const response = await fetch(`${API_BASE_URL}/api/paypal/create-subscription`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            planId: 'P-2UF78835G6687705SMZC3NRI', // Your plan ID
-                            userEmail: userEmail
-                        })
-                    });
-
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        return result.subscriptionId;
-                    } else {
-                        throw new Error(result.message || 'Failed to create subscription');
-                    }
-                } catch (error) {
-                    console.error('Subscription creation error:', error);
-                    showGenericMessage('Failed to create subscription. Please try again.', 'error');
-                    showPaymentLoading(false);
-                    throw error;
-                }
-            },
-            
-            onApprove: async function(data, actions) {
-                try {
-                    showGenericMessage('Subscription approved! Processing...', 'success');
-                    
-                    // Get subscription details
-                    const response = await fetch(`${API_BASE_URL}/api/paypal/subscription/${data.subscriptionID}`);
-                    const result = await response.json();
-                    
-                    if (result.success && result.subscription.status === 'ACTIVE') {
-                        // Store subscription info locally
-                        localStorage.setItem('funstudySubscription', JSON.stringify({
-                            id: data.subscriptionID,
-                            status: 'ACTIVE',
-                            planId: result.subscription.planId,
-                            activatedAt: new Date().toISOString()
-                        }));
-                        
-                        showGenericMessage('🎉 Subscription activated! You now have full access to FunStudy Premium!', 'success');
-                        setTimeout(() => {
-                            showSection('gradeSection');
-                        }, 2000);
-                    } else {
-                        throw new Error('Subscription not activated properly');
-                    }
-                    
-                } catch (error) {
-                    console.error('Subscription approval error:', error);
-                    showGenericMessage('Subscription approved but activation failed. Please contact support.', 'error');
-                } finally {
-                    showPaymentLoading(false);
-                }
-            },
-            
-            onError: function(err) {
-                console.error('PayPal error:', err);
-                showGenericMessage('Payment failed. Please try again or contact support.', 'error');
-                showPaymentLoading(false);
-            },
-            
-            onCancel: function(data) {
-                console.log('Payment cancelled:', data);
-                showGenericMessage('Payment cancelled. You can try again anytime!', 'info');
-                showPaymentLoading(false);
-            },
-            
-            style: {
-                shape: 'pill',
-                color: 'blue',
-                layout: 'vertical',
-                label: 'subscribe'
-            }
-        }).render('#paypal-button-container').then(function() {
-            console.log('✅ PayPal buttons rendered successfully');
-        }).catch(function(error) {
-            console.error('❌ PayPal buttons render failed:', error);
-            showGenericMessage('Failed to display PayPal buttons. Please refresh the page.', 'error');
-        });
-        
-    } catch (error) {
-        console.error('PayPal initialization error:', error);
-        showGenericMessage('Failed to load payment options. Please refresh and try again.', 'error');
-    }
-}
+// PayPal Integration Functions (Simplified for Hosted Button)
+// The PayPal hosted button handles all payment processing automatically
+// No additional JavaScript initialization is required
 
 function getCurrentUserEmail() {
     // Try to get email from various sources
@@ -654,21 +472,6 @@ function getCurrentUserEmail() {
     
     // Fallback - you might want to store this in localStorage after login
     return localStorage.getItem('userEmail') || 'user@example.com';
-}
-
-function showPaymentLoading(show) {
-    const loadingElement = document.getElementById('paymentLoading');
-    const buttonContainer = document.getElementById('paypal-button-container');
-    
-    if (loadingElement && buttonContainer) {
-        if (show) {
-            loadingElement.style.display = 'block';
-            buttonContainer.style.display = 'none';
-        } else {
-            loadingElement.style.display = 'none';
-            buttonContainer.style.display = 'block';
-        }
-    }
 }
 
 function checkSubscriptionStatus() {

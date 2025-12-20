@@ -9,9 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://www.paypal.com/sdk/js?client-id=AUGMktJNOV7R6xb7KBd1A9oLcZZnvGZpBOBjbE0vGVtNPtfK77iY5cHq5B50HU8MQSZvLpjQVU5dXOZd&vault=true&intent=subscription&components=buttons" 
-            onload="console.log('✅ PayPal SDK loaded successfully'); window.paypalLoaded = true;" 
-            onerror="console.error('❌ PayPal SDK failed to load'); window.paypalLoadError = true;"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=BAAn15ORrTl6wygb_kVhI6ypYwpi15IavUs1ySGw3un0WbrGhV_phHCl-3MYyH50BkFgN5uX_eATeBjsws&components=hosted-buttons&disable-funding=venmo&currency=GBP"></script>
 </head>
 <body>
     <div class="container">
@@ -109,9 +107,12 @@
                                 <li>✅ Priority support</li>
                                 <li>✅ Best value!</li>
                             </ul>
-                            <div id="paypal-button-container" class="paypal-button-wrapper">
-                                <!-- PayPal Buttons will render here -->
-                            </div>
+                            <div id="paypal-container-SZHCP43RV4RAA"></div>
+                            <script>
+                                paypal.HostedButtons({
+                                    hostedButtonId: "SZHCP43RV4RAA",
+                                }).render("#paypal-container-SZHCP43RV4RAA")
+                            </script>
                         </div>
                     </div>
                     
