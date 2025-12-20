@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://www.paypal.com/sdk/js?client-id=BAAn15ORrTl6wygb_kVhI6ypYwpi15IavUs1ySGw3un0WbrGhV_phHCl-3MYyH50BkFgN5uX_eATeBjsws&components=hosted-buttons&disable-funding=venmo&currency=GBP"></script>
 </head>
 <body>
     <div class="container">
@@ -87,11 +86,26 @@
                         <div class="plan-card">
                             <h4>🎓 1 Year Access</h4>
                             <div class="price">£24.99</div>
-                            <div id="paypal-container-SZHCP43RV4RAA"></div>
+                            <div id="paypal-button-container-P-68M4712534243003ENFDMD5Y"></div>
+                            <script src="https://www.paypal.com/sdk/js?client-id=AdfMgW26aT_o9gYv0S8Ynpu470pAeyLdzcWUNDROKuKEHN4XvWH_Efroy3KPxcBXflbQkKD2yGpRdzN6&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
                             <script>
-                                paypal.HostedButtons({
-                                    hostedButtonId: "SZHCP43RV4RAA",
-                                }).render("#paypal-container-SZHCP43RV4RAA")
+                              paypal.Buttons({
+                                  style: {
+                                      shape: 'rect',
+                                      color: 'gold',
+                                      layout: 'vertical',
+                                      label: 'subscribe'
+                                  },
+                                  createSubscription: function(data, actions) {
+                                    return actions.subscription.create({
+                                      /* Creates the subscription */
+                                      plan_id: 'P-68M4712534243003ENFDMD5Y'
+                                    });
+                                  },
+                                  onApprove: function(data, actions) {
+                                    alert(data.subscriptionID); // You can add optional success message for the subscriber here
+                                  }
+                              }).render('#paypal-button-container-P-68M4712534243003ENFDMD5Y'); // Renders the PayPal button
                             </script>
                         </div>
                     </div>

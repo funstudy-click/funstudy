@@ -27,14 +27,14 @@ function showSection(sectionId) {
             }
             
             // Check if PayPal container exists
-            const paypalContainer = document.getElementById('paypal-container-SZHCP43RV4RAA');
+            const paypalContainer = document.getElementById('paypal-button-container-P-68M4712534243003ENFDMD5Y');
             if (!paypalContainer) {
                 console.error('❌ PayPal button container not found!');
                 showGenericMessage('PayPal integration error: button container missing', 'error');
                 return;
             }
             
-            console.log('🎯 PayPal hosted button container found');
+            console.log('🎯 PayPal subscription button container found');
             
             // PayPal hosted button should load automatically via the inline script
         }
