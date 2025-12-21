@@ -103,23 +103,31 @@
                                 label: 'subscribe'
                             },
                             createSubscription: function(data, actions) {
+                                console.log('🔵 Creating monthly subscription with plan: P-6N982914D32674231NFEAHBQ');
                                 return actions.subscription.create({
                                     plan_id: 'P-6N982914D32674231NFEAHBQ'
+                                }).catch(function(error) {
+                                    console.error('❌ Monthly subscription creation failed:', error);
+                                    console.log('Error details:', JSON.stringify(error, null, 2));
+                                    alert('❌ Subscription creation failed: ' + (error.message || 'Plan may be inactive. Check console for details.'));
+                                    throw error;
                                 });
                             },
                             onApprove: function(data, actions) {
+                                console.log('✅ Monthly subscription approved:', data);
                                 localStorage.setItem('funstudySubscription', JSON.stringify({
                                     id: data.subscriptionID,
                                     type: 'monthly',
                                     amount: '£1.99',
                                     status: 'ACTIVE'
                                 }));
-                                alert('Monthly subscription activated! Subscription ID: ' + data.subscriptionID);
+                                alert('✅ Monthly subscription activated! Subscription ID: ' + data.subscriptionID);
                                 setTimeout(() => showSection('gradeSection'), 2000);
                             },
                             onError: function(err) {
-                                console.error('PayPal Monthly Error:', err);
-                                alert('Payment failed. Please try again.');
+                                console.error('❌ PayPal Monthly Error:', err);
+                                console.log('Full error object:', JSON.stringify(err, null, 2));
+                                alert('❌ Payment failed: ' + (err.message || err.name || 'Check browser console (F12) for details'));
                             }
                         }).render('#paypal-button-container-monthly');
                     </script>
