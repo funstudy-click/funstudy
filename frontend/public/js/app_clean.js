@@ -530,10 +530,20 @@ function goBack() {
 async function startQuiz(difficulty) {
     showLoader();
     try {
-        // Use GET request with URL parameters instead of POST with body
+        // Check user subscription status
+        const subscriptionData = localStorage.getItem('funstudySubscription');
+        const isSubscribed = subscriptionData ? JSON.parse(subscriptionData).status === 'ACTIVE' : false;
+        
+        console.log(`Starting quiz for ${isSubscribed ? 'SUBSCRIBED' : 'NON-SUBSCRIBED'} user`);
+        
+        // Use GET request with URL parameters and subscription status in headers
         const response = await fetch(`${API_BASE_URL}/api/quiz/questions/${currentGrade}/${currentSubject}/${difficulty}`, {
             method: 'GET',
-            credentials: 'include'
+            credentials: 'include',
+            headers: {
+                'x-user-subscribed': isSubscribed.toString(),
+                'subscription-status': isSubscribed ? 'active' : 'inactive'
+            }
         });
 
         // Check if response is ok before parsing JSON
@@ -544,6 +554,15 @@ async function startQuiz(difficulty) {
         const data = await response.json();
         
         if (data.success && data.questions) {
+            // Show subscription status message
+            if (data.metadata) {
+                if (data.metadata.questionType === 'limited_preview') {
+                    showGenericMessage(`📚 Free Preview: ${data.questions.length} sample questions. ${data.metadata.message}`, 'info');
+                } else if (data.metadata.questionType === 'full_randomized') {
+                    showGenericMessage(`🎯 Full Access: ${data.questions.length} randomized questions from ${data.totalAvailable} available`, 'success');
+                }
+            }
+            
             displayQuiz(data.questions);
         } else {
             console.error('Quiz API returned error:', data);
@@ -797,6 +816,7 @@ async function submitQuiz() {
 
 function displayResults() {
     const results = window.quizResults;
+    const isSubscribed = checkSubscriptionStatus();
     showSection('resultsSection');
     
     // Determine performance message
@@ -816,6 +836,23 @@ function displayResults() {
         performanceIcon = '📚';
     }
     
+    // Subscription upgrade message for non-subscribers
+    const subscriptionPrompt = !isSubscribed ? `
+        <div class="subscription-upgrade-prompt" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center;">
+            <h3 style="margin: 0 0 10px 0;">🚀 Want More Questions?</h3>
+            <p style="margin: 0 0 15px 0;">You completed ${results.totalQuestions} sample questions. Subscribers get access to hundreds more!</p>
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                <button class="btn" onclick="showSection('subscriptionSection')" style="background: #10b981; border: none; color: white;">📅 Subscribe £1.99/month</button>
+                <button class="btn" onclick="showSection('subscriptionSection')" style="background: #f59e0b; border: none; color: white;">🎓 Subscribe £18.99/year</button>
+            </div>
+        </div>
+    ` : `
+        <div class="subscriber-benefits" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 15px; border-radius: 10px; margin: 20px 0; text-align: center;">
+            <h3 style="margin: 0 0 5px 0;">✅ Premium Member</h3>
+            <p style="margin: 0;">You have access to the full question bank with randomized questions!</p>
+        </div>
+    `;
+    
     const resultsContainer = document.getElementById('resultsContainer');
     resultsContainer.innerHTML = `
         <div class="results-header">
@@ -832,6 +869,8 @@ function displayResults() {
                 </div>
             </div>
         </div>
+        
+        ${subscriptionPrompt}
         
         ${results.detailedResults ? `
             <div class="detailed-results-container">

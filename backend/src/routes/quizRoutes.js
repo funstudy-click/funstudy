@@ -120,11 +120,39 @@ router.get('/questions/:grade/:subject/:difficulty', async (req, res) => {
             });
         }
         
+        // Check user subscription status from request headers
+        const isSubscribed = req.headers['x-user-subscribed'] === 'true' || 
+                            req.headers['subscription-status'] === 'active' ||
+                            false; // Default to non-subscribed
+        
+        console.log(`User subscription status: ${isSubscribed ? 'SUBSCRIBED' : 'NON-SUBSCRIBED'}`);
+        
         // Shuffle questions to provide variety
         const shuffledQuestions = result.Items.sort(() => 0.5 - Math.random());
         
-        // Limit to reasonable number (e.g., 10 questions max)
-        const limitedQuestions = shuffledQuestions.slice(0, 10);
+        let limitedQuestions;
+        
+        if (isSubscribed) {
+            // Subscribed users get all available questions (up to 30)
+            limitedQuestions = shuffledQuestions.slice(0, 30);
+            console.log(`Returning ${limitedQuestions.length} randomized questions for subscribed user`);
+        } else {
+            // Non-subscribed users get same 5 questions each time
+            // Create a deterministic seed based on grade, subject, difficulty for consistency
+            const seed = `${grade}_${subject}_${difficulty}`;
+            const deterministicSeed = [...seed].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+            
+            // Use deterministic random to always select the same 5 questions for non-subscribers
+            const deterministicRandom = (seed) => {
+                const x = Math.sin(seed) * 10000;
+                return x - Math.floor(x);
+            };
+            
+            // Sort questions by questionId for consistency, then select first 5
+            const sortedQuestions = result.Items.sort((a, b) => (a.questionId || '').localeCompare(b.questionId || ''));
+            limitedQuestions = sortedQuestions.slice(0, 5);
+            console.log(`Returning same 5 questions for non-subscribed user (${grade}_${subject}_${difficulty})`);
+        }
         
         // SECURITY FIX: Remove correct answers from questions sent to frontend
         const secureQuestions = limitedQuestions.map(question => ({
@@ -147,7 +175,12 @@ router.get('/questions/:grade/:subject/:difficulty', async (req, res) => {
                 grade,
                 subject,
                 difficulty,
-                tableName
+                tableName,
+                isSubscribed: isSubscribed,
+                questionType: isSubscribed ? 'full_randomized' : 'limited_preview',
+                message: isSubscribed 
+                    ? 'Full question bank with randomized selection'
+                    : 'Preview mode - showing same 5 questions. Subscribe for full access!'
             }
         });
         
