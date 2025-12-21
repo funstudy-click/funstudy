@@ -1,0 +1,505 @@
+=== SERVER STARTUP ===
+Environment check: {
+  AWS_REGION: 'eu-north-1',
+  USER_POOL_ID: 'MISSING',
+  CLIENT_ID: 'MISSING',
+  REDIRECT_URI: 'https://funstudy-backend.onrender.com/auth/callback',
+  PORT: '3002'
+}
+Environment variables in authController: {
+  AWS_REGION: 'eu-north-1',
+  USER_POOL_ID: undefined,
+  CLIENT_ID: undefined,
+  COGNITO_DOMAIN: undefined,
+  REDIRECT_URI: 'https://funstudy-backend.onrender.com/auth/callback',
+  HAS_SESSION_SECRET: true,
+  HAS_CLIENT_SECRET: true
+}
+Cognito URLs: {
+  COGNITO_DOMAIN: 'undefined.auth.eu-north-1.amazoncognito.com',
+  AUTHORIZE_URL: 'https://undefined.auth.eu-north-1.amazoncognito.com/oauth2/authorize',
+  TOKEN_URL: 'https://undefined.auth.eu-north-1.amazoncognito.com/oauth2/token',
+  USERINFO_URL: 'https://undefined.auth.eu-north-1.amazoncognito.com/oauth2/userInfo'
+}
+✅ Auth routes loaded successfully
+DynamoDB configured with region: eu-north-1
+✅ Quiz routes loaded successfully
+✅ User routes loaded successfully
+✅ PayPal routes loaded successfully
+✅ Server running on port 3002
+Environment: development
+(node:58834) NOTE: The AWS SDK for JavaScript (v2) is in maintenance mode.
+ SDK releases are limited to address critical bug fixes and security issues only.
+
+Please migrate your code to use AWS SDK for JavaScript (v3).
+For more information, check the blog post at https://a.co/cUPnyil
+(Use `node --trace-warnings ...` to show where the warning was created)
+CORS DEBUG: Allowing all origins. Origin: undefined
+2025-12-21T18:46:02.362Z - GET /health
+Origin: undefined
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:47:40.587Z - GET /health
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:47:40.589Z - GET /health
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: undefined
+2025-12-21T18:47:42.097Z - GET /auth/login
+Origin: undefined
+=== LOGIN REQUEST ===
+Request origin: undefined
+Generated state: 7645fb8a575728de8486add2ec8e74d4f91910c1f1c9fe408e6055a4288931ec
+Session ID: Ure2c1c97T0R8n3hP8SL_njCxG_O05vZ
+Redirect URI: https://funstudy-backend.onrender.com/auth/callback
+Redirecting to Cognito: https://undefined.auth.eu-north-1.amazoncognito.com/oauth2/authorize?response_type=code&client_id=&redirect_uri=https%3A%2F%2Ffunstudy-backend.onrender.com%2Fauth%2Fcallback&scope=email%20openid%20phone&state=7645fb8a575728de8486add2ec8e74d4f91910c1f1c9fe408e6055a4288931ec&nonce=5b5a355a10496ae8d6f7d38cd6391f71de152796a142f83cfcd3143e03bd65a6
+Full URL should be: https://undefined.auth.eu-north-1.amazoncognito.com/oauth2/authorize?response_type=code&client_id=&redirect_uri=https%3A%2F%2Ffunstudy-backend.onrender.com%2Fauth%2Fcallback&scope=email%20openid%20phone&state=7645fb8a575728de8486add2ec8e74d4f91910c1f1c9fe408e6055a4288931ec&nonce=5b5a355a10496ae8d6f7d38cd6391f71de152796a142f83cfcd3143e03bd65a6
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: undefined
+2025-12-21T18:47:51.708Z - GET /auth/login
+Origin: undefined
+=== LOGIN REQUEST ===
+Request origin: undefined
+Generated state: b3c5b6ec22134a0028b064b16e43a09b77a26c296e5daf154eb4cdcfc263cda3
+Session ID: Ure2c1c97T0R8n3hP8SL_njCxG_O05vZ
+Redirect URI: https://funstudy-backend.onrender.com/auth/callback
+Redirecting to Cognito: https://undefined.auth.eu-north-1.amazoncognito.com/oauth2/authorize?response_type=code&client_id=&redirect_uri=https%3A%2F%2Ffunstudy-backend.onrender.com%2Fauth%2Fcallback&scope=email%20openid%20phone&state=b3c5b6ec22134a0028b064b16e43a09b77a26c296e5daf154eb4cdcfc263cda3&nonce=8d4e49a9eb7d6756f5e622bcb6ebaec037daecf090e32bedbb4f8cefa81385aa
+Full URL should be: https://undefined.auth.eu-north-1.amazoncognito.com/oauth2/authorize?response_type=code&client_id=&redirect_uri=https%3A%2F%2Ffunstudy-backend.onrender.com%2Fauth%2Fcallback&scope=email%20openid%20phone&state=b3c5b6ec22134a0028b064b16e43a09b77a26c296e5daf154eb4cdcfc263cda3&nonce=8d4e49a9eb7d6756f5e622bcb6ebaec037daecf090e32bedbb4f8cefa81385aa
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:49:55.914Z - GET /health
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:49:55.921Z - GET /health
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:50:07.104Z - GET /api/quiz/subjects/GradeA
+Origin: http://localhost:8080
+Fetching subjects for grade: GradeA
+(node:58834) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
+Found subjects for GradeA: [ 'History', 'Math', 'Maths', 'Science' ]
+Math subjects found: [ 'Math', 'Maths' ]
+Normalized unique subjects: [ 'Math' ]
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:50:08.539Z - GET /api/quiz/difficulties/GradeA/Math
+Origin: http://localhost:8080
+Fetching difficulties for: GradeA_Math_Questions
+Found difficulties for GradeA Math: [ 'hard', 'medium', 'simple' ]
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:50:10.864Z - GET /api/quiz/questions/GradeA/Math/simple
+Origin: http://localhost:8080
+=== Quiz Questions Request ===
+Received parameters: { grade: 'GradeA', subject: 'Math', difficulty: 'simple' }
+Request headers subscription info: { 'x-user-subscribed': undefined, 'subscription-status': undefined }
+Checking table: GradeA_Math_Questions
+✅ Found table: GradeA_Math_Questions
+Scanning table with params: {
+  TableName: 'GradeA_Math_Questions',
+  FilterExpression: 'difficulty = :difficulty',
+  ExpressionAttributeValues: { ':difficulty': 'simple' }
+}
+Found 50 questions
+User subscription status: NON-SUBSCRIBED
+Returning same 5 questions for non-subscribed user (GradeA_Math_simple)
+Returning 5 shuffled questions (without answers)
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:50:29.468Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:50:32.050Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:50:53.068Z - GET /api/quiz/questions/GradeA/Math/simple
+Origin: http://localhost:8080
+=== Quiz Questions Request ===
+Received parameters: { grade: 'GradeA', subject: 'Math', difficulty: 'simple' }
+Request headers subscription info: { 'x-user-subscribed': undefined, 'subscription-status': undefined }
+Checking table: GradeA_Math_Questions
+✅ Found table: GradeA_Math_Questions
+Scanning table with params: {
+  TableName: 'GradeA_Math_Questions',
+  FilterExpression: 'difficulty = :difficulty',
+  ExpressionAttributeValues: { ':difficulty': 'simple' }
+}
+Found 50 questions
+User subscription status: NON-SUBSCRIBED
+Returning same 5 questions for non-subscribed user (GradeA_Math_simple)
+Returning 5 shuffled questions (without answers)
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:51:17.060Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:51:20.064Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:51:27.001Z - GET /api/quiz/questions/GradeA/Math/simple
+Origin: http://localhost:8080
+=== Quiz Questions Request ===
+Received parameters: { grade: 'GradeA', subject: 'Math', difficulty: 'simple' }
+Request headers subscription info: { 'x-user-subscribed': undefined, 'subscription-status': undefined }
+Checking table: GradeA_Math_Questions
+✅ Found table: GradeA_Math_Questions
+Scanning table with params: {
+  TableName: 'GradeA_Math_Questions',
+  FilterExpression: 'difficulty = :difficulty',
+  ExpressionAttributeValues: { ':difficulty': 'simple' }
+}
+Found 50 questions
+User subscription status: NON-SUBSCRIBED
+Returning same 5 questions for non-subscribed user (GradeA_Math_simple)
+Returning 5 shuffled questions (without answers)
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:51:40.185Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:51:44.016Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:51:49.674Z - GET /api/quiz/subjects/GradeB
+Origin: http://localhost:8080
+Fetching subjects for grade: GradeB
+Found subjects for GradeB: [ 'Math', 'Maths' ]
+Math subjects found: [ 'Math', 'Maths' ]
+Normalized unique subjects: [ 'Math' ]
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:51:51.341Z - GET /api/quiz/difficulties/GradeB/Math
+Origin: http://localhost:8080
+Fetching difficulties for: GradeB_Math_Questions
+Found difficulties for GradeB Math: [ 'simple', 'hard', 'medium' ]
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:51:54.226Z - GET /api/quiz/questions/GradeB/Math/hard
+Origin: http://localhost:8080
+=== Quiz Questions Request ===
+Received parameters: { grade: 'GradeB', subject: 'Math', difficulty: 'hard' }
+Request headers subscription info: { 'x-user-subscribed': undefined, 'subscription-status': undefined }
+Checking table: GradeB_Math_Questions
+✅ Found table: GradeB_Math_Questions
+Scanning table with params: {
+  TableName: 'GradeB_Math_Questions',
+  FilterExpression: 'difficulty = :difficulty',
+  ExpressionAttributeValues: { ':difficulty': 'hard' }
+}
+Found 50 questions
+User subscription status: NON-SUBSCRIBED
+Returning same 5 questions for non-subscribed user (GradeB_Math_hard)
+Returning 5 shuffled questions (without answers)
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:52:30.726Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:52:35.324Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:52:41.426Z - GET /api/quiz/questions/GradeB/Math/hard
+Origin: http://localhost:8080
+=== Quiz Questions Request ===
+Received parameters: { grade: 'GradeB', subject: 'Math', difficulty: 'hard' }
+Request headers subscription info: { 'x-user-subscribed': undefined, 'subscription-status': undefined }
+Checking table: GradeB_Math_Questions
+✅ Found table: GradeB_Math_Questions
+Scanning table with params: {
+  TableName: 'GradeB_Math_Questions',
+  FilterExpression: 'difficulty = :difficulty',
+  ExpressionAttributeValues: { ':difficulty': 'hard' }
+}
+Found 50 questions
+User subscription status: NON-SUBSCRIBED
+Returning same 5 questions for non-subscribed user (GradeB_Math_hard)
+Returning 5 shuffled questions (without answers)
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:53:00.593Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:53:03.393Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:53:07.984Z - GET /api/quiz/questions/GradeB/Math/hard
+Origin: http://localhost:8080
+=== Quiz Questions Request ===
+Received parameters: { grade: 'GradeB', subject: 'Math', difficulty: 'hard' }
+Request headers subscription info: { 'x-user-subscribed': undefined, 'subscription-status': undefined }
+Checking table: GradeB_Math_Questions
+✅ Found table: GradeB_Math_Questions
+Scanning table with params: {
+  TableName: 'GradeB_Math_Questions',
+  FilterExpression: 'difficulty = :difficulty',
+  ExpressionAttributeValues: { ':difficulty': 'hard' }
+}
+Found 50 questions
+User subscription status: NON-SUBSCRIBED
+Returning same 5 questions for non-subscribed user (GradeB_Math_hard)
+Returning 5 shuffled questions (without answers)
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:53:29.302Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:53:31.586Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:53:46.367Z - GET /api/quiz/subjects/GradeC
+Origin: http://localhost:8080
+Fetching subjects for grade: GradeC
+Found subjects for GradeC: [ 'History', 'Math', 'Maths', 'Science' ]
+Math subjects found: [ 'Math', 'Maths' ]
+Normalized unique subjects: [ 'Math' ]
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:53:47.815Z - GET /api/quiz/difficulties/GradeC/Math
+Origin: http://localhost:8080
+Fetching difficulties for: GradeC_Math_Questions
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:53:49.576Z - GET /api/quiz/questions/GradeC/Math/simple
+Origin: http://localhost:8080
+=== Quiz Questions Request ===
+Received parameters: { grade: 'GradeC', subject: 'Math', difficulty: 'simple' }
+Request headers subscription info: { 'x-user-subscribed': undefined, 'subscription-status': undefined }
+Checking table: GradeC_Math_Questions
+Found difficulties for GradeC Math: [ 'medium', 'simple', 'hard' ]
+✅ Found table: GradeC_Math_Questions
+Scanning table with params: {
+  TableName: 'GradeC_Math_Questions',
+  FilterExpression: 'difficulty = :difficulty',
+  ExpressionAttributeValues: { ':difficulty': 'simple' }
+}
+Found 50 questions
+User subscription status: NON-SUBSCRIBED
+Returning same 5 questions for non-subscribed user (GradeC_Math_simple)
+Returning 5 shuffled questions (without answers)
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:54:34.724Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:54:38.002Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:54:41.904Z - GET /api/quiz/questions/GradeC/Math/simple
+Origin: http://localhost:8080
+=== Quiz Questions Request ===
+Received parameters: { grade: 'GradeC', subject: 'Math', difficulty: 'simple' }
+Request headers subscription info: { 'x-user-subscribed': undefined, 'subscription-status': undefined }
+Checking table: GradeC_Math_Questions
+✅ Found table: GradeC_Math_Questions
+Scanning table with params: {
+  TableName: 'GradeC_Math_Questions',
+  FilterExpression: 'difficulty = :difficulty',
+  ExpressionAttributeValues: { ':difficulty': 'simple' }
+}
+Found 50 questions
+User subscription status: NON-SUBSCRIBED
+Returning same 5 questions for non-subscribed user (GradeC_Math_simple)
+Returning 5 shuffled questions (without answers)
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:55:05.355Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T18:55:07.030Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:02:58.111Z - GET /health
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:02:58.114Z - GET /health
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:03:05.666Z - GET /api/quiz/subjects/GradeA
+Origin: http://localhost:8080
+Fetching subjects for grade: GradeA
+Found subjects for GradeA: [ 'History', 'Math', 'Maths', 'Science' ]
+Math subjects found: [ 'Math', 'Maths' ]
+Normalized unique subjects: [ 'Math' ]
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:03:07.473Z - GET /api/quiz/difficulties/GradeA/Math
+Origin: http://localhost:8080
+Fetching difficulties for: GradeA_Math_Questions
+Found difficulties for GradeA Math: [ 'hard', 'medium', 'simple' ]
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:03:13.232Z - GET /api/quiz/questions/GradeA/Math/hard
+Origin: http://localhost:8080
+=== Quiz Questions Request ===
+Received parameters: { grade: 'GradeA', subject: 'Math', difficulty: 'hard' }
+Request headers subscription info: { 'x-user-subscribed': undefined, 'subscription-status': undefined }
+Checking table: GradeA_Math_Questions
+✅ Found table: GradeA_Math_Questions
+Scanning table with params: {
+  TableName: 'GradeA_Math_Questions',
+  FilterExpression: 'difficulty = :difficulty',
+  ExpressionAttributeValues: { ':difficulty': 'hard' }
+}
+Found 50 questions
+User subscription status: NON-SUBSCRIBED
+Returning same 5 questions for non-subscribed user (GradeA_Math_hard)
+Returning 5 shuffled questions (without answers)
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:03:35.247Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:03:36.860Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:03:43.887Z - GET /api/quiz/questions/GradeA/Math/hard
+Origin: http://localhost:8080
+=== Quiz Questions Request ===
+Received parameters: { grade: 'GradeA', subject: 'Math', difficulty: 'hard' }
+Request headers subscription info: { 'x-user-subscribed': undefined, 'subscription-status': undefined }
+Checking table: GradeA_Math_Questions
+✅ Found table: GradeA_Math_Questions
+Scanning table with params: {
+  TableName: 'GradeA_Math_Questions',
+  FilterExpression: 'difficulty = :difficulty',
+  ExpressionAttributeValues: { ':difficulty': 'hard' }
+}
+Found 50 questions
+User subscription status: NON-SUBSCRIBED
+Returning same 5 questions for non-subscribed user (GradeA_Math_hard)
+Returning 5 shuffled questions (without answers)
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:03:52.847Z - GET /api/quiz/subjects/GradeA
+Origin: http://localhost:8080
+Fetching subjects for grade: GradeA
+Found subjects for GradeA: [ 'History', 'Math', 'Maths', 'Science' ]
+Math subjects found: [ 'Math', 'Maths' ]
+Normalized unique subjects: [ 'Math' ]
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:03:54.273Z - GET /api/quiz/difficulties/GradeA/Math
+Origin: http://localhost:8080
+Fetching difficulties for: GradeA_Math_Questions
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:03:55.264Z - GET /api/quiz/questions/GradeA/Math/simple
+Origin: http://localhost:8080
+=== Quiz Questions Request ===
+Received parameters: { grade: 'GradeA', subject: 'Math', difficulty: 'simple' }
+Request headers subscription info: { 'x-user-subscribed': undefined, 'subscription-status': undefined }
+Checking table: GradeA_Math_Questions
+Found difficulties for GradeA Math: [ 'hard', 'medium', 'simple' ]
+✅ Found table: GradeA_Math_Questions
+Scanning table with params: {
+  TableName: 'GradeA_Math_Questions',
+  FilterExpression: 'difficulty = :difficulty',
+  ExpressionAttributeValues: { ':difficulty': 'simple' }
+}
+Found 50 questions
+User subscription status: NON-SUBSCRIBED
+Returning same 5 questions for non-subscribed user (GradeA_Math_simple)
+Returning 5 shuffled questions (without answers)
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:05:04.004Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:05:05.461Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:05:25.158Z - GET /api/quiz/questions/GradeA/Math/simple
+Origin: http://localhost:8080
+=== Quiz Questions Request ===
+Received parameters: { grade: 'GradeA', subject: 'Math', difficulty: 'simple' }
+Request headers subscription info: { 'x-user-subscribed': undefined, 'subscription-status': undefined }
+Checking table: GradeA_Math_Questions
+✅ Found table: GradeA_Math_Questions
+Scanning table with params: {
+  TableName: 'GradeA_Math_Questions',
+  FilterExpression: 'difficulty = :difficulty',
+  ExpressionAttributeValues: { ':difficulty': 'simple' }
+}
+Found 50 questions
+User subscription status: NON-SUBSCRIBED
+Returning same 5 questions for non-subscribed user (GradeA_Math_simple)
+Returning 5 shuffled questions (without answers)
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:05:42.539Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:05:44.336Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:06:41.429Z - GET /api/quiz/subjects/GradeA
+Origin: http://localhost:8080
+Fetching subjects for grade: GradeA
+Found subjects for GradeA: [ 'History', 'Math', 'Maths', 'Science' ]
+Math subjects found: [ 'Math', 'Maths' ]
+Normalized unique subjects: [ 'Math' ]
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:08:18.924Z - GET /health
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:08:18.926Z - GET /health
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:08:28.167Z - GET /api/quiz/subjects/GradeB
+Origin: http://localhost:8080
+Fetching subjects for grade: GradeB
+Found subjects for GradeB: [ 'Math', 'Maths' ]
+Math subjects found: [ 'Math', 'Maths' ]
+Normalized unique subjects: [ 'Math' ]
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:08:29.892Z - GET /api/quiz/difficulties/GradeB/Math
+Origin: http://localhost:8080
+Fetching difficulties for: GradeB_Math_Questions
+Found difficulties for GradeB Math: [ 'simple', 'hard', 'medium' ]
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:08:32.935Z - GET /api/quiz/questions/GradeB/Math/simple
+Origin: http://localhost:8080
+=== Quiz Questions Request ===
+Received parameters: { grade: 'GradeB', subject: 'Math', difficulty: 'simple' }
+Request headers subscription info: { 'x-user-subscribed': undefined, 'subscription-status': undefined }
+Checking table: GradeB_Math_Questions
+✅ Found table: GradeB_Math_Questions
+Scanning table with params: {
+  TableName: 'GradeB_Math_Questions',
+  FilterExpression: 'difficulty = :difficulty',
+  ExpressionAttributeValues: { ':difficulty': 'simple' }
+}
+Found 50 questions
+User subscription status: NON-SUBSCRIBED
+Returning same 5 questions for non-subscribed user (GradeB_Math_simple)
+Returning 5 shuffled questions (without answers)
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:08:54.493Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:09:03.458Z - GET /api/quiz/questions/GradeB/Math/simple
+Origin: http://localhost:8080
+=== Quiz Questions Request ===
+Received parameters: { grade: 'GradeB', subject: 'Math', difficulty: 'simple' }
+Request headers subscription info: { 'x-user-subscribed': undefined, 'subscription-status': undefined }
+Checking table: GradeB_Math_Questions
+✅ Found table: GradeB_Math_Questions
+Scanning table with params: {
+  TableName: 'GradeB_Math_Questions',
+  FilterExpression: 'difficulty = :difficulty',
+  ExpressionAttributeValues: { ':difficulty': 'simple' }
+}
+Found 50 questions
+User subscription status: NON-SUBSCRIBED
+Returning same 5 questions for non-subscribed user (GradeB_Math_simple)
+Returning 5 shuffled questions (without answers)
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:10:00.773Z - POST /api/quiz/verify-answers
+Origin: http://localhost:8080

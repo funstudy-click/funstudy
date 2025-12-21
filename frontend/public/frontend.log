@@ -1,0 +1,9 @@
+::1 - - [22/Dec/2025 00:17:40] "GET / HTTP/1.1" 200 -
+::1 - - [22/Dec/2025 00:17:40] "GET /css/styles.css HTTP/1.1" 200 -
+::1 - - [22/Dec/2025 00:17:40] "GET /js/app_clean.js HTTP/1.1" 200 -
+::1 - - [22/Dec/2025 00:19:55] "GET / HTTP/1.1" 200 -
+::1 - - [22/Dec/2025 00:19:55] "GET /js/app_clean.js HTTP/1.1" 200 -
+::1 - - [22/Dec/2025 00:32:58] "GET / HTTP/1.1" 304 -
+::1 - - [22/Dec/2025 00:32:58] "GET /js/app_clean.js HTTP/1.1" 200 -
+::1 - - [22/Dec/2025 00:38:18] "GET / HTTP/1.1" 304 -
+::1 - - [22/Dec/2025 00:38:18] "GET /js/app_clean.js HTTP/1.1" 200 -
