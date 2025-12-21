@@ -1,5 +1,7 @@
 // FunStudy App - Clean Version
-const API_BASE_URL = 'https://funstudy-backend.onrender.com';
+const API_BASE_URL = window.location.hostname === 'localhost' ? 
+    'http://localhost:3002' : 
+    'https://funstudy-backend.onrender.com';
 let currentGrade = '';
 let currentSubject = '';
 
@@ -218,7 +220,18 @@ function displayDifficulties(difficulties) {
 async function login() {
     try {
         console.log('🔐 Starting login process...');
-        // Add timestamp to prevent caching
+        
+        // Local development bypass
+        if (window.location.hostname === 'localhost') {
+            console.log('🏠 Local development - bypassing authentication');
+            showMessage('loginMessage', '✅ Local development mode - skipping authentication', 'success');
+            setTimeout(() => {
+                showSection('subscriptionSection');
+            }, 1500);
+            return;
+        }
+        
+        // Production authentication
         const timestamp = new Date().getTime();
         window.location.href = `${API_BASE_URL}/auth/login?t=${timestamp}`;
     } catch (error) {
@@ -547,42 +560,53 @@ async function startQuiz(difficulty) {
         const isSubscribed = subscriptionData ? JSON.parse(subscriptionData).status === 'ACTIVE' : false;
         
         console.log(`Starting quiz for ${isSubscribed ? 'SUBSCRIBED' : 'NON-SUBSCRIBED'} user`);
-        console.log('API URL:', `${API_BASE_URL}/api/quiz/questions/${currentGrade}/${currentSubject}/${difficulty}`);
         
-        // Use GET request with URL parameters and subscription status in headers
-        const response = await fetch(`${API_BASE_URL}/api/quiz/questions/${currentGrade}/${currentSubject}/${difficulty}`, {
-            method: 'GET',
-            // Temporarily remove credentials and custom headers to test CORS
-            // credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-                // Temporarily comment out custom headers
-                // 'x-user-subscribed': isSubscribed.toString(),
-                // 'subscription-status': isSubscribed ? 'active' : 'inactive'
+        // Try direct API call first, then fall back to CORS proxy if needed
+        const apiUrl = `${API_BASE_URL}/api/quiz/questions/${currentGrade}/${currentSubject}/${difficulty}`;
+        console.log('API URL:', apiUrl);
+        
+        let response;
+        try {
+            // Primary attempt - direct API call
+            response = await fetch(apiUrl, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        });
-
-        console.log('Response status:', response.status);
-        console.log('Response headers:', response.headers);
-
-        // Check if response is ok before parsing JSON
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('HTTP error response:', errorText);
-            throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+        } catch (corsError) {
+            console.warn('Direct API call failed, trying CORS proxy:', corsError);
+            
+            // Fallback: Use a CORS proxy for testing
+            const proxyUrl = `https://cors-anywhere.herokuapp.com/${apiUrl}`;
+            response = await fetch(proxyUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Proxy request failed! status: ${response.status}`);
+            }
+            
+            console.log('✅ CORS proxy request successful');
         }
 
+        console.log('Response status:', response.status);
         const data = await response.json();
         console.log('Quiz data received:', data);
         
         if (data.success && data.questions) {
-            // Show subscription status message
-            if (data.metadata) {
-                if (data.metadata.questionType === 'limited_preview') {
-                    showGenericMessage(`📚 Free Preview: ${data.questions.length} sample questions. ${data.metadata.message}`, 'info');
-                } else if (data.metadata.questionType === 'full_randomized') {
-                    showGenericMessage(`🎯 Full Access: ${data.questions.length} randomized questions from ${data.totalAvailable} available`, 'success');
-                }
+            // Show simple message for non-subscribed users
+            if (!isSubscribed) {
+                showGenericMessage(`📚 Free Preview: ${data.questions.length} sample questions. Subscribe for more!`, 'info');
             }
             
             displayQuiz(data.questions);
@@ -593,14 +617,16 @@ async function startQuiz(difficulty) {
     } catch (error) {
         console.error('Quiz loading error details:', error);
         console.error('Error stack:', error.stack);
-        if (error.message.includes('404')) {
+        
+        // Specific error handling
+        if (error.message.includes('CORS')) {
+            showGenericMessage('Connection blocked. Please try again in a few minutes as the server is updating.', 'error');
+        } else if (error.message.includes('404')) {
             showGenericMessage('Quiz questions not found for this combination. Please try a different selection.', 'error');
-        } else if (error.message.includes('HTTP error')) {
-            showGenericMessage(`Server error: ${error.message}`, 'error');
         } else if (error.message.includes('Failed to fetch')) {
             showGenericMessage('Network connection error. Please check your internet connection and try again.', 'error');
         } else {
-            showGenericMessage('Failed to load quiz. Please check your connection.', 'error');
+            showGenericMessage('Failed to load quiz. The server may be updating - please try again in a moment.', 'error');
         }
     } finally {
         hideLoader();
@@ -624,9 +650,10 @@ function displayQuiz(questions) {
         answers: {},
         score: 0,
         startTime: new Date(),
-        timeRemaining: 30 * 60, // 30 minutes in seconds
+        timeRemaining: questions.length <= 5 ? 5 * 60 : 30 * 60, // 5 minutes for 5 questions, 30 minutes for more
         isPaused: false,
-        timerInterval: null
+        timerInterval: null,
+        isSubmitting: false
     };
     
     // Render the first question
@@ -655,7 +682,7 @@ function renderQuestion() {
             <div class="quiz-timer">
                 <div class="timer-display" id="timerDisplay">
                     <span class="timer-icon">⏰</span>
-                    <span class="timer-text" id="timerText">30:00</span>
+                    <span class="timer-text" id="timerText">${questions.length <= 5 ? '5:00' : '30:00'}</span>
                 </div>
             </div>
             <div class="quiz-info">
@@ -682,7 +709,7 @@ function renderQuestion() {
             <div class="control-buttons">
                 ${currentQuestion < totalQuestions - 1 
                     ? `<button class="btn" onclick="nextQuestion()">Next ➡️</button>`
-                    : `<button class="btn btn-primary" onclick="submitQuiz()">🏆 Submit Quiz</button>`
+                    : `<button class="btn btn-primary" id="submitBtn" onclick="submitQuiz()">🏆 Submit Quiz</button>`
                 }
             </div>
         </div>
@@ -730,6 +757,11 @@ function nextQuestion() {
         return;
     }
     
+    // Auto-resume if quiz was paused
+    if (window.quizState.isPaused) {
+        resumeTimer();
+    }
+    
     if (currentQuestion < questions.length - 1) {
         window.quizState.currentQuestion++;
         renderQuestion();
@@ -737,6 +769,11 @@ function nextQuestion() {
 }
 
 function previousQuestion() {
+    // Auto-resume if quiz was paused
+    if (window.quizState.isPaused) {
+        resumeTimer();
+    }
+    
     if (window.quizState.currentQuestion > 0) {
         window.quizState.currentQuestion--;
         renderQuestion();
@@ -746,10 +783,27 @@ function previousQuestion() {
 async function submitQuiz() {
     const { questions, answers, startTime, currentQuestion } = window.quizState;
     
+    // Prevent double submission
+    if (window.quizState.isSubmitting) {
+        console.log('Quiz submission already in progress, ignoring duplicate click');
+        return;
+    }
+    
     // Check if user has selected an answer for the final question
     if (answers[currentQuestion] === undefined) {
         showGenericMessage('⚠️ Please select an answer before submitting the quiz.', 'error');
         return;
+    }
+    
+    // Mark as submitting to prevent duplicate submissions
+    window.quizState.isSubmitting = true;
+    
+    // Disable submit button visually
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '⏳ Submitting...';
+        submitBtn.style.opacity = '0.6';
     }
     
     // Stop the timer
@@ -835,6 +889,19 @@ async function submitQuiz() {
         console.error('Quiz submission error:', error);
         showGenericMessage('Failed to submit quiz. Please try again.', 'error');
     } finally {
+        // Reset submission flag and hide loader
+        if (window.quizState) {
+            window.quizState.isSubmitting = false;
+        }
+        
+        // Re-enable submit button
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '🏆 Submit Quiz';
+            submitBtn.style.opacity = '1';
+        }
+        
         hideLoader();
     }
 }
@@ -1047,9 +1114,16 @@ function pauseTimer() {
 function resumeTimer() {
     if (window.quizState.isPaused) {
         window.quizState.isPaused = false;
-        document.getElementById('pauseBtn').style.display = 'inline-block';
-        document.getElementById('resumeBtn').style.display = 'none';
-        showGenericMessage('▶️ Quiz resumed.', 'success');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const resumeBtn = document.getElementById('resumeBtn');
+        
+        if (pauseBtn) pauseBtn.style.display = 'inline-block';
+        if (resumeBtn) resumeBtn.style.display = 'none';
+        
+        showGenericMessage('▶️ Quiz resumed. Timer is now active.', 'success');
+        
+        // Ensure timer display is updated
+        updateTimerDisplay();
     }
 }
 
@@ -1088,12 +1162,43 @@ function toggleDetailedResults() {
     }
 }
 
+// Test backend connectivity
+async function testBackendConnection() {
+    try {
+        console.log('Testing backend connection...');
+        const response = await fetch(`${API_BASE_URL}/health`, { 
+            method: 'GET',
+            mode: 'cors',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        if (response.ok) {
+            console.log('✅ Backend connection successful');
+            return true;
+        } else {
+            console.log('❌ Backend returned error:', response.status);
+            return false;
+        }
+    } catch (error) {
+        console.log('❌ Backend connection failed:', error.message);
+        return false;
+    }
+}
+
 // Initialize app - SINGLE DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', function() {
     console.log('=== FunStudy App Initialized ===');
     console.log('API Base URL:', API_BASE_URL);
     console.log('Current page URL:', window.location.href);
     console.log('Available sections:', document.querySelectorAll('.section').length);
+    
+    // Show local development notice if running locally
+    if (window.location.hostname === 'localhost') {
+        const localDevNotice = document.querySelector('.local-dev-notice');
+        if (localDevNotice) {
+            localDevNotice.style.display = 'block';
+        }
+    }
     
     // Check for auth callback parameters first
     const urlParams = new URLSearchParams(window.location.search);
@@ -1108,5 +1213,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Check server health
+    testBackendConnection();
+    
+    // Check existing subscription
+    checkSubscriptionStatus();
     checkServer();
 });

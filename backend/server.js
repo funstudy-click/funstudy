@@ -113,6 +113,15 @@ console.log('Environment check:', {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.json({ 
+        status: 'OK', 
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development'
+    });
+});
+
 // Remove frontend static files serving for backend deployment
 // app.use(express.static(path.join(__dirname, '../frontend/public')));
 
