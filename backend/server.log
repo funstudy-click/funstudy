@@ -503,3 +503,16 @@ CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
 CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
 2025-12-21T19:10:00.773Z - POST /api/quiz/verify-answers
 Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:16:51.850Z - GET /health
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:16:51.853Z - GET /health
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:16:55.904Z - GET /health
+Origin: http://localhost:8080
+CORS DEBUG: Allowing all origins. Origin: http://localhost:8080
+2025-12-21T19:16:55.905Z - GET /health
+Origin: http://localhost:8080
