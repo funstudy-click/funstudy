@@ -40,10 +40,16 @@ router.get('/questions/:grade/:subject/:difficulty', async (req, res) => {
     try {
         const { grade, subject, difficulty } = req.params;
         
+        console.log('=== Quiz Questions Request ===');
         console.log('Received parameters:', { grade, subject, difficulty });
+        console.log('Request headers subscription info:', {
+            'x-user-subscribed': req.headers['x-user-subscribed'],
+            'subscription-status': req.headers['subscription-status']
+        });
         
         // Validate parameters
         if (!grade || !subject || !difficulty) {
+            console.error('❌ Missing required parameters');
             return res.status(400).json({
                 success: false,
                 error: 'Missing required parameters',

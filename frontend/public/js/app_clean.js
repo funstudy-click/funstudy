@@ -434,20 +434,31 @@ async function resendConfirmationCode() {
 // Navigation functions
 function selectGrade(grade) {
     currentGrade = grade;
-    console.log('Grade selected:', grade);
+    console.log('✅ Grade selected:', grade);
+    console.log('Current grade set to:', currentGrade);
     showSection('subjectSection');
     loadSubjects(grade); // Load subjects for the selected grade
 }
 
 function selectSubject(subject) {
     currentSubject = subject;
-    console.log('Subject selected:', subject);
+    console.log('✅ Subject selected:', subject);
+    console.log('Current subject set to:', currentSubject);
     showSection('difficultySection');
     loadDifficulties(currentGrade, subject); // Load difficulties for the selected grade and subject
 }
 
 function selectDifficulty(difficulty) {
     console.log('Difficulty selected:', difficulty);
+    console.log('Current state:', { grade: currentGrade, subject: currentSubject, difficulty });
+    
+    // Validate we have all required parameters
+    if (!currentGrade || !currentSubject || !difficulty) {
+        console.error('Missing required parameters:', { grade: currentGrade, subject: currentSubject, difficulty });
+        showGenericMessage('Please select grade and subject first', 'error');
+        return;
+    }
+    
     startQuiz(difficulty);
 }
 
@@ -528,6 +539,7 @@ function goBack() {
 
 // Quiz functions
 async function startQuiz(difficulty) {
+    console.log('🎯 Starting quiz with:', { grade: currentGrade, subject: currentSubject, difficulty });
     showLoader();
     try {
         // Check user subscription status
@@ -535,23 +547,31 @@ async function startQuiz(difficulty) {
         const isSubscribed = subscriptionData ? JSON.parse(subscriptionData).status === 'ACTIVE' : false;
         
         console.log(`Starting quiz for ${isSubscribed ? 'SUBSCRIBED' : 'NON-SUBSCRIBED'} user`);
+        console.log('API URL:', `${API_BASE_URL}/api/quiz/questions/${currentGrade}/${currentSubject}/${difficulty}`);
         
         // Use GET request with URL parameters and subscription status in headers
         const response = await fetch(`${API_BASE_URL}/api/quiz/questions/${currentGrade}/${currentSubject}/${difficulty}`, {
             method: 'GET',
             credentials: 'include',
             headers: {
+                'Content-Type': 'application/json',
                 'x-user-subscribed': isSubscribed.toString(),
                 'subscription-status': isSubscribed ? 'active' : 'inactive'
             }
         });
 
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+
         // Check if response is ok before parsing JSON
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorText = await response.text();
+            console.error('HTTP error response:', errorText);
+            throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
         }
 
         const data = await response.json();
+        console.log('Quiz data received:', data);
         
         if (data.success && data.questions) {
             // Show subscription status message
@@ -569,11 +589,14 @@ async function startQuiz(difficulty) {
             showGenericMessage(data.error || 'Failed to load quiz questions', 'error');
         }
     } catch (error) {
-        console.error('Quiz loading error:', error);
+        console.error('Quiz loading error details:', error);
+        console.error('Error stack:', error.stack);
         if (error.message.includes('404')) {
             showGenericMessage('Quiz questions not found for this combination. Please try a different selection.', 'error');
         } else if (error.message.includes('HTTP error')) {
             showGenericMessage(`Server error: ${error.message}`, 'error');
+        } else if (error.message.includes('Failed to fetch')) {
+            showGenericMessage('Network connection error. Please check your internet connection and try again.', 'error');
         } else {
             showGenericMessage('Failed to load quiz. Please check your connection.', 'error');
         }
