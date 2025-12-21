@@ -84,6 +84,14 @@
             <div class="subscription-container">
                 <div class="paypal-form-container">
                     <div class="subscription-plans-container" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                        <!-- Test Payment to verify PayPal account -->
+                        <div class="plan-card" style="flex: 1; min-width: 280px; max-width: 320px; border: 2px solid #ef4444;">
+                            <h4>🧪 Test PayPal (£1)</h4>
+                            <div class="price">£1.00<span class="period">/one-time</span></div>
+                            <p style="color: #6b7280; font-size: 0.9rem; margin: 10px 0;">Verify PayPal account works</p>
+                            <div id="paypal-button-container-test"></div>
+                        </div>
+                        
                         <!-- Monthly Plan -->
                         <div class="plan-card" style="flex: 1; min-width: 280px; max-width: 320px;">
                             <h4>📅 Monthly Access</h4>
@@ -103,6 +111,37 @@
                     </div>
                     
                     <script>
+                        // Test One-Time Payment (to verify PayPal account works)
+                        paypal.Buttons({
+                            style: {
+                                shape: 'rect',
+                                color: 'silver',
+                                layout: 'vertical',
+                                label: 'pay'
+                            },
+                            createOrder: function(data, actions) {
+                                console.log('Creating test £1 payment');
+                                return actions.order.create({
+                                    purchase_units: [{
+                                        amount: {
+                                            value: '1.00',
+                                            currency_code: 'GBP'
+                                        },
+                                        description: 'FunStudy PayPal Test'
+                                    }]
+                                });
+                            },
+                            onApprove: function(data, actions) {
+                                return actions.order.capture().then(function(details) {
+                                    console.log('Test payment successful:', details);
+                                    alert('✅ PayPal test successful! Transaction: ' + details.id + '\nNow try the subscription buttons.');
+                                });
+                            },
+                            onError: function(err) {
+                                console.error('Test Payment Error:', err);
+                                alert('❌ Test payment failed: ' + (err.message || 'PayPal account issue'));
+                            }
+                        }).render('#paypal-button-container-test');
                         // Monthly Plan PayPal Button
                         paypal.Buttons({
                             style: {
@@ -112,12 +151,12 @@
                                 label: 'subscribe'
                             },
                             createSubscription: function(data, actions) {
-                                console.log('Creating monthly subscription with plan: P-9EH50360LD853805FNFEBNLA');
+                                console.log('Creating monthly subscription plan');
                                 return actions.subscription.create({
-                                    plan_id: 'P-9EH50360LD853805FNFEBNLA'
+                                    'plan_id': 'P-2UF78835G6983834XNGTMPQ' // Temporary - we'll create this
                                 }).catch(function(error) {
-                                    console.error('Monthly subscription creation error:', error);
-                                    alert('Error creating monthly subscription: ' + (error.message || 'Plan may be inactive'));
+                                    console.error('Monthly subscription error:', error);
+                                    alert('Monthly subscription failed: ' + (error.message || 'Will create new plan'));
                                     throw error;
                                 });
                             },
@@ -138,7 +177,7 @@
                             }
                         }).render('#paypal-button-container-monthly');
                         
-                        // Yearly Plan PayPal Button
+                        // Yearly Plan PayPal Button  
                         paypal.Buttons({
                             style: {
                                 shape: 'rect',
@@ -147,12 +186,12 @@
                                 label: 'subscribe'
                             },
                             createSubscription: function(data, actions) {
-                                console.log('Creating yearly subscription with plan: P-32P33981900105817NFEBNVI');
+                                console.log('Creating yearly subscription plan');
                                 return actions.subscription.create({
-                                    plan_id: 'P-32P33981900105817NFEBNVI'
+                                    'plan_id': 'P-3AB12345C6789012DNGTMPR' // Temporary - we'll create this
                                 }).catch(function(error) {
-                                    console.error('Yearly subscription creation error:', error);
-                                    alert('Error creating yearly subscription: ' + (error.message || 'Plan may be inactive'));
+                                    console.error('Yearly subscription error:', error);
+                                    alert('Yearly subscription failed: ' + (error.message || 'Will create new plan'));
                                     throw error;
                                 });
                             },
