@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://www.paypal.com/sdk/js?client-id=AUkwuaSMUX11t8C74WXXdpjoWao2hdIBbQa66YoOkUesDxTSiD857h5junRnH7u19vPhXs3bCoBT1JQ2&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
 </head>
 <body>
     <div class="container">
@@ -82,33 +83,84 @@
         <section id="subscriptionSection" class="section">
             <div class="subscription-container">
                 <div class="paypal-form-container">
-                    <div class="subscription-plans-container">
-                        <div class="plan-card">
-                            <h4>🎓 1 Year Access</h4>
-                            <div class="price">£24.99</div>
-                            <div id="paypal-button-container-P-68M4712534243003ENFDMD5Y"></div>
-                            <script src="https://www.paypal.com/sdk/js?client-id=AdfMgW26aT_o9gYv0S8Ynpu470pAeyLdzcWUNDROKuKEHN4XvWH_Efroy3KPxcBXflbQkKD2yGpRdzN6&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
-                            <script>
-                              paypal.Buttons({
-                                  style: {
-                                      shape: 'rect',
-                                      color: 'gold',
-                                      layout: 'vertical',
-                                      label: 'subscribe'
-                                  },
-                                  createSubscription: function(data, actions) {
-                                    return actions.subscription.create({
-                                      /* Creates the subscription */
-                                      plan_id: 'P-68M4712534243003ENFDMD5Y'
-                                    });
-                                  },
-                                  onApprove: function(data, actions) {
-                                    alert(data.subscriptionID); // You can add optional success message for the subscriber here
-                                  }
-                              }).render('#paypal-button-container-P-68M4712534243003ENFDMD5Y'); // Renders the PayPal button
-                            </script>
+                    <div class="subscription-plans-container" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                        <!-- Monthly Plan -->
+                        <div class="plan-card" style="flex: 1; min-width: 280px; max-width: 320px;">
+                            <h4>📅 Monthly Access</h4>
+                            <div class="price">£1.99<span class="period">/month</span></div>
+                            <p style="color: #6b7280; font-size: 0.9rem; margin: 10px 0;">Perfect for short-term preparation</p>
+                            <div id="paypal-button-container-monthly"></div>
+                        </div>
+                        
+                        <!-- Yearly Plan -->
+                        <div class="plan-card" style="flex: 1; min-width: 280px; max-width: 320px; border: 2px solid #10b981; position: relative;">
+                            <div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">BEST VALUE</div>
+                            <h4>🎓 Yearly Access</h4>
+                            <div class="price">£18.99<span class="period">/year</span></div>
+                            <p style="color: #6b7280; font-size: 0.9rem; margin: 10px 0;">Save £5 compared to monthly!</p>
+                            <div id="paypal-button-container-yearly"></div>
                         </div>
                     </div>
+                    
+                    <script>
+                        // Monthly Plan PayPal Button
+                        paypal.Buttons({
+                            style: {
+                                shape: 'rect',
+                                color: 'blue',
+                                layout: 'vertical',
+                                label: 'subscribe'
+                            },
+                            createSubscription: function(data, actions) {
+                                return actions.subscription.create({
+                                    plan_id: 'P-6CW47717UH609772JNFD7N2Y'
+                                });
+                            },
+                            onApprove: function(data, actions) {
+                                localStorage.setItem('funstudySubscription', JSON.stringify({
+                                    id: data.subscriptionID,
+                                    type: 'monthly',
+                                    amount: '£1.99',
+                                    status: 'ACTIVE'
+                                }));
+                                alert('Monthly subscription activated! Subscription ID: ' + data.subscriptionID);
+                                setTimeout(() => showSection('gradeSection'), 2000);
+                            },
+                            onError: function(err) {
+                                console.error('PayPal Monthly Error:', err);
+                                alert('Payment failed. Please try again.');
+                            }
+                        }).render('#paypal-button-container-monthly');
+                        
+                        // Yearly Plan PayPal Button
+                        paypal.Buttons({
+                            style: {
+                                shape: 'rect',
+                                color: 'gold',
+                                layout: 'vertical',
+                                label: 'subscribe'
+                            },
+                            createSubscription: function(data, actions) {
+                                return actions.subscription.create({
+                                    plan_id: 'P-4F407697KT4984121NFD7RAQ'
+                                });
+                            },
+                            onApprove: function(data, actions) {
+                                localStorage.setItem('funstudySubscription', JSON.stringify({
+                                    id: data.subscriptionID,
+                                    type: 'yearly',
+                                    amount: '£18.99',
+                                    status: 'ACTIVE'
+                                }));
+                                alert('Yearly subscription activated! Subscription ID: ' + data.subscriptionID);
+                                setTimeout(() => showSection('gradeSection'), 2000);
+                            },
+                            onError: function(err) {
+                                console.error('PayPal Yearly Error:', err);
+                                alert('Payment failed. Please try again.');
+                            }
+                        }).render('#paypal-button-container-yearly');
+                    </script>
                     
                     <div class="payment-loading" id="paymentLoading" style="display: none;">
                         <div class="loading-spinner"></div>

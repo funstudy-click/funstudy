@@ -26,17 +26,19 @@ function showSection(sectionId) {
                 return;
             }
             
-            // Check if PayPal container exists
-            const paypalContainer = document.getElementById('paypal-button-container-P-68M4712534243003ENFDMD5Y');
-            if (!paypalContainer) {
-                console.error('❌ PayPal button container not found!');
-                showGenericMessage('PayPal integration error: button container missing', 'error');
+            // Check if PayPal containers exist
+            const monthlyContainer = document.getElementById('paypal-button-container-monthly');
+            const yearlyContainer = document.getElementById('paypal-button-container-yearly');
+            
+            if (!monthlyContainer || !yearlyContainer) {
+                console.error('❌ PayPal button containers not found!');
+                showGenericMessage('PayPal integration error: button containers missing', 'error');
                 return;
             }
             
-            console.log('🎯 PayPal subscription button container found');
+            console.log('🎯 PayPal subscription containers found');
             
-            // PayPal hosted button should load automatically via the inline script
+            // PayPal buttons will initialize automatically via the inline scripts
         }
     } else {
         console.error(`Section with ID '${sectionId}' not found. Available sections:`);
