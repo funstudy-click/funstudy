@@ -84,14 +84,6 @@
             <div class="subscription-container">
                 <div class="paypal-form-container">
                     <div class="subscription-plans-container" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                        <!-- Test One-Time Payment -->
-                        <div class="plan-card" style="flex: 1; min-width: 280px; max-width: 320px; border: 2px solid #ef4444;">
-                            <h4>🧪 Test Payment</h4>
-                            <div class="price">£1.00<span class="period">/one-time</span></div>
-                            <p style="color: #6b7280; font-size: 0.9rem; margin: 10px 0;">Test basic PayPal integration</p>
-                            <div id="paypal-button-container-test"></div>
-                        </div>
-                        
                         <!-- Monthly Plan -->
                         <div class="plan-card" style="flex: 1; min-width: 280px; max-width: 320px;">
                             <h4>📅 Monthly Access</h4>
@@ -141,6 +133,7 @@
                                 alert('Test payment failed: ' + (err.message || 'Unknown error'));
                             }
                         }).render('#paypal-button-container-test');
+                        
                         // Monthly Plan PayPal Button
                         paypal.Buttons({
                             style: {
@@ -151,7 +144,7 @@
                             },
                             createSubscription: function(data, actions) {
                                 return actions.subscription.create({
-                                    plan_id: 'P-6N982914D32674231NFEAHBQ'
+                                    plan_id: 'P-9EH50360LD853805FNFEBNLA'
                                 });
                             },
                             onApprove: function(data, actions) {
@@ -179,13 +172,8 @@
                                 label: 'subscribe'
                             },
                             createSubscription: function(data, actions) {
-                                console.log('Creating yearly subscription with plan:', 'P-0FH67330N1250983JNFEA2AI');
                                 return actions.subscription.create({
-                                    plan_id: 'P-0FH67330N1250983JNFEA2AI'
-                                }).catch(function(error) {
-                                    console.error('Yearly subscription creation error:', error);
-                                    alert('Error creating yearly subscription: ' + (error.message || 'Unknown error'));
-                                    throw error;
+                                    plan_id: 'P-32P33981900105817NFEBNVI'
                                 });
                             },
                             onApprove: function(data, actions) {
@@ -199,11 +187,8 @@
                                 setTimeout(() => showSection('gradeSection'), 2000);
                             },
                             onError: function(err) {
-                                console.error('PayPal Yearly Error Details:', err);
-                                console.log('Error type:', typeof err);
-                                console.log('Error message:', err.message || 'No message');
-                                console.log('Error details:', err);
-                                alert('Yearly subscription failed. Please try the monthly option or contact support. Error: ' + (err.message || 'Payment system error'));
+                                console.error('PayPal Yearly Error:', err);
+                                alert('Yearly payment failed. Please try again or contact support.');
                             }
                         }).render('#paypal-button-container-yearly');
                     </script>
