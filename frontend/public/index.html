@@ -103,37 +103,6 @@
                     </div>
                     
                     <script>
-                        // Test One-Time Payment Button
-                        paypal.Buttons({
-                            style: {
-                                shape: 'rect',
-                                color: 'silver',
-                                layout: 'vertical',
-                                label: 'pay'
-                            },
-                            createOrder: function(data, actions) {
-                                return actions.order.create({
-                                    purchase_units: [{
-                                        amount: {
-                                            value: '1.00',
-                                            currency_code: 'GBP'
-                                        },
-                                        description: 'FunStudy Test Payment'
-                                    }]
-                                });
-                            },
-                            onApprove: function(data, actions) {
-                                return actions.order.capture().then(function(details) {
-                                    alert('Test payment successful! Transaction ID: ' + details.id);
-                                    console.log('Test payment details:', details);
-                                });
-                            },
-                            onError: function(err) {
-                                console.error('Test Payment Error:', err);
-                                alert('Test payment failed: ' + (err.message || 'Unknown error'));
-                            }
-                        }).render('#paypal-button-container-test');
-                        
                         // Monthly Plan PayPal Button
                         paypal.Buttons({
                             style: {
@@ -143,8 +112,13 @@
                                 label: 'subscribe'
                             },
                             createSubscription: function(data, actions) {
+                                console.log('Creating monthly subscription with plan: P-9EH50360LD853805FNFEBNLA');
                                 return actions.subscription.create({
                                     plan_id: 'P-9EH50360LD853805FNFEBNLA'
+                                }).catch(function(error) {
+                                    console.error('Monthly subscription creation error:', error);
+                                    alert('Error creating monthly subscription: ' + (error.message || 'Plan may be inactive'));
+                                    throw error;
                                 });
                             },
                             onApprove: function(data, actions) {
@@ -159,7 +133,8 @@
                             },
                             onError: function(err) {
                                 console.error('PayPal Monthly Error:', err);
-                                alert('Payment failed. Please try again.');
+                                console.log('Monthly error details:', err);
+                                alert('Monthly payment failed: ' + (err.message || 'Please try again or contact support'));
                             }
                         }).render('#paypal-button-container-monthly');
                         
@@ -172,8 +147,13 @@
                                 label: 'subscribe'
                             },
                             createSubscription: function(data, actions) {
+                                console.log('Creating yearly subscription with plan: P-32P33981900105817NFEBNVI');
                                 return actions.subscription.create({
                                     plan_id: 'P-32P33981900105817NFEBNVI'
+                                }).catch(function(error) {
+                                    console.error('Yearly subscription creation error:', error);
+                                    alert('Error creating yearly subscription: ' + (error.message || 'Plan may be inactive'));
+                                    throw error;
                                 });
                             },
                             onApprove: function(data, actions) {
@@ -188,7 +168,8 @@
                             },
                             onError: function(err) {
                                 console.error('PayPal Yearly Error:', err);
-                                alert('Yearly payment failed. Please try again or contact support.');
+                                console.log('Yearly error details:', err);
+                                alert('Yearly payment failed: ' + (err.message || 'Please try again or contact support'));
                             }
                         }).render('#paypal-button-container-yearly');
                     </script>
