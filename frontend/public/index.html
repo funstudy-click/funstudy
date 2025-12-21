@@ -141,9 +141,9 @@
                                 label: 'subscribe'
                             },
                             createSubscription: function(data, actions) {
-                                console.log('Creating yearly subscription with plan:', 'P-685318002L124281SNFEAHLI');
+                                console.log('Creating yearly subscription with plan:', 'P-0FH67330N1250983JNFEA2AI');
                                 return actions.subscription.create({
-                                    plan_id: 'P-685318002L124281SNFEAHLI'
+                                    plan_id: 'P-0FH67330N1250983JNFEA2AI'
                                 }).catch(function(error) {
                                     console.error('Yearly subscription creation error:', error);
                                     alert('Error creating yearly subscription: ' + (error.message || 'Unknown error'));
