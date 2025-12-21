@@ -10,20 +10,46 @@ const PORT = process.env.PORT || 3002;
 
 const corsOptions = {
     origin: function (origin, callback) {
+        // TEMPORARY: Allow all origins for debugging CORS issues
+        if (process.env.NODE_ENV === 'development' || process.env.CORS_DEBUG === 'true') {
+            console.log('CORS DEBUG: Allowing all origins. Origin:', origin);
+            return callback(null, true);
+        }
+        
         const allowedOrigins = [
             'http://localhost:3002', 
             'http://localhost:3003', 
             'http://localhost:8080', 
             'http://localhost:8081', 
             'http://localhost:8082',
-            'https://funstudy-snowy.vercel.app'
+            'https://funstudy-snowy.vercel.app',
+            'https://funstudy.vercel.app',
+            'https://funstudy-click.github.io',
+            'http://127.0.0.1:3002',
+            'http://127.0.0.1:8080',
+            'http://127.0.0.1:5500', // Live Server default
+            'http://localhost:5500'   // Live Server alternative
         ];
         
-        // Allow requests with no origin (like mobile apps or curl)
-        if (!origin) return callback(null, true);
+        console.log('CORS request from origin:', origin);
         
-        // Check exact match or vercel.app domain
-        if (allowedOrigins.includes(origin) || /\.vercel\.app$/.test(origin)) {
+        // Allow requests with no origin (like mobile apps, curl, or file:// protocol)
+        if (!origin) {
+            console.log('CORS: Allowing request with no origin');
+            return callback(null, true);
+        }
+        
+        // Check exact match first
+        if (allowedOrigins.includes(origin)) {
+            console.log('CORS: Origin allowed (exact match):', origin);
+            return callback(null, true);
+        }
+        
+        // Check domain patterns
+        if (/\.vercel\.app$/.test(origin) || 
+            /\.github\.io$/.test(origin) ||
+            /^https:\/\/funstudy/.test(origin)) {
+            console.log('CORS: Origin allowed (domain pattern):', origin);
             return callback(null, true);
         }
         
@@ -43,7 +69,9 @@ const corsOptions = {
         'Expires',
         'Access-Control-Allow-Origin',
         'Access-Control-Allow-Headers',
-        'Access-Control-Allow-Methods'
+        'Access-Control-Allow-Methods',
+        'x-user-subscribed',        // Custom subscription headers
+        'subscription-status'       // Custom subscription headers
     ],
     exposedHeaders: [
         'Cache-Control',
