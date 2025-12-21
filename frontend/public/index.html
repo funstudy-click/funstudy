@@ -141,8 +141,13 @@
                                 label: 'subscribe'
                             },
                             createSubscription: function(data, actions) {
+                                console.log('Creating yearly subscription with plan:', 'P-685318002L124281SNFEAHLI');
                                 return actions.subscription.create({
                                     plan_id: 'P-685318002L124281SNFEAHLI'
+                                }).catch(function(error) {
+                                    console.error('Yearly subscription creation error:', error);
+                                    alert('Error creating yearly subscription: ' + (error.message || 'Unknown error'));
+                                    throw error;
                                 });
                             },
                             onApprove: function(data, actions) {
@@ -156,8 +161,11 @@
                                 setTimeout(() => showSection('gradeSection'), 2000);
                             },
                             onError: function(err) {
-                                console.error('PayPal Yearly Error:', err);
-                                alert('Payment failed. Please try again.');
+                                console.error('PayPal Yearly Error Details:', err);
+                                console.log('Error type:', typeof err);
+                                console.log('Error message:', err.message || 'No message');
+                                console.log('Error details:', err);
+                                alert('Yearly subscription failed. Please try the monthly option or contact support. Error: ' + (err.message || 'Payment system error'));
                             }
                         }).render('#paypal-button-container-yearly');
                     </script>
