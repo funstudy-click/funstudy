@@ -552,11 +552,13 @@ async function startQuiz(difficulty) {
         // Use GET request with URL parameters and subscription status in headers
         const response = await fetch(`${API_BASE_URL}/api/quiz/questions/${currentGrade}/${currentSubject}/${difficulty}`, {
             method: 'GET',
-            credentials: 'include',
+            // Temporarily remove credentials and custom headers to test CORS
+            // credentials: 'include',
             headers: {
-                'Content-Type': 'application/json',
-                'x-user-subscribed': isSubscribed.toString(),
-                'subscription-status': isSubscribed ? 'active' : 'inactive'
+                'Content-Type': 'application/json'
+                // Temporarily comment out custom headers
+                // 'x-user-subscribed': isSubscribed.toString(),
+                // 'subscription-status': isSubscribed ? 'active' : 'inactive'
             }
         });
 
