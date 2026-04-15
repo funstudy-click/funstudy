@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://www.paypal.com/sdk/js?client-id=AUkwuaSMUX11t8C74WXXdpjoWao2hdIBbQa66YoOkUesDxTSiD857h5junRnH7u19vPhXs3bCoBT1JQ2&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AdfMgW26aT_o9gYv0S8Ynpu470pAeyLdzcWUNDROKuKEHN4XvWH_Efroy3KPxcBXflbQkKD2yGpRdzN6&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
 </head>
 <body>
     <div class="container">
@@ -20,12 +20,11 @@
             <h2>👋 Welcome To 11 Plus! Please Sign In</h2>
             
             <div class="local-dev-notice" style="background: #f0f9ff; border: 1px solid #0ea5e9; padding: 15px; border-radius: 8px; margin: 15px 0; display: none;">
-                <p style="margin: 0; color: #0c4a6e; font-size: 0.9rem;">
-                    🏠 <strong>Local Development Mode</strong> - Authentication will be bypassed for testing
-                </p>
-            </div>
-            
-            <button class="btn" onclick="login()">🔐 Sign In</button>
+                    <p style="margin: 0; color: #0c4a6e; font-size: 0.9rem;">
+                        🏠 <strong>Local Development Mode</strong> - Authentication will be bypassed for testing
+                    </p>
+                    <button class="btn" style="margin-top: 10px; font-size: 0.8rem; padding: 8px 15px;" onclick="localStorage.setItem('funstudySubscription', JSON.stringify({id: 'test-sub-123', type: 'monthly', amount: '£1.99', status: 'ACTIVE', mode: 'test'})); alert('✅ Test subscription activated!'); location.reload();">🧪 Activate Test Subscription</button>
+                </div>            <button class="btn" onclick="login()">🔐 Sign In</button>
             <button class="btn btn-secondary" onclick="showSection('registerSection')">✨ New User? Register</button>
             <div id="loginMessage"></div>
         </section>
@@ -81,7 +80,7 @@
             <div class="subscription-container">
                 <div class="sandbox-notice" style="background: #fef3c7; border: 1px solid #f59e0b; padding: 15px; border-radius: 8px; margin: 15px 0;">
                     <p style="margin: 0; color: #92400e; font-size: 0.9rem;">
-                        🧪 <strong>SANDBOX MODE</strong> - Use PayPal sandbox accounts for testing. No real charges will be made.
+                        💳 <strong>PAYPAL SUBSCRIPTION</strong> - Complete payment to unlock full question access.
                     </p>
                 </div>
                 <div class="paypal-form-container">
@@ -91,7 +90,7 @@
                             <h4>📅 Monthly Access</h4>
                             <div class="price">£1.99<span class="period">/month</span></div>
                             <p style="color: #6b7280; font-size: 0.9rem; margin: 10px 0;">Perfect for short-term preparation</p>
-                            <div id="paypal-button-container-monthly"></div>
+                            <div id="paypal-button-container-P-86B36697AH868180CNHQCGWI"></div>
                         </div>
                     </div>
                     
@@ -100,39 +99,37 @@
                         paypal.Buttons({
                             style: {
                                 shape: 'rect',
-                                color: 'blue',
+                                color: 'gold',
                                 layout: 'vertical',
                                 label: 'subscribe'
                             },
                             createSubscription: function(data, actions) {
-                                console.log('🔵 Creating SANDBOX monthly subscription with plan: P-3JV35033T52186843NFEEXEQ');
                                 return actions.subscription.create({
-                                    plan_id: 'P-3JV35033T52186843NFEEXEQ'
+                                    plan_id: 'P-86B36697AH868180CNHQCGWI'
                                 }).catch(function(error) {
-                                    console.error('❌ Sandbox subscription creation failed:', error);
+                                    console.error('❌ Subscription creation failed:', error);
                                     console.log('Error details:', JSON.stringify(error, null, 2));
-                                    alert('❌ Sandbox subscription creation failed: ' + (error.message || 'Plan may be inactive. Check console for details.'));
+                                    alert('❌ Subscription creation failed: ' + (error.message || 'Plan may be inactive. Check console for details.'));
                                     throw error;
                                 });
                             },
                             onApprove: function(data, actions) {
-                                console.log('✅ SANDBOX monthly subscription approved:', data);
+                                console.log('✅ Monthly subscription approved:', data);
                                 localStorage.setItem('funstudySubscription', JSON.stringify({
                                     id: data.subscriptionID,
                                     type: 'monthly',
                                     amount: '£1.99',
-                                    status: 'ACTIVE',
-                                    mode: 'sandbox'
+                                    status: 'ACTIVE'
                                 }));
-                                alert('✅ SANDBOX Monthly subscription activated! Subscription ID: ' + data.subscriptionID);
+                                alert('✅ Monthly subscription activated! Subscription ID: ' + data.subscriptionID);
                                 setTimeout(() => showSection('gradeSection'), 2000);
                             },
                             onError: function(err) {
-                                console.error('❌ PayPal SANDBOX Monthly Error:', err);
+                                console.error('❌ PayPal Monthly Error:', err);
                                 console.log('Full error object:', JSON.stringify(err, null, 2));
-                                alert('❌ SANDBOX Payment failed: ' + (err.message || err.name || 'Check browser console (F12) for details'));
+                                alert('❌ Payment failed: ' + (err.message || err.name || 'Check browser console (F12) for details'));
                             }
-                        }).render('#paypal-button-container-monthly');
+                        }).render('#paypal-button-container-P-86B36697AH868180CNHQCGWI');
                     </script>
                     
                     <div class="payment-loading" id="paymentLoading" style="display: none;">
