@@ -561,8 +561,9 @@ async function startQuiz(difficulty) {
         
         console.log(`Starting quiz for ${isSubscribed ? 'SUBSCRIBED' : 'NON-SUBSCRIBED'} user`);
         
-        // Try direct API call first, then fall back to CORS proxy if needed
-        const apiUrl = `${API_BASE_URL}/api/quiz/questions/${currentGrade}/${currentSubject}/${difficulty}`;
+        // Pass subscription state as query params so backend can reliably apply limits.
+        const questionCount = isSubscribed ? 25 : 5;
+        const apiUrl = `${API_BASE_URL}/api/quiz/questions/${currentGrade}/${currentSubject}/${difficulty}?subscribed=${isSubscribed}&questionCount=${questionCount}`;
         console.log('API URL:', apiUrl);
         
         let response;
@@ -570,10 +571,7 @@ async function startQuiz(difficulty) {
             // Primary attempt - direct API call
             response = await fetch(apiUrl, {
                 method: 'GET',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                mode: 'cors'
             });
             
             if (!response.ok) {
@@ -585,11 +583,7 @@ async function startQuiz(difficulty) {
             // Fallback: Use a CORS proxy for testing
             const proxyUrl = `https://cors-anywhere.herokuapp.com/${apiUrl}`;
             response = await fetch(proxyUrl, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
+                method: 'GET'
             });
             
             if (!response.ok) {

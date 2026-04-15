@@ -126,10 +126,17 @@ router.get('/questions/:grade/:subject/:difficulty', async (req, res) => {
             });
         }
         
-        // Check user subscription status from request headers
-        const isSubscribed = req.headers['x-user-subscribed'] === 'true' || 
-                            req.headers['subscription-status'] === 'active' ||
-                            false; // Default to non-subscribed
+        // Check user subscription status from query params first, then headers.
+        const subscribedFromQuery = String(req.query.subscribed || '').toLowerCase() === 'true';
+        const subscribedFromHeader = req.headers['x-user-subscribed'] === 'true' ||
+                                    req.headers['subscription-status'] === 'active';
+        const isSubscribed = subscribedFromQuery || subscribedFromHeader || false;
+
+        // Allow caller to request a count, but cap to avoid huge payloads.
+        const requestedCount = parseInt(req.query.questionCount, 10);
+        const subscriberQuestionLimit = Number.isInteger(requestedCount) && requestedCount > 0
+            ? Math.min(requestedCount, 50)
+            : 25;
         
         console.log(`User subscription status: ${isSubscribed ? 'SUBSCRIBED' : 'NON-SUBSCRIBED'}`);
         
@@ -139,8 +146,8 @@ router.get('/questions/:grade/:subject/:difficulty', async (req, res) => {
         let limitedQuestions;
         
         if (isSubscribed) {
-            // Subscribed users get all available questions (up to 30)
-            limitedQuestions = shuffledQuestions.slice(0, 30);
+            // Subscribed users get a larger randomized set (default 25, up to 50).
+            limitedQuestions = shuffledQuestions.slice(0, subscriberQuestionLimit);
             console.log(`Returning ${limitedQuestions.length} randomized questions for subscribed user`);
         } else {
             // Non-subscribed users get same 5 questions each time
@@ -185,7 +192,7 @@ router.get('/questions/:grade/:subject/:difficulty', async (req, res) => {
                 isSubscribed: isSubscribed,
                 questionType: isSubscribed ? 'full_randomized' : 'limited_preview',
                 message: isSubscribed 
-                    ? 'Full question bank with randomized selection'
+                    ? `Full question bank with randomized selection (${secureQuestions.length} questions)`
                     : 'Preview mode - showing same 5 questions. Subscribe for full access!'
             }
         });
