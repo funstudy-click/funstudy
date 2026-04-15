@@ -571,7 +571,11 @@ async function startQuiz(difficulty) {
             // Primary attempt - direct API call
             response = await fetch(apiUrl, {
                 method: 'GET',
-                mode: 'cors'
+                mode: 'cors',
+                headers: {
+                    'x-user-subscribed': String(isSubscribed),
+                    'subscription-status': isSubscribed ? 'active' : 'inactive'
+                }
             });
             
             if (!response.ok) {
@@ -583,7 +587,11 @@ async function startQuiz(difficulty) {
             // Fallback: Use a CORS proxy for testing
             const proxyUrl = `https://cors-anywhere.herokuapp.com/${apiUrl}`;
             response = await fetch(proxyUrl, {
-                method: 'GET'
+                method: 'GET',
+                headers: {
+                    'x-user-subscribed': String(isSubscribed),
+                    'subscription-status': isSubscribed ? 'active' : 'inactive'
+                }
             });
             
             if (!response.ok) {
