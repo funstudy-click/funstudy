@@ -23,18 +23,17 @@ function showSection(sectionId) {
         if (sectionId === 'subscriptionSection') {
             // Check if user already has subscription
             if (checkSubscriptionStatus()) {
-                showGenericMessage('You already have an active subscription! Redirecting to quizzes...', 'success');
-                setTimeout(() => showSection('gradeSection'), 2000);
+                // Skip payment screen entirely for subscribed users.
+                setTimeout(() => showSection('gradeSection'), 0);
                 return;
             }
             
-            // Check if PayPal containers exist
-            const monthlyContainer = document.getElementById('paypal-button-container-monthly');
-            const yearlyContainer = document.getElementById('paypal-button-container-yearly');
+            // Check if PayPal container exists
+            const monthlyContainer = document.getElementById('paypal-button-container-P-86B36697AH868180CNHQCGWI');
             
-            if (!monthlyContainer || !yearlyContainer) {
-                console.error('❌ PayPal button containers not found!');
-                showGenericMessage('PayPal integration error: button containers missing', 'error');
+            if (!monthlyContainer) {
+                console.error('❌ PayPal button container not found!');
+                showGenericMessage('PayPal integration error: button container missing', 'error');
                 return;
             }
             
@@ -220,13 +219,23 @@ function displayDifficulties(difficulties) {
 async function login() {
     try {
         console.log('🔐 Starting login process...');
+
+        // If already subscribed on this device, skip payment screen after login.
+        if (checkSubscriptionStatus()) {
+            showSection('gradeSection');
+            return;
+        }
         
         // Local development bypass
         if (window.location.hostname === 'localhost') {
             console.log('🏠 Local development - bypassing authentication');
             showMessage('loginMessage', '✅ Local development mode - skipping authentication', 'success');
             setTimeout(() => {
-                showSection('subscriptionSection');
+                if (checkSubscriptionStatus()) {
+                    showSection('gradeSection');
+                } else {
+                    showSection('subscriptionSection');
+                }
             }, 1500);
             return;
         }
@@ -315,9 +324,17 @@ async function logout() {
             delete window.quizResults;
         }
         
-        // Clear browser storage to ensure clean state
+        // Clear browser storage but preserve subscription for the same returning user.
         try {
+            const savedSubscription = localStorage.getItem('funstudySubscription');
+            const savedUserEmail = localStorage.getItem('userEmail');
             localStorage.clear();
+            if (savedSubscription) {
+                localStorage.setItem('funstudySubscription', savedSubscription);
+            }
+            if (savedUserEmail) {
+                localStorage.setItem('userEmail', savedUserEmail);
+            }
             sessionStorage.clear();
             console.log('Browser storage cleared');
         } catch (storageError) {
@@ -1008,8 +1025,13 @@ function handleAuthCallback() {
     if (authStatus === 'success') {
         console.log('✅ Authentication successful!');
         window.history.replaceState({}, document.title, window.location.pathname);
-        showSection('subscriptionSection');
-        showGenericMessage('Login successful! Please choose your subscription to access quizzes!', 'success');
+        if (checkSubscriptionStatus()) {
+            showSection('gradeSection');
+            showGenericMessage('Welcome back! Subscription active.', 'success');
+        } else {
+            showSection('subscriptionSection');
+            showGenericMessage('Login successful! Please choose your subscription to access quizzes!', 'success');
+        }
         return;
     }
 
