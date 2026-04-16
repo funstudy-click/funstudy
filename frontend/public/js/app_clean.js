@@ -37,7 +37,7 @@ function showSection(sectionId) {
             }
             
             // Check if PayPal container exists
-            const monthlyContainer = document.getElementById('paypal-button-container-P-86B36697AH868180CNHQCGWI');
+            const monthlyContainer = document.getElementById('paypal-container-M9NL6YSACWWYS');
             const yearlyContainer = document.getElementById('paypal-button-container-P-2UF78835G6687705SMZC3NRI');
             
             if (!monthlyContainer || !yearlyContainer) {

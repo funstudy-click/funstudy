@@ -259,25 +259,39 @@ router.get('/subscription-status', async (req, res) => {
             });
         }
 
-        const syncResult = await syncSubscriptionToDynamo({
-            subscriptionId: user.subscriptionId,
-            email: userEmail,
-            userId: user.id
-        });
-        const planMetadata = getPlanMetadata(syncResult.subscription.plan_id);
+        let resolvedStatus = user.subscriptionStatus || (user.isSubscribed ? 'ACTIVE' : 'INACTIVE');
+        let resolvedPlanId = user.subscriptionPlanId || null;
+        let resolvedNextBillingTime = user.subscriptionNextBillingTime || null;
+        let resolvedLastPaymentTime = user.subscriptionLastPaymentTime || null;
 
-        const active = syncResult.persistedStatus === 'ACTIVE';
+        try {
+            const syncResult = await syncSubscriptionToDynamo({
+                subscriptionId: user.subscriptionId,
+                email: userEmail,
+                userId: user.id
+            });
+
+            resolvedStatus = syncResult.persistedStatus;
+            resolvedPlanId = syncResult.subscription.plan_id || resolvedPlanId;
+            resolvedNextBillingTime = syncResult.subscription.billing_info?.next_billing_time || resolvedNextBillingTime;
+            resolvedLastPaymentTime = syncResult.subscription.billing_info?.last_payment?.time || resolvedLastPaymentTime;
+        } catch (syncError) {
+            console.warn('Subscription status sync fallback (using stored DynamoDB state):', syncError.message);
+        }
+
+        const planMetadata = getPlanMetadata(resolvedPlanId);
+        const active = resolvedStatus === 'ACTIVE';
 
         res.json({
             success: true,
             isSubscribed: active,
-            status: syncResult.persistedStatus,
+            status: resolvedStatus,
             subscriptionId: user.subscriptionId,
-            planId: syncResult.subscription.plan_id,
+            planId: resolvedPlanId,
             type: planMetadata.type,
             amount: planMetadata.amount,
-            nextBillingTime: syncResult.subscription.billing_info?.next_billing_time || null,
-            lastPaymentTime: syncResult.subscription.billing_info?.last_payment?.time || null
+            nextBillingTime: resolvedNextBillingTime,
+            lastPaymentTime: resolvedLastPaymentTime
         });
     } catch (error) {
         console.error('Subscription status lookup error:', error);
