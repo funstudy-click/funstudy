@@ -3,14 +3,14 @@ const API_BASE_URL = window.location.hostname === 'localhost' ?
     'http://localhost:3002' : 
     'https://funstudy-backend.onrender.com';
 const SUBSCRIPTION_PLAN_METADATA = {
-    'P-40D15785KF4126507NHQPRZY': { type: 'monthly', amount: '£1.99' },
-    'P-8Y97299421124160VNHQPS7Y': { type: 'yearly', amount: '£29.99' }
+    'P-40D15785KF4126507NHQPRZY': { type: 'monthly', amount: '£0.06' },
+    'P-8Y97299421124160VNHQPS7Y': { type: 'yearly', amount: '£0.12' }
 };
 let currentGrade = '';
 let currentSubject = '';
 
 function getSubscriptionPlanMetadata(planId) {
-    return SUBSCRIPTION_PLAN_METADATA[planId] || { type: 'monthly', amount: '£1.99' };
+    return SUBSCRIPTION_PLAN_METADATA[planId] || { type: 'monthly', amount: '£0.06' };
 }
 
 // Utility functions
@@ -1002,8 +1002,8 @@ function displayResults() {
             <h3 style="margin: 0 0 10px 0;">🚀 Want More Questions?</h3>
             <p style="margin: 0 0 15px 0;">You completed ${results.totalQuestions} sample questions. Subscribers get access to hundreds more!</p>
             <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-                <button class="btn" onclick="showSection('subscriptionSection')" style="background: #10b981; border: none; color: white;">📅 Subscribe £1.99/month</button>
-                <button class="btn" onclick="showSection('subscriptionSection')" style="background: #f59e0b; border: none; color: white;">🎓 Subscribe £18.99/year</button>
+                <button class="btn" onclick="showSection('subscriptionSection')" style="background: #10b981; border: none; color: white;">📅 Subscribe £0.06/month</button>
+                <button class="btn" onclick="showSection('subscriptionSection')" style="background: #f59e0b; border: none; color: white;">🎓 Subscribe £0.12/year</button>
             </div>
         </div>
     ` : `

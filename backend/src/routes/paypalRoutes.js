@@ -7,25 +7,27 @@ const subscriptionStoreService = require('../services/subscriptionStoreService')
 const subscriptionStore = new Map();
 const MONTHLY_PLAN_ID = process.env.PAYPAL_MONTHLY_PLAN_ID || 'P-40D15785KF4126507NHQPRZY';
 const YEARLY_PLAN_ID = process.env.PAYPAL_YEARLY_PLAN_ID || 'P-8Y97299421124160VNHQPS7Y';
+const MONTHLY_PLAN_PRICE = process.env.PAYPAL_MONTHLY_PLAN_PRICE || '0.06';
+const YEARLY_PLAN_PRICE = process.env.PAYPAL_YEARLY_PLAN_PRICE || '0.12';
 
 function getPlanMetadata(planId) {
     if (planId === YEARLY_PLAN_ID) {
         return {
-            type: 'yearly',
-            amount: '£29.99'
+            type: "yearly",
+            amount: "£" + YEARLY_PLAN_PRICE
         };
     }
 
     if (planId === MONTHLY_PLAN_ID) {
         return {
-            type: 'monthly',
-            amount: '£1.99'
+            type: "monthly",
+            amount: "£" + MONTHLY_PLAN_PRICE
         };
     }
 
     return {
-        type: 'monthly',
-        amount: '£1.99'
+        type: "monthly",
+        amount: "£" + MONTHLY_PLAN_PRICE
     };
 }
 
@@ -343,7 +345,7 @@ router.get('/plans', async (req, res) => {
                 id: MONTHLY_PLAN_ID,
                 name: "FunStudy Monthly Premium",
                 description: "Monthly subscription to FunStudy 11 Plus Premium features",
-                price: "1.99",
+                price: MONTHLY_PLAN_PRICE,
                 currency: "GBP",
                 interval: "month",
                 features: [
@@ -359,7 +361,7 @@ router.get('/plans', async (req, res) => {
                 id: YEARLY_PLAN_ID,
                 name: "FunStudy Annual Premium",
                 description: "Annual subscription to FunStudy 11 Plus Premium features",
-                price: "29.99",
+                price: YEARLY_PLAN_PRICE,
                 currency: "GBP",
                 interval: "year",
                 features: [
