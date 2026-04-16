@@ -1,0 +1,196 @@
+const AWS = require('aws-sdk');
+
+const dynamodb = new AWS.DynamoDB.DocumentClient();
+const USERS_TABLE = process.env.USERS_TABLE || 'Users';
+
+function nowIso() {
+    return new Date().toISOString();
+}
+
+function normalizeStatus(status) {
+    const value = String(status || '').toUpperCase();
+    if (value === 'ACTIVE') return 'ACTIVE';
+    return 'INACTIVE';
+}
+
+async function findUserByEmail(email) {
+    if (!email) return null;
+
+    const result = await dynamodb.scan({
+        TableName: USERS_TABLE,
+        FilterExpression: '#email = :email',
+        ExpressionAttributeNames: { '#email': 'email' },
+        ExpressionAttributeValues: { ':email': email },
+        Limit: 1
+    }).promise();
+
+    return result.Items && result.Items.length > 0 ? result.Items[0] : null;
+}
+
+async function findUserBySubscriptionId(subscriptionId) {
+    if (!subscriptionId) return null;
+
+    const result = await dynamodb.scan({
+        TableName: USERS_TABLE,
+        FilterExpression: 'subscriptionId = :subscriptionId',
+        ExpressionAttributeValues: { ':subscriptionId': subscriptionId },
+        Limit: 1
+    }).promise();
+
+    return result.Items && result.Items.length > 0 ? result.Items[0] : null;
+}
+
+async function upsertSubscription({
+    email,
+    userId,
+    subscriptionId,
+    planId,
+    status,
+    nextBillingTime,
+    lastPaymentTime,
+    lastPaymentAmount,
+    lastPaymentCurrency,
+    source
+}) {
+    const normalizedStatus = normalizeStatus(status);
+    let targetUserId = userId;
+
+    if (!targetUserId && email) {
+        const existing = await findUserByEmail(email);
+        if (existing && existing.id) {
+            targetUserId = existing.id;
+        }
+    }
+
+    if (!targetUserId && subscriptionId) {
+        const existingBySub = await findUserBySubscriptionId(subscriptionId);
+        if (existingBySub && existingBySub.id) {
+            targetUserId = existingBySub.id;
+            if (!email && existingBySub.email) {
+                email = existingBySub.email;
+            }
+        }
+    }
+
+    // Fallback record in Users table when user row doesn't exist yet.
+    if (!targetUserId && email) {
+        targetUserId = `paypal#${email.toLowerCase()}`;
+    }
+
+    if (!targetUserId && subscriptionId) {
+        targetUserId = `paypal#sub#${subscriptionId}`;
+    }
+
+    if (!targetUserId) {
+        throw new Error('Unable to resolve user for subscription persistence');
+    }
+
+    const params = {
+        TableName: USERS_TABLE,
+        Key: { id: targetUserId },
+        UpdateExpression: [
+            'SET email = if_not_exists(email, :email)',
+            'subscriptionId = :subscriptionId',
+            'subscriptionPlanId = :planId',
+            'subscriptionStatus = :status',
+            'isSubscribed = :isSubscribed',
+            'subscriptionNextBillingTime = :nextBillingTime',
+            'subscriptionLastPaymentTime = :lastPaymentTime',
+            'subscriptionLastPaymentAmount = :lastPaymentAmount',
+            'subscriptionLastPaymentCurrency = :lastPaymentCurrency',
+            'subscriptionSource = :source',
+            'subscriptionUpdatedAt = :updatedAt'
+        ].join(', '),
+        ExpressionAttributeValues: {
+            ':email': email || 'unknown@funstudy.local',
+            ':subscriptionId': subscriptionId || null,
+            ':planId': planId || null,
+            ':status': normalizedStatus,
+            ':isSubscribed': normalizedStatus === 'ACTIVE',
+            ':nextBillingTime': nextBillingTime || null,
+            ':lastPaymentTime': lastPaymentTime || null,
+            ':lastPaymentAmount': lastPaymentAmount || null,
+            ':lastPaymentCurrency': lastPaymentCurrency || null,
+            ':source': source || 'paypal',
+            ':updatedAt': nowIso()
+        },
+        ReturnValues: 'ALL_NEW'
+    };
+
+    const result = await dynamodb.update(params).promise();
+    return result.Attributes;
+}
+
+async function addPaymentRecord({
+    email,
+    userId,
+    subscriptionId,
+    amount,
+    currency,
+    paidAt,
+    transactionId,
+    status,
+    source
+}) {
+    let targetUserId = userId;
+
+    if (!targetUserId && email) {
+        const existing = await findUserByEmail(email);
+        if (existing && existing.id) targetUserId = existing.id;
+    }
+
+    if (!targetUserId && subscriptionId) {
+        const existingBySub = await findUserBySubscriptionId(subscriptionId);
+        if (existingBySub && existingBySub.id) targetUserId = existingBySub.id;
+    }
+
+    if (!targetUserId) {
+        if (!email) {
+            return null;
+        }
+        targetUserId = `paypal#${email.toLowerCase()}`;
+    }
+
+    const payment = {
+        paymentId: transactionId || `txn_${Date.now()}`,
+        subscriptionId: subscriptionId || null,
+        amount: amount || null,
+        currency: currency || null,
+        status: status || 'COMPLETED',
+        paidAt: paidAt || nowIso(),
+        source: source || 'paypal'
+    };
+
+    const params = {
+        TableName: USERS_TABLE,
+        Key: { id: targetUserId },
+        UpdateExpression: [
+            'SET email = if_not_exists(email, :email)',
+            'subscriptionPayments = list_append(if_not_exists(subscriptionPayments, :emptyList), :newPayment)',
+            'subscriptionLastPaymentTime = :lastPaymentTime',
+            'subscriptionLastPaymentAmount = :lastPaymentAmount',
+            'subscriptionLastPaymentCurrency = :lastPaymentCurrency',
+            'subscriptionUpdatedAt = :updatedAt'
+        ].join(', '),
+        ExpressionAttributeValues: {
+            ':email': email || 'unknown@funstudy.local',
+            ':emptyList': [],
+            ':newPayment': [payment],
+            ':lastPaymentTime': payment.paidAt,
+            ':lastPaymentAmount': payment.amount,
+            ':lastPaymentCurrency': payment.currency,
+            ':updatedAt': nowIso()
+        },
+        ReturnValues: 'ALL_NEW'
+    };
+
+    const result = await dynamodb.update(params).promise();
+    return result.Attributes;
+}
+
+module.exports = {
+    findUserByEmail,
+    findUserBySubscriptionId,
+    upsertSubscription,
+    addPaymentRecord
+};

@@ -534,6 +534,44 @@ function checkSubscriptionStatus() {
     return false;
 }
 
+async function refreshSubscriptionStatusFromServer() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/paypal/subscription-status`, {
+            method: 'GET',
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            return checkSubscriptionStatus();
+        }
+
+        const data = await response.json();
+        if (!data.success) {
+            return checkSubscriptionStatus();
+        }
+
+        if (data.isSubscribed) {
+            const current = JSON.parse(localStorage.getItem('funstudySubscription') || '{}');
+            localStorage.setItem('funstudySubscription', JSON.stringify({
+                id: data.subscriptionId || current.id || 'server-sync',
+                type: current.type || 'monthly',
+                amount: current.amount || '£1.99',
+                status: 'ACTIVE',
+                nextBillingTime: data.nextBillingTime || null,
+                lastPaymentTime: data.lastPaymentTime || null,
+                source: 'server'
+            }));
+            return true;
+        }
+
+        localStorage.removeItem('funstudySubscription');
+        return false;
+    } catch (error) {
+        console.warn('Subscription status sync failed:', error.message);
+        return checkSubscriptionStatus();
+    }
+}
+
 // Skip subscription and continue with limited access
 function skipSubscription() {
     console.log('User skipped subscription');
@@ -1025,13 +1063,15 @@ function handleAuthCallback() {
     if (authStatus === 'success') {
         console.log('✅ Authentication successful!');
         window.history.replaceState({}, document.title, window.location.pathname);
-        if (checkSubscriptionStatus()) {
-            showSection('gradeSection');
-            showGenericMessage('Welcome back! Subscription active.', 'success');
-        } else {
-            showSection('subscriptionSection');
-            showGenericMessage('Login successful! Please choose your subscription to access quizzes!', 'success');
-        }
+        refreshSubscriptionStatusFromServer().then(isSubscribed => {
+            if (isSubscribed) {
+                showSection('gradeSection');
+                showGenericMessage('Welcome back! Subscription active.', 'success');
+            } else {
+                showSection('subscriptionSection');
+                showGenericMessage('Login successful! Please choose your subscription to access quizzes!', 'success');
+            }
+        });
         return;
     }
 
@@ -1241,5 +1281,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Check existing subscription
     checkSubscriptionStatus();
+    refreshSubscriptionStatusFromServer();
     checkServer();
 });

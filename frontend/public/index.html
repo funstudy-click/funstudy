@@ -115,14 +115,57 @@
                             },
                             onApprove: function(data, actions) {
                                 console.log('✅ Monthly subscription approved:', data);
-                                localStorage.setItem('funstudySubscription', JSON.stringify({
-                                    id: data.subscriptionID,
-                                    type: 'monthly',
-                                    amount: '£1.99',
-                                    status: 'ACTIVE'
-                                }));
-                                alert('✅ Monthly subscription activated! Subscription ID: ' + data.subscriptionID);
-                                setTimeout(() => showSection('gradeSection'), 2000);
+                                const backendBaseUrl = window.location.hostname === 'localhost'
+                                    ? 'http://localhost:3002'
+                                    : 'https://funstudy-backend.onrender.com';
+                                const userEmail = localStorage.getItem('userEmail') || null;
+
+                                fetch(`${backendBaseUrl}/api/paypal/confirm-subscription`, {
+                                    method: 'POST',
+                                    credentials: 'include',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        subscriptionId: data.subscriptionID,
+                                        email: userEmail
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(result => {
+                                    if (result.success && result.subscription) {
+                                        localStorage.setItem('funstudySubscription', JSON.stringify({
+                                            id: result.subscription.id,
+                                            type: 'monthly',
+                                            amount: '£1.99',
+                                            status: result.subscription.status,
+                                            nextBillingTime: result.subscription.nextBillingTime || null,
+                                            lastPaymentTime: result.subscription.lastPaymentTime || null
+                                        }));
+                                    } else {
+                                        // Fallback for UI continuity if backend sync fails.
+                                        localStorage.setItem('funstudySubscription', JSON.stringify({
+                                            id: data.subscriptionID,
+                                            type: 'monthly',
+                                            amount: '£1.99',
+                                            status: 'ACTIVE'
+                                        }));
+                                    }
+
+                                    alert('✅ Monthly subscription activated! Subscription ID: ' + data.subscriptionID);
+                                    setTimeout(() => showSection('gradeSection'), 1200);
+                                })
+                                .catch(function(syncError) {
+                                    console.error('Subscription sync error:', syncError);
+                                    localStorage.setItem('funstudySubscription', JSON.stringify({
+                                        id: data.subscriptionID,
+                                        type: 'monthly',
+                                        amount: '£1.99',
+                                        status: 'ACTIVE'
+                                    }));
+                                    alert('✅ Monthly subscription activated! Subscription ID: ' + data.subscriptionID);
+                                    setTimeout(() => showSection('gradeSection'), 1200);
+                                });
                             },
                             onError: function(err) {
                                 console.error('❌ PayPal Monthly Error:', err);
