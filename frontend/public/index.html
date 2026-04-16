@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://www.paypal.com/sdk/js?client-id=AdfMgW26aT_o9gYv0S8Ynpu470pAeyLdzcWUNDROKuKEHN4XvWH_Efroy3KPxcBXflbQkKD2yGpRdzN6&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AdfMgW26aT_o9gYv0S8Ynpu470pAeyLdzcWUNDROKuKEHN4XvWH_Efroy3KPxcBXflbQkKD2yGpRdzN6&vault=true&intent=subscription&currency=GBP" data-sdk-integration-source="button-factory"></script>
 </head>
 <body>
     <div class="container">
@@ -84,7 +84,7 @@
                     </p>
                 </div>
                 <div class="paypal-form-container">
-                    <div class="subscription-plans-container" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <div class="subscription-plans-container" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; align-items: stretch;">
                         <!-- Monthly Plan -->
                         <div class="plan-card" style="flex: 1; min-width: 280px; max-width: 320px;">
                             <h4>📅 Monthly Access</h4>
@@ -92,87 +92,114 @@
                             <p style="color: #6b7280; font-size: 0.9rem; margin: 10px 0;">Perfect for short-term preparation</p>
                             <div id="paypal-button-container-P-86B36697AH868180CNHQCGWI"></div>
                         </div>
+
+                        <!-- Yearly Plan -->
+                        <div class="plan-card" style="flex: 1; min-width: 280px; max-width: 320px; border: 2px solid #0ea5e9; position: relative;">
+                            <div style="position: absolute; top: -12px; right: 16px; background: #0ea5e9; color: white; padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700;">Best Value</div>
+                            <h4>🗓️ Yearly Access</h4>
+                            <div class="price">£29.99<span class="period">/year</span></div>
+                            <p style="color: #6b7280; font-size: 0.9rem; margin: 10px 0;">Best for ongoing preparation with uninterrupted access</p>
+                            <div id="paypal-button-container-P-2UF78835G6687705SMZC3NRI"></div>
+                        </div>
                     </div>
                     
                     <script>
-                        // Monthly Plan PayPal Button
-                        paypal.Buttons({
-                            style: {
-                                shape: 'rect',
-                                color: 'gold',
-                                layout: 'vertical',
-                                label: 'subscribe'
-                            },
-                            createSubscription: function(data, actions) {
-                                return actions.subscription.create({
-                                    plan_id: 'P-86B36697AH868180CNHQCGWI'
-                                }).catch(function(error) {
-                                    console.error('❌ Subscription creation failed:', error);
-                                    console.log('Error details:', JSON.stringify(error, null, 2));
-                                    alert('❌ Subscription creation failed: ' + (error.message || 'Plan may be inactive. Check console for details.'));
-                                    throw error;
-                                });
-                            },
-                            onApprove: function(data, actions) {
-                                console.log('✅ Monthly subscription approved:', data);
-                                const backendBaseUrl = window.location.hostname === 'localhost'
-                                    ? 'http://localhost:3002'
-                                    : 'https://funstudy-backend.onrender.com';
-                                const userEmail = localStorage.getItem('userEmail') || null;
+                        const backendBaseUrl = window.location.hostname === 'localhost'
+                            ? 'http://localhost:3002'
+                            : 'https://funstudy-backend.onrender.com';
 
-                                fetch(`${backendBaseUrl}/api/paypal/confirm-subscription`, {
-                                    method: 'POST',
-                                    credentials: 'include',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({
-                                        subscriptionId: data.subscriptionID,
-                                        email: userEmail
+                        function saveSubscriptionLocally(subscriptionId, type, amount, status, nextBillingTime, lastPaymentTime) {
+                            localStorage.setItem('funstudySubscription', JSON.stringify({
+                                id: subscriptionId,
+                                type: type,
+                                amount: amount,
+                                status: status,
+                                nextBillingTime: nextBillingTime || null,
+                                lastPaymentTime: lastPaymentTime || null
+                            }));
+                        }
+
+                        function renderSubscriptionButton(config) {
+                            paypal.Buttons({
+                                style: {
+                                    shape: 'rect',
+                                    color: 'gold',
+                                    layout: 'vertical',
+                                    label: 'subscribe'
+                                },
+                                createSubscription: function(data, actions) {
+                                    return actions.subscription.create({
+                                        plan_id: config.planId
+                                    }).catch(function(error) {
+                                        console.error(`❌ ${config.label} subscription creation failed:`, error);
+                                        console.log('Error details:', JSON.stringify(error, null, 2));
+                                        alert('❌ Subscription creation failed: ' + (error.message || 'Plan may be inactive. Check console for details.'));
+                                        throw error;
+                                    });
+                                },
+                                onApprove: function(data) {
+                                    console.log(`✅ ${config.label} subscription approved:`, data);
+                                    const userEmail = localStorage.getItem('userEmail') || null;
+
+                                    fetch(`${backendBaseUrl}/api/paypal/confirm-subscription`, {
+                                        method: 'POST',
+                                        credentials: 'include',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            subscriptionId: data.subscriptionID,
+                                            email: userEmail
+                                        })
                                     })
-                                })
-                                .then(response => response.json())
-                                .then(result => {
-                                    if (result.success && result.subscription) {
-                                        localStorage.setItem('funstudySubscription', JSON.stringify({
-                                            id: result.subscription.id,
-                                            type: 'monthly',
-                                            amount: '£1.99',
-                                            status: result.subscription.status,
-                                            nextBillingTime: result.subscription.nextBillingTime || null,
-                                            lastPaymentTime: result.subscription.lastPaymentTime || null
-                                        }));
-                                    } else {
-                                        // Fallback for UI continuity if backend sync fails.
-                                        localStorage.setItem('funstudySubscription', JSON.stringify({
-                                            id: data.subscriptionID,
-                                            type: 'monthly',
-                                            amount: '£1.99',
-                                            status: 'ACTIVE'
-                                        }));
-                                    }
+                                    .then(response => response.json())
+                                    .then(result => {
+                                        if (result.success && result.subscription) {
+                                            saveSubscriptionLocally(
+                                                result.subscription.id,
+                                                result.subscription.type || config.type,
+                                                result.subscription.amount || config.amount,
+                                                result.subscription.status,
+                                                result.subscription.nextBillingTime || null,
+                                                result.subscription.lastPaymentTime || null
+                                            );
+                                        } else {
+                                            saveSubscriptionLocally(data.subscriptionID, config.type, config.amount, 'ACTIVE');
+                                        }
 
-                                    alert('✅ Monthly subscription activated! Subscription ID: ' + data.subscriptionID);
-                                    setTimeout(() => showSection('gradeSection'), 1200);
-                                })
-                                .catch(function(syncError) {
-                                    console.error('Subscription sync error:', syncError);
-                                    localStorage.setItem('funstudySubscription', JSON.stringify({
-                                        id: data.subscriptionID,
-                                        type: 'monthly',
-                                        amount: '£1.99',
-                                        status: 'ACTIVE'
-                                    }));
-                                    alert('✅ Monthly subscription activated! Subscription ID: ' + data.subscriptionID);
-                                    setTimeout(() => showSection('gradeSection'), 1200);
-                                });
-                            },
-                            onError: function(err) {
-                                console.error('❌ PayPal Monthly Error:', err);
-                                console.log('Full error object:', JSON.stringify(err, null, 2));
-                                alert('❌ Payment failed: ' + (err.message || err.name || 'Check browser console (F12) for details'));
-                            }
-                        }).render('#paypal-button-container-P-86B36697AH868180CNHQCGWI');
+                                        alert(`✅ ${config.label} subscription activated! Subscription ID: ${data.subscriptionID}`);
+                                        setTimeout(() => showSection('gradeSection'), 1200);
+                                    })
+                                    .catch(function(syncError) {
+                                        console.error('Subscription sync error:', syncError);
+                                        saveSubscriptionLocally(data.subscriptionID, config.type, config.amount, 'ACTIVE');
+                                        alert(`✅ ${config.label} subscription activated! Subscription ID: ${data.subscriptionID}`);
+                                        setTimeout(() => showSection('gradeSection'), 1200);
+                                    });
+                                },
+                                onError: function(err) {
+                                    console.error(`❌ PayPal ${config.label} Error:`, err);
+                                    console.log('Full error object:', JSON.stringify(err, null, 2));
+                                    alert('❌ Payment failed: ' + (err.message || err.name || 'Check browser console (F12) for details'));
+                                }
+                            }).render(config.containerSelector);
+                        }
+
+                        renderSubscriptionButton({
+                            containerSelector: '#paypal-button-container-P-86B36697AH868180CNHQCGWI',
+                            planId: 'P-86B36697AH868180CNHQCGWI',
+                            type: 'monthly',
+                            amount: '£1.99',
+                            label: 'Monthly'
+                        });
+
+                        renderSubscriptionButton({
+                            containerSelector: '#paypal-button-container-P-2UF78835G6687705SMZC3NRI',
+                            planId: 'P-2UF78835G6687705SMZC3NRI',
+                            type: 'yearly',
+                            amount: '£29.99',
+                            label: 'Yearly'
+                        });
                     </script>
                     
                     <div class="payment-loading" id="paymentLoading" style="display: none;">

@@ -5,6 +5,29 @@ const subscriptionStoreService = require('../services/subscriptionStoreService')
 
 // Store for temporary subscription data (in production, use Redis or database)
 const subscriptionStore = new Map();
+const MONTHLY_PLAN_ID = process.env.PAYPAL_MONTHLY_PLAN_ID || 'P-86B36697AH868180CNHQCGWI';
+const YEARLY_PLAN_ID = process.env.PAYPAL_YEARLY_PLAN_ID || 'P-2UF78835G6687705SMZC3NRI';
+
+function getPlanMetadata(planId) {
+    if (planId === YEARLY_PLAN_ID) {
+        return {
+            type: 'yearly',
+            amount: '£29.99'
+        };
+    }
+
+    if (planId === MONTHLY_PLAN_ID) {
+        return {
+            type: 'monthly',
+            amount: '£1.99'
+        };
+    }
+
+    return {
+        type: 'monthly',
+        amount: '£1.99'
+    };
+}
 
 function resolveSubscriptionStatus(paypalStatus) {
     return String(paypalStatus || '').toUpperCase() === 'ACTIVE' ? 'ACTIVE' : 'INACTIVE';
@@ -191,12 +214,15 @@ router.post('/confirm-subscription', async (req, res) => {
             email: userEmail,
             userId
         });
+        const planMetadata = getPlanMetadata(result.subscription.plan_id);
 
         res.json({
             success: true,
             subscription: {
                 id: result.subscription.id,
                 planId: result.subscription.plan_id,
+                type: planMetadata.type,
+                amount: planMetadata.amount,
                 paypalStatus: result.subscription.status,
                 status: result.persistedStatus,
                 nextBillingTime: result.subscription.billing_info?.next_billing_time || null,
@@ -238,6 +264,7 @@ router.get('/subscription-status', async (req, res) => {
             email: userEmail,
             userId: user.id
         });
+        const planMetadata = getPlanMetadata(syncResult.subscription.plan_id);
 
         const active = syncResult.persistedStatus === 'ACTIVE';
 
@@ -246,6 +273,9 @@ router.get('/subscription-status', async (req, res) => {
             isSubscribed: active,
             status: syncResult.persistedStatus,
             subscriptionId: user.subscriptionId,
+            planId: syncResult.subscription.plan_id,
+            type: planMetadata.type,
+            amount: planMetadata.amount,
             nextBillingTime: syncResult.subscription.billing_info?.next_billing_time || null,
             lastPaymentTime: syncResult.subscription.billing_info?.last_payment?.time || null
         });
@@ -296,7 +326,23 @@ router.get('/plans', async (req, res) => {
         // For now, we'll return hardcoded plan information
         const plans = [
             {
-                id: process.env.PAYPAL_YEARLY_PLAN_ID,
+                id: MONTHLY_PLAN_ID,
+                name: "FunStudy Monthly Premium",
+                description: "Monthly subscription to FunStudy 11 Plus Premium features",
+                price: "1.99",
+                currency: "GBP",
+                interval: "month",
+                features: [
+                    "Access to all Grade A, B & C quizzes",
+                    "Unlimited quiz attempts",
+                    "Detailed performance analytics",
+                    "Progress tracking",
+                    "Subject-specific practice",
+                    "Premium support"
+                ]
+            },
+            {
+                id: YEARLY_PLAN_ID,
                 name: "FunStudy Annual Premium",
                 description: "Annual subscription to FunStudy 11 Plus Premium features",
                 price: "29.99",
@@ -365,10 +411,11 @@ router.post('/webhook', async (req, res) => {
                 console.log('Subscription activated:', event.resource.id);
                 // Handle subscription activation - grant access to user
                 const userData = subscriptionStore.get(event.resource.id);
-                if (userData) {
-                    console.log('Granting access to user:', userData.userEmail);
+                const activationEmail = userData?.userEmail || event.resource.subscriber?.email_address || null;
+                if (activationEmail) {
+                    console.log('Granting access to user:', activationEmail);
                     await subscriptionStoreService.upsertSubscription({
-                        email: userData.userEmail,
+                        email: activationEmail,
                         subscriptionId: event.resource.id,
                         planId: event.resource.plan_id,
                         status: 'ACTIVE',
@@ -378,6 +425,8 @@ router.post('/webhook', async (req, res) => {
                         lastPaymentCurrency: event.resource.billing_info?.last_payment?.amount?.currency_code || null,
                         source: 'paypal-webhook'
                     });
+                }
+                if (userData) {
                     subscriptionStore.delete(event.resource.id);
                 }
                 break;

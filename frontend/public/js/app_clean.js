@@ -2,8 +2,16 @@
 const API_BASE_URL = window.location.hostname === 'localhost' ? 
     'http://localhost:3002' : 
     'https://funstudy-backend.onrender.com';
+const SUBSCRIPTION_PLAN_METADATA = {
+    'P-86B36697AH868180CNHQCGWI': { type: 'monthly', amount: '£1.99' },
+    'P-2UF78835G6687705SMZC3NRI': { type: 'yearly', amount: '£29.99' }
+};
 let currentGrade = '';
 let currentSubject = '';
+
+function getSubscriptionPlanMetadata(planId) {
+    return SUBSCRIPTION_PLAN_METADATA[planId] || { type: 'monthly', amount: '£1.99' };
+}
 
 // Utility functions
 function showSection(sectionId) {
@@ -30,8 +38,9 @@ function showSection(sectionId) {
             
             // Check if PayPal container exists
             const monthlyContainer = document.getElementById('paypal-button-container-P-86B36697AH868180CNHQCGWI');
+            const yearlyContainer = document.getElementById('paypal-button-container-P-2UF78835G6687705SMZC3NRI');
             
-            if (!monthlyContainer) {
+            if (!monthlyContainer || !yearlyContainer) {
                 console.error('❌ PayPal button container not found!');
                 showGenericMessage('PayPal integration error: button container missing', 'error');
                 return;
@@ -552,11 +561,13 @@ async function refreshSubscriptionStatusFromServer() {
 
         if (data.isSubscribed) {
             const current = JSON.parse(localStorage.getItem('funstudySubscription') || '{}');
+            const metadata = getSubscriptionPlanMetadata(data.planId || current.planId);
             localStorage.setItem('funstudySubscription', JSON.stringify({
                 id: data.subscriptionId || current.id || 'server-sync',
-                type: current.type || 'monthly',
-                amount: current.amount || '£1.99',
+                type: data.type || current.type || metadata.type,
+                amount: data.amount || current.amount || metadata.amount,
                 status: 'ACTIVE',
+                planId: data.planId || current.planId || null,
                 nextBillingTime: data.nextBillingTime || null,
                 lastPaymentTime: data.lastPaymentTime || null,
                 source: 'server'
@@ -1283,4 +1294,8 @@ document.addEventListener('DOMContentLoaded', function() {
     checkSubscriptionStatus();
     refreshSubscriptionStatusFromServer();
     checkServer();
+
+    window.addEventListener('focus', function() {
+        refreshSubscriptionStatusFromServer();
+    });
 });
