@@ -5,8 +5,8 @@ const subscriptionStoreService = require('../services/subscriptionStoreService')
 
 // Store for temporary subscription data (in production, use Redis or database)
 const subscriptionStore = new Map();
-const MONTHLY_PLAN_ID = process.env.PAYPAL_MONTHLY_PLAN_ID || 'P-86B36697AH868180CNHQCGWI';
-const YEARLY_PLAN_ID = process.env.PAYPAL_YEARLY_PLAN_ID || 'P-2UF78835G6687705SMZC3NRI';
+const MONTHLY_PLAN_ID = process.env.PAYPAL_MONTHLY_PLAN_ID || 'P-40D15785KF4126507NHQPRZY';
+const YEARLY_PLAN_ID = process.env.PAYPAL_YEARLY_PLAN_ID || 'P-8Y97299421124160VNHQPS7Y';
 
 function getPlanMetadata(planId) {
     if (planId === YEARLY_PLAN_ID) {

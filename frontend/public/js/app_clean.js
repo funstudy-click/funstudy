@@ -3,8 +3,8 @@ const API_BASE_URL = window.location.hostname === 'localhost' ?
     'http://localhost:3002' : 
     'https://funstudy-backend.onrender.com';
 const SUBSCRIPTION_PLAN_METADATA = {
-    'P-86B36697AH868180CNHQCGWI': { type: 'monthly', amount: '£1.99' },
-    'P-2UF78835G6687705SMZC3NRI': { type: 'yearly', amount: '£29.99' }
+    'P-40D15785KF4126507NHQPRZY': { type: 'monthly', amount: '£1.99' },
+    'P-8Y97299421124160VNHQPS7Y': { type: 'yearly', amount: '£29.99' }
 };
 let currentGrade = '';
 let currentSubject = '';
@@ -37,8 +37,8 @@ function showSection(sectionId) {
             }
             
             // Check if PayPal container exists
-            const monthlyContainer = document.getElementById('paypal-container-M9NL6YSACWWYS');
-            const yearlyContainer = document.getElementById('paypal-button-container-P-2UF78835G6687705SMZC3NRI');
+            const monthlyContainer = document.getElementById('paypal-button-container-P-40D15785KF4126507NHQPRZY');
+            const yearlyContainer = document.getElementById('paypal-button-container-P-8Y97299421124160VNHQPS7Y');
             
             if (!monthlyContainer || !yearlyContainer) {
                 console.error('❌ PayPal button container not found!');

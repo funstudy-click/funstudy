@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://www.paypal.com/sdk/js?client-id=AdfMgW26aT_o9gYv0S8Ynpu470pAeyLdzcWUNDROKuKEHN4XvWH_Efroy3KPxcBXflbQkKD2yGpRdzN6&vault=true&intent=subscription&currency=GBP" data-sdk-integration-source="button-factory"></script>
-    <script src="https://www.paypal.com/sdk/js?client-id=BAAn15ORrTl6wygb_kVhI6ypYwpi15IavUs1ySGw3un0WbrGhV_phHCl-3MYyH50BkFgN5uX_eATeBjsws&components=hosted-buttons&disable-funding=venmo&currency=GBP" data-namespace="paypalHosted"></script>
 </head>
 <body>
     <div class="container">
@@ -91,15 +90,7 @@
                             <h4>📅 Monthly Access</h4>
                             <div class="price">£1.99<span class="period">/month</span></div>
                             <p style="color: #6b7280; font-size: 0.9rem; margin: 10px 0;">Perfect for short-term preparation</p>
-                            <div id="paypal-container-M9NL6YSACWWYS"></div>
-                            <script>
-                                if (window.paypalHosted && window.paypalHosted.HostedButtons) {
-                                    window.paypalHosted.HostedButtons({
-                                        hostedButtonId: 'M9NL6YSACWWYS'
-                                    }).render('#paypal-container-M9NL6YSACWWYS');
-                                }
-                            </script>
-                            <p style="color: #92400e; font-size: 0.8rem; margin-top: 8px;">After successful payment, click the button below to refresh your access.</p>
+                            <div id="paypal-button-container-P-40D15785KF4126507NHQPRZY"></div>
                         </div>
 
                         <!-- Yearly Plan -->
@@ -108,7 +99,7 @@
                             <h4>🗓️ Yearly Access</h4>
                             <div class="price">£29.99<span class="period">/year</span></div>
                             <p style="color: #6b7280; font-size: 0.9rem; margin: 10px 0;">Best for ongoing preparation with uninterrupted access</p>
-                            <div id="paypal-button-container-P-2UF78835G6687705SMZC3NRI"></div>
+                            <div id="paypal-button-container-P-8Y97299421124160VNHQPS7Y"></div>
                         </div>
                     </div>
                     
@@ -195,8 +186,16 @@
                         }
 
                         renderSubscriptionButton({
-                            containerSelector: '#paypal-button-container-P-2UF78835G6687705SMZC3NRI',
-                            planId: 'P-2UF78835G6687705SMZC3NRI',
+                            containerSelector: '#paypal-button-container-P-40D15785KF4126507NHQPRZY',
+                            planId: 'P-40D15785KF4126507NHQPRZY',
+                            type: 'monthly',
+                            amount: '£1.99',
+                            label: 'Monthly'
+                        });
+
+                        renderSubscriptionButton({
+                            containerSelector: '#paypal-button-container-P-8Y97299421124160VNHQPS7Y',
+                            planId: 'P-8Y97299421124160VNHQPS7Y',
                             type: 'yearly',
                             amount: '£29.99',
                             label: 'Yearly'
@@ -211,7 +210,6 @@
                 
                 <div class="subscription-footer">
                     <p><small>🔒 Secure payment processing by PayPal</small></p>
-                    <button class="btn" onclick="refreshSubscriptionStatusFromServer().then(function(isSubscribed){ if (isSubscribed) { showSection('gradeSection'); showGenericMessage('✅ Payment verified. Full access enabled.', 'success'); } else { showGenericMessage('Payment not confirmed yet. Please wait 1-2 minutes and try again.', 'warning'); } }).catch(function(){ showGenericMessage('Unable to verify payment right now. Please try again shortly.', 'error'); });">✅ I have completed payment</button>
                     <button class="btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; box-shadow: 0 4px 6px rgba(245, 158, 11, 0.3); transition: all 0.3s ease;" 
                             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(245, 158, 11, 0.4)';"
                             onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 4px 6px rgba(245, 158, 11, 0.3)';"
