@@ -12,22 +12,17 @@
     <script src="https://www.paypal.com/sdk/js?client-id=AdfMgW26aT_o9gYv0S8Ynpu470pAeyLdzcWUNDROKuKEHN4XvWH_Efroy3KPxcBXflbQkKD2yGpRdzN6&vault=true&intent=subscription&currency=GBP" data-sdk-integration-source="button-factory"></script>
 </head>
 <body>
-    <div class="container">
-        <h1 style="color: #1e40af; background: linear-gradient(135deg, #3b82f6, #1e40af); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 2px 2px 4px rgba(30, 64, 175, 0.3);">🎓 FunStudy 11 Plus</h1>
-        <p id="buildStamp" style="margin-top: 6px; color: #0f172a; font-size: 0.82rem; opacity: 0.85;">Build: 8a574f3 (Apr 17, 2026)</p>
-        <div id="loggedInUserPanel" style="display: none; margin: 12px 0 18px; padding: 10px 12px; border: 1px solid #bfdbfe; background: #eff6ff; border-radius: 10px; text-align: left;">
-            <div style="font-size: 0.78rem; font-weight: 700; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.04em;">Logged In User</div>
-            <div id="loggedInUserPrimary" style="margin-top: 2px; color: #1f2937; font-size: 0.95rem; font-weight: 600;"></div>
-            <div id="loggedInUserSecondary" style="margin-top: 2px; color: #475569; font-size: 0.82rem;"></div>
-            <div style="margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-                <span id="loggedInUserPlanBadge" style="display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 0.74rem; font-weight: 700; background: #e2e8f0; color: #334155;">Plan: Inactive</span>
-                <span id="loggedInUserNextBilling" style="font-size: 0.8rem; color: #475569;">Next billing: N/A</span>
-            </div>
-            <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">
-                <button class="btn btn-secondary" style="font-size: 0.78rem; padding: 7px 12px;" onclick="copyLoggedInUserId()">Copy User ID</button>
-                <button class="btn" style="font-size: 0.78rem; padding: 7px 12px; background: #dc2626; color: #fff; border: none;" onclick="openContactSection('subscription-cancel')">Cancel Subscription</button>
+    <div class="container" style="position: relative;">
+        <div style="position: absolute; top: 12px; right: 12px; z-index: 50;">
+            <button id="menuToggleButton" class="btn btn-secondary" style="padding: 8px 12px; font-size: 0.82rem;" onclick="toggleTopMenu()">☰ <span id="menuUserEmailLabel">Menu</span></button>
+            <div id="topMenuDropdown" style="display: none; margin-top: 8px; min-width: 220px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.16); padding: 10px; text-align: left;">
+                <button class="btn btn-secondary" style="width: 100%; margin-bottom: 8px;" onclick="openUserSection()">User</button>
+                <button class="btn btn-secondary" style="width: 100%; margin-bottom: 8px;" onclick="openContactSection()">Contact Us</button>
+                <button class="btn btn-secondary" style="width: 100%;" onclick="logout()">Logout</button>
             </div>
         </div>
+        <h1 style="color: #1e40af; background: linear-gradient(135deg, #3b82f6, #1e40af); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 2px 2px 4px rgba(30, 64, 175, 0.3);">🎓 FunStudy 11 Plus</h1>
+        <p id="buildStamp" style="margin-top: 6px; color: #0f172a; font-size: 0.82rem; opacity: 0.85;">Build: 8a574f3 (Apr 17, 2026)</p>
         
         <!-- Login Section -->
         <section id="loginSection" class="section active">
@@ -192,7 +187,9 @@
                                 },
                                 onApprove: function(data) {
                                     console.log(`✅ ${config.label} subscription approved:`, data);
-                                    const userEmail = localStorage.getItem('userEmail') || null;
+                                    const userContext = globalThis.getCurrentUserContext ? globalThis.getCurrentUserContext() : null;
+                                    const userEmail = userContext && userContext.email ? userContext.email : (localStorage.getItem('userEmail') || null);
+                                    const userId = userContext && userContext.sub ? userContext.sub : null;
 
                                     fetch(`${backendBaseUrl}/api/paypal/confirm-subscription`, {
                                         method: 'POST',
@@ -202,7 +199,8 @@
                                         },
                                         body: JSON.stringify({
                                             subscriptionId: data.subscriptionID,
-                                            email: userEmail
+                                            email: userEmail,
+                                            userId: userId
                                         })
                                     })
                                     .then(response => response.json())
@@ -325,6 +323,24 @@
             </div>
         </section>
 
+        <section id="userSection" class="section">
+            <h2>👤 User Details</h2>
+            <div id="loggedInUserPanel" style="display: block; margin: 12px 0 18px; padding: 10px 12px; border: 1px solid #bfdbfe; background: #eff6ff; border-radius: 10px; text-align: left;">
+                <div style="font-size: 0.78rem; font-weight: 700; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.04em;">Logged In User</div>
+                <div id="loggedInUserPrimary" style="margin-top: 2px; color: #1f2937; font-size: 0.95rem; font-weight: 600;">Email not available</div>
+                <div id="loggedInUserSecondary" style="margin-top: 2px; color: #475569; font-size: 0.82rem;">User ID: Not available</div>
+                <div style="margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                    <span id="loggedInUserPlanBadge" style="display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 0.74rem; font-weight: 700; background: #e2e8f0; color: #334155;">Plan: Inactive</span>
+                    <span id="loggedInUserNextBilling" style="font-size: 0.8rem; color: #475569;">Next billing: N/A</span>
+                </div>
+                <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" style="font-size: 0.78rem; padding: 7px 12px;" onclick="copyLoggedInUserId()">Copy User ID</button>
+                    <button class="btn" style="font-size: 0.78rem; padding: 7px 12px; background: #dc2626; color: #fff; border: none;" onclick="openContactSection('subscription-cancel')">Cancel Subscription</button>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="showSection('gradeSection')">🔙 Back</button>
+        </section>
+
         <!-- Contact Us Section -->
         <section id="contactSection" class="section">
             <h2>📞 Contact Us</h2>
@@ -341,16 +357,6 @@
 
         <!-- Loading indicator -->
         <div id="loader" class="loader hidden"></div>
-    </div>
-
-    <div id="alwaysVisibleContact" style="position: fixed; right: 12px; bottom: 12px; z-index: 999; background: #0f172a; color: #fff; border-radius: 10px; padding: 10px 12px; box-shadow: 0 6px 14px rgba(0,0,0,0.2); font-size: 0.8rem; max-width: min(92vw, 360px);">
-        <div style="font-weight: 700; margin-bottom: 5px;">Need Help?</div>
-        <div style="line-height: 1.4;">
-            <a href="mailto:amaresh.1279@gmail.com" style="color: #93c5fd;">amaresh.1279@gmail.com</a>
-            <span style="color: #94a3b8;"> | </span>
-            <a href="tel:07942451912" style="color: #86efac;">07942451912</a>
-        </div>
-        <button class="btn" style="margin-top: 8px; font-size: 0.76rem; padding: 6px 10px;" onclick="openContactSection()">Open Contact Us</button>
     </div>
 
     <script src="js/app_clean.js"></script>

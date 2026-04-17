@@ -6,11 +6,81 @@ const SUBSCRIPTION_PLAN_METADATA = {
     'P-40D15785KF4126507NHQPRZY': { type: 'monthly', amount: null },
     'P-8Y97299421124160VNHQPS7Y': { type: 'yearly', amount: null }
 };
+const USER_CONTEXT_STORAGE_KEY = 'funstudyUserContext';
 let currentGrade = '';
 let currentSubject = '';
 
 function getSubscriptionPlanMetadata(planId) {
     return SUBSCRIPTION_PLAN_METADATA[planId] || { type: 'monthly', amount: null };
+}
+
+function setStoredUserContext(userContext) {
+    if (!userContext || (!userContext.email && !userContext.sub && !userContext.name)) {
+        return;
+    }
+
+    localStorage.setItem(USER_CONTEXT_STORAGE_KEY, JSON.stringify({
+        email: userContext.email || '',
+        name: userContext.name || '',
+        sub: userContext.sub || ''
+    }));
+
+    if (userContext.email) {
+        localStorage.setItem('userEmail', userContext.email);
+    }
+}
+
+function getStoredUserContext() {
+    try {
+        const raw = localStorage.getItem(USER_CONTEXT_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : null;
+    } catch (error) {
+        console.warn('Unable to parse stored user context:', error.message);
+        return null;
+    }
+}
+
+function clearStoredUserContext() {
+    localStorage.removeItem(USER_CONTEXT_STORAGE_KEY);
+}
+
+function updateMenuUserEmailLabel(email) {
+    const label = document.getElementById('menuUserEmailLabel');
+    if (!label) {
+        return;
+    }
+
+    if (!email) {
+        label.textContent = 'Menu';
+        return;
+    }
+
+    label.textContent = email.length > 22 ? `${email.slice(0, 19)}...` : email;
+}
+
+function getCurrentUserContext() {
+    return getStoredUserContext();
+}
+
+function toggleTopMenu() {
+    const dropdown = document.getElementById('topMenuDropdown');
+    if (!dropdown) {
+        return;
+    }
+
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
+function closeTopMenu() {
+    const dropdown = document.getElementById('topMenuDropdown');
+    if (dropdown) {
+        dropdown.style.display = 'none';
+    }
+}
+
+function openUserSection() {
+    closeTopMenu();
+    showSection('userSection');
 }
 
 function setLoggedInUserPanel({
@@ -32,14 +102,15 @@ function setLoggedInUserPanel({
     }
 
     if (!visible) {
-        panel.style.display = 'none';
-        primaryElement.textContent = '';
-        secondaryElement.textContent = '';
+        panel.style.display = 'block';
+        primaryElement.textContent = 'Email not available';
+        secondaryElement.textContent = 'User ID: Not available';
         planBadgeElement.textContent = 'Plan: Inactive';
         planBadgeElement.style.background = '#e2e8f0';
         planBadgeElement.style.color = '#334155';
         nextBillingElement.textContent = 'Next billing: N/A';
         panel.dataset.userId = '';
+        updateMenuUserEmailLabel('');
         return;
     }
 
@@ -49,6 +120,7 @@ function setLoggedInUserPanel({
     planBadgeElement.textContent = planLabel;
     nextBillingElement.textContent = nextBillingLabel;
     panel.dataset.userId = userId;
+    updateMenuUserEmailLabel(primary.includes('(') ? primary.split('(').slice(-1)[0].replace(')', '') : primary);
 
     if (String(planLabel).toLowerCase().includes('active')) {
         planBadgeElement.style.background = '#dcfce7';
@@ -107,6 +179,23 @@ function getLocalSubscriptionDetails() {
 }
 
 async function refreshLoggedInUserPanel() {
+    const storedUser = getStoredUserContext();
+    if (storedUser && (storedUser.email || storedUser.name || storedUser.sub)) {
+        const storedSubscription = getLocalSubscriptionDetails();
+        const storedPrimary = storedUser.email
+            ? storedUser.email
+            : (storedUser.name || 'Signed in user');
+
+        setLoggedInUserPanel({
+            visible: true,
+            primary: storedPrimary,
+            secondary: storedUser.sub ? `User ID: ${storedUser.sub}` : 'User ID: Not available',
+            planLabel: storedSubscription.planLabel,
+            nextBillingLabel: storedSubscription.nextBillingLabel,
+            userId: storedUser.sub || ''
+        });
+    }
+
     try {
         const response = await fetch(`${API_BASE_URL}/auth/debug/session`, {
             method: 'GET',
@@ -114,26 +203,33 @@ async function refreshLoggedInUserPanel() {
         });
 
         if (!response.ok) {
-            setLoggedInUserPanel({ visible: false });
+            if (!storedUser) {
+                setLoggedInUserPanel({ visible: false });
+            }
             return;
         }
 
         const data = await response.json();
-        const user = data && data.user ? data.user : null;
+        const user = data?.user || null;
 
         if (!data.isAuthenticated || !user) {
-            setLoggedInUserPanel({ visible: false });
+            if (!storedUser) {
+                setLoggedInUserPanel({ visible: false });
+            }
             return;
         }
+
+        setStoredUserContext(user);
 
         const displayName = user.name || user.email || 'Signed in user';
         const email = user.email || '';
         const subscriptionDetails = getLocalSubscriptionDetails();
         const userIdText = user.sub || '';
+        const primaryLabel = email || displayName;
 
         setLoggedInUserPanel({
             visible: true,
-            primary: `${displayName}${email && email !== displayName ? ` (${email})` : ''}`,
+            primary: primaryLabel,
             secondary: userIdText ? `User ID: ${userIdText}` : 'User ID: Not available',
             planLabel: subscriptionDetails.planLabel,
             nextBillingLabel: subscriptionDetails.nextBillingLabel,
@@ -147,14 +243,14 @@ async function refreshLoggedInUserPanel() {
 
 function copyLoggedInUserId() {
     const panel = document.getElementById('loggedInUserPanel');
-    const userId = panel && panel.dataset ? panel.dataset.userId : '';
+    const userId = panel?.dataset?.userId || '';
 
     if (!userId) {
         showGenericMessage('User ID is not available yet.', 'error');
         return;
     }
 
-    if (navigator.clipboard && navigator.clipboard.writeText) {
+    if (navigator.clipboard?.writeText) {
         navigator.clipboard.writeText(userId)
             .then(() => showGenericMessage('User ID copied to clipboard.', 'success'))
             .catch(() => showGenericMessage('Unable to copy User ID automatically.', 'error'));
@@ -165,6 +261,7 @@ function copyLoggedInUserId() {
 }
 
 function openContactSection(reason) {
+    closeTopMenu();
     const reasonMessage = document.getElementById('contactReasonMessage');
     if (reasonMessage) {
         reasonMessage.textContent = reason === 'subscription-cancel'
@@ -174,9 +271,61 @@ function openContactSection(reason) {
     showSection('contactSection');
 }
 
+async function reconcileLocalSubscriptionWithServer() {
+    const localSubscriptionRaw = localStorage.getItem('funstudySubscription');
+    const userContext = getCurrentUserContext();
+
+    if (!localSubscriptionRaw || !userContext || (!userContext.email && !userContext.sub)) {
+        return;
+    }
+
+    try {
+        const localSubscription = JSON.parse(localSubscriptionRaw);
+        if (!localSubscription.id || localSubscription.status !== 'ACTIVE') {
+            return;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/api/paypal/confirm-subscription`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                subscriptionId: localSubscription.id,
+                email: userContext.email || null,
+                userId: userContext.sub || null
+            })
+        });
+
+        if (!response.ok) {
+            return;
+        }
+
+        const result = await response.json();
+        if (!result.success || !result.subscription) {
+            return;
+        }
+
+        localStorage.setItem('funstudySubscription', JSON.stringify({
+            id: result.subscription.id,
+            type: result.subscription.type || localSubscription.type || 'monthly',
+            amount: result.subscription.amount || localSubscription.amount || null,
+            status: result.subscription.status,
+            planId: result.subscription.planId || null,
+            nextBillingTime: result.subscription.nextBillingTime || null,
+            lastPaymentTime: result.subscription.lastPaymentTime || null,
+            source: 'reconciled'
+        }));
+    } catch (error) {
+        console.warn('Unable to reconcile local subscription with server:', error.message);
+    }
+}
+
 // Utility functions
 function showSection(sectionId) {
     console.log('Switching to section:', sectionId);
+    closeTopMenu();
     
     // Hide all sections
     document.querySelectorAll('.section').forEach(section => {
@@ -533,6 +682,7 @@ async function logout() {
         
         // Simple frontend logout without Cognito session interference
         console.log('✅ Logout successful');
+        clearStoredUserContext();
         setLoggedInUserPanel({ visible: false });
         showGenericMessage('You have been logged out successfully!', 'success');
         
@@ -675,6 +825,11 @@ function goHome() {
 // No additional JavaScript initialization is required
 
 function getCurrentUserEmail() {
+    const userContext = getCurrentUserContext();
+    if (userContext?.email) {
+        return userContext.email;
+    }
+
     // Try to get email from various sources
     // This might need to be adapted based on how you store user info
     const verificationEmail = document.getElementById('verificationEmail');
@@ -710,7 +865,17 @@ function checkSubscriptionStatus() {
 
 async function refreshSubscriptionStatusFromServer() {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/paypal/subscription-status`, {
+        const userContext = getCurrentUserContext();
+        const queryParams = new URLSearchParams();
+        if (userContext?.email) {
+            queryParams.set('email', userContext.email);
+        }
+
+        const url = queryParams.toString()
+            ? `${API_BASE_URL}/api/paypal/subscription-status?${queryParams.toString()}`
+            : `${API_BASE_URL}/api/paypal/subscription-status`;
+
+        const response = await fetch(url, {
             method: 'GET',
             credentials: 'include'
         });
@@ -1235,12 +1400,20 @@ function handleAuthCallback() {
     const urlParams = new URLSearchParams(window.location.search);
     const authStatus = urlParams.get('auth');
     const error = urlParams.get('error');
+    const callbackEmail = urlParams.get('email');
+    const callbackName = urlParams.get('name');
+    const callbackSub = urlParams.get('sub');
 
     if (authStatus === 'success') {
         console.log('✅ Authentication successful!');
+        setStoredUserContext({
+            email: callbackEmail || '',
+            name: callbackName || '',
+            sub: callbackSub || ''
+        });
         window.history.replaceState({}, document.title, window.location.pathname);
         refreshLoggedInUserPanel();
-        refreshSubscriptionStatusFromServer().then(isSubscribed => {
+        reconcileLocalSubscriptionWithServer().finally(() => refreshSubscriptionStatusFromServer().then(isSubscribed => {
             if (isSubscribed) {
                 showSection('gradeSection');
                 showGenericMessage('Welcome back! Subscription active.', 'success');
@@ -1248,7 +1421,7 @@ function handleAuthCallback() {
                 showSection('subscriptionSection');
                 showGenericMessage('Login successful! Please choose your subscription to access quizzes!', 'success');
             }
-        });
+        }));
         return;
     }
 
@@ -1458,11 +1631,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Check existing subscription
     checkSubscriptionStatus();
-    refreshSubscriptionStatusFromServer();
     refreshLoggedInUserPanel();
+    reconcileLocalSubscriptionWithServer().finally(() => refreshSubscriptionStatusFromServer());
     checkServer();
 
     window.addEventListener('focus', function() {
+        refreshLoggedInUserPanel();
         refreshSubscriptionStatusFromServer();
+    });
+
+    document.addEventListener('click', function(event) {
+        const menuButton = document.getElementById('menuToggleButton');
+        const menuDropdown = document.getElementById('topMenuDropdown');
+        if (!menuButton || !menuDropdown) {
+            return;
+        }
+
+        if (!menuButton.contains(event.target) && !menuDropdown.contains(event.target)) {
+            closeTopMenu();
+        }
     });
 });

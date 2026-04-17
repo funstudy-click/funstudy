@@ -199,7 +199,7 @@ router.get('/subscription/:id', async (req, res) => {
 // Confirm and persist subscription after frontend PayPal approval
 router.post('/confirm-subscription', async (req, res) => {
     try {
-        const { subscriptionId, email } = req.body;
+        const { subscriptionId, email, userId: requestedUserId } = req.body;
 
         if (!subscriptionId) {
             return res.status(400).json({
@@ -208,8 +208,15 @@ router.post('/confirm-subscription', async (req, res) => {
             });
         }
 
-        const userEmail = req.session?.user?.email || email;
-        const userId = req.session?.user?.sub || null;
+        const userEmail = req.session?.user?.email || email || null;
+        const userId = req.session?.user?.sub || requestedUserId || null;
+
+        if (!userEmail && !userId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Authenticated user context is required to persist subscription'
+            });
+        }
 
         const result = await syncSubscriptionToDynamo({
             subscriptionId,

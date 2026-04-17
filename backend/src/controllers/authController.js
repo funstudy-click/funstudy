@@ -251,8 +251,14 @@ exports.callback = async (req, res) => {
         delete req.session.nonce;
 
         console.log('Authentication successful, redirecting to frontend');
-        // Redirect back to frontend with success
-        res.redirect('https://funstudy-snowy.vercel.app/?auth=success');
+        // Redirect back to frontend with user context so the static frontend can cache it
+        const redirectParams = querystring.stringify({
+            auth: 'success',
+            email: userInfo.email || '',
+            name: userInfo.name || '',
+            sub: userInfo.sub || ''
+        });
+        res.redirect(`https://funstudy-snowy.vercel.app/?${redirectParams}`);
 
     } catch (error) {
         console.error('Auth callback error:', error);
