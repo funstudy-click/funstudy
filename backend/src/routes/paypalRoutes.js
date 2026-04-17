@@ -7,8 +7,8 @@ const subscriptionStoreService = require('../services/subscriptionStoreService')
 const subscriptionStore = new Map();
 const MONTHLY_PLAN_ID = process.env.PAYPAL_MONTHLY_PLAN_ID || 'P-40D15785KF4126507NHQPRZY';
 const YEARLY_PLAN_ID = process.env.PAYPAL_YEARLY_PLAN_ID || 'P-8Y97299421124160VNHQPS7Y';
-const MONTHLY_PLAN_PRICE = process.env.PAYPAL_MONTHLY_PLAN_PRICE || '0.06';
-const YEARLY_PLAN_PRICE = process.env.PAYPAL_YEARLY_PLAN_PRICE || '0.12';
+const MONTHLY_PLAN_PRICE = process.env.PAYPAL_MONTHLY_PLAN_PRICE || '0.01';
+const YEARLY_PLAN_PRICE = process.env.PAYPAL_YEARLY_PLAN_PRICE || '0.02';
 
 function getPlanMetadata(planId) {
     if (planId === YEARLY_PLAN_ID) {
