@@ -16,13 +16,18 @@ function getSubscriptionPlanMetadata(planId) {
 function setLoggedInUserPanel({
     visible,
     primary = '',
-    secondary = ''
+    secondary = '',
+    planLabel = 'Plan: Inactive',
+    nextBillingLabel = 'Next billing: N/A',
+    userId = ''
 }) {
     const panel = document.getElementById('loggedInUserPanel');
     const primaryElement = document.getElementById('loggedInUserPrimary');
     const secondaryElement = document.getElementById('loggedInUserSecondary');
+    const planBadgeElement = document.getElementById('loggedInUserPlanBadge');
+    const nextBillingElement = document.getElementById('loggedInUserNextBilling');
 
-    if (!panel || !primaryElement || !secondaryElement) {
+    if (!panel || !primaryElement || !secondaryElement || !planBadgeElement || !nextBillingElement) {
         return;
     }
 
@@ -30,33 +35,74 @@ function setLoggedInUserPanel({
         panel.style.display = 'none';
         primaryElement.textContent = '';
         secondaryElement.textContent = '';
+        planBadgeElement.textContent = 'Plan: Inactive';
+        planBadgeElement.style.background = '#e2e8f0';
+        planBadgeElement.style.color = '#334155';
+        nextBillingElement.textContent = 'Next billing: N/A';
+        panel.dataset.userId = '';
         return;
     }
 
     panel.style.display = 'block';
     primaryElement.textContent = primary;
     secondaryElement.textContent = secondary;
+    planBadgeElement.textContent = planLabel;
+    nextBillingElement.textContent = nextBillingLabel;
+    panel.dataset.userId = userId;
+
+    if (String(planLabel).toLowerCase().includes('active')) {
+        planBadgeElement.style.background = '#dcfce7';
+        planBadgeElement.style.color = '#166534';
+    } else {
+        planBadgeElement.style.background = '#e2e8f0';
+        planBadgeElement.style.color = '#334155';
+    }
 }
 
-function getLocalSubscriptionSummary() {
+function getLocalSubscriptionDetails() {
     try {
         const raw = localStorage.getItem('funstudySubscription');
-        if (!raw) return 'Subscription: Inactive';
+        if (!raw) {
+            return {
+                isActive: false,
+                planLabel: 'Plan: Inactive',
+                nextBillingLabel: 'Next billing: N/A'
+            };
+        }
 
         const parsed = JSON.parse(raw);
         if (parsed.status !== 'ACTIVE') {
-            return 'Subscription: Inactive';
+            return {
+                isActive: false,
+                planLabel: 'Plan: Inactive',
+                nextBillingLabel: 'Next billing: N/A'
+            };
         }
 
-        const typeText = parsed.type ? `${String(parsed.type).toLowerCase()}` : 'active';
+        const typeText = parsed.type ? String(parsed.type).toLowerCase() : 'active';
+        const formattedType = `${typeText.charAt(0).toUpperCase()}${typeText.slice(1)}`;
+
         if (parsed.nextBillingTime) {
             const renewDate = new Date(parsed.nextBillingTime).toLocaleDateString();
-            return `Subscription: ${typeText} (renews ${renewDate})`;
+            return {
+                isActive: true,
+                planLabel: `Plan: ${formattedType}`,
+                nextBillingLabel: `Next billing: ${renewDate}`
+            };
         }
 
-        return `Subscription: ${typeText}`;
+        return {
+            isActive: true,
+            planLabel: `Plan: ${formattedType}`,
+            nextBillingLabel: 'Next billing: Not available'
+        };
     } catch (error) {
-        return 'Subscription: Inactive';
+        console.warn('Unable to parse local subscription details:', error.message);
+        return {
+            isActive: false,
+            planLabel: 'Plan: Inactive',
+            nextBillingLabel: 'Next billing: N/A'
+        };
     }
 }
 
@@ -82,16 +128,50 @@ async function refreshLoggedInUserPanel() {
 
         const displayName = user.name || user.email || 'Signed in user';
         const email = user.email || '';
-        const subscriptionSummary = getLocalSubscriptionSummary();
+        const subscriptionDetails = getLocalSubscriptionDetails();
+        const userIdText = user.sub || '';
 
         setLoggedInUserPanel({
             visible: true,
             primary: `${displayName}${email && email !== displayName ? ` (${email})` : ''}`,
-            secondary: `${subscriptionSummary}${user.sub ? ` | User ID: ${user.sub}` : ''}`
+            secondary: userIdText ? `User ID: ${userIdText}` : 'User ID: Not available',
+            planLabel: subscriptionDetails.planLabel,
+            nextBillingLabel: subscriptionDetails.nextBillingLabel,
+            userId: userIdText
         });
     } catch (error) {
+        console.warn('Unable to refresh logged-in user panel:', error.message);
         setLoggedInUserPanel({ visible: false });
     }
+}
+
+function copyLoggedInUserId() {
+    const panel = document.getElementById('loggedInUserPanel');
+    const userId = panel && panel.dataset ? panel.dataset.userId : '';
+
+    if (!userId) {
+        showGenericMessage('User ID is not available yet.', 'error');
+        return;
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(userId)
+            .then(() => showGenericMessage('User ID copied to clipboard.', 'success'))
+            .catch(() => showGenericMessage('Unable to copy User ID automatically.', 'error'));
+        return;
+    }
+
+    showGenericMessage(`User ID: ${userId}`, 'success');
+}
+
+function openContactSection(reason) {
+    const reasonMessage = document.getElementById('contactReasonMessage');
+    if (reasonMessage) {
+        reasonMessage.textContent = reason === 'subscription-cancel'
+            ? 'Subscription cancellation requested. Please contact us using the email or phone below.'
+            : 'Need help with your account or subscription? Reach us directly:';
+    }
+    showSection('contactSection');
 }
 
 // Utility functions

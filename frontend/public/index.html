@@ -19,6 +19,14 @@
             <div style="font-size: 0.78rem; font-weight: 700; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.04em;">Logged In User</div>
             <div id="loggedInUserPrimary" style="margin-top: 2px; color: #1f2937; font-size: 0.95rem; font-weight: 600;"></div>
             <div id="loggedInUserSecondary" style="margin-top: 2px; color: #475569; font-size: 0.82rem;"></div>
+            <div style="margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                <span id="loggedInUserPlanBadge" style="display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 0.74rem; font-weight: 700; background: #e2e8f0; color: #334155;">Plan: Inactive</span>
+                <span id="loggedInUserNextBilling" style="font-size: 0.8rem; color: #475569;">Next billing: N/A</span>
+            </div>
+            <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="btn btn-secondary" style="font-size: 0.78rem; padding: 7px 12px;" onclick="copyLoggedInUserId()">Copy User ID</button>
+                <button class="btn" style="font-size: 0.78rem; padding: 7px 12px; background: #dc2626; color: #fff; border: none;" onclick="openContactSection('subscription-cancel')">Cancel Subscription</button>
+            </div>
         </div>
         
         <!-- Login Section -->
@@ -317,8 +325,32 @@
             </div>
         </section>
 
+        <!-- Contact Us Section -->
+        <section id="contactSection" class="section">
+            <h2>📞 Contact Us</h2>
+            <p id="contactReasonMessage" style="color: #334155; margin-bottom: 10px;">Need help with your account or subscription? Reach us directly:</p>
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px; padding: 14px; text-align: left;">
+                <p style="margin: 6px 0;"><strong>Email:</strong> <a href="mailto:amaresh.1279@gmail.com">amaresh.1279@gmail.com</a></p>
+                <p style="margin: 6px 0;"><strong>Phone:</strong> <a href="tel:07942451912">07942451912</a></p>
+                <p style="margin: 10px 0 0; color: #475569; font-size: 0.9rem;">For subscription cancellation, send your registered email and request cancellation. We will process it promptly.</p>
+            </div>
+            <div style="margin-top: 14px;">
+                <button class="btn btn-secondary" onclick="showSection('gradeSection')">🔙 Back</button>
+            </div>
+        </section>
+
         <!-- Loading indicator -->
         <div id="loader" class="loader hidden"></div>
+    </div>
+
+    <div id="alwaysVisibleContact" style="position: fixed; right: 12px; bottom: 12px; z-index: 999; background: #0f172a; color: #fff; border-radius: 10px; padding: 10px 12px; box-shadow: 0 6px 14px rgba(0,0,0,0.2); font-size: 0.8rem; max-width: min(92vw, 360px);">
+        <div style="font-weight: 700; margin-bottom: 5px;">Need Help?</div>
+        <div style="line-height: 1.4;">
+            <a href="mailto:amaresh.1279@gmail.com" style="color: #93c5fd;">amaresh.1279@gmail.com</a>
+            <span style="color: #94a3b8;"> | </span>
+            <a href="tel:07942451912" style="color: #86efac;">07942451912</a>
+        </div>
+        <button class="btn" style="margin-top: 8px; font-size: 0.76rem; padding: 6px 10px;" onclick="openContactSection()">Open Contact Us</button>
     </div>
 
     <script src="js/app_clean.js"></script>
