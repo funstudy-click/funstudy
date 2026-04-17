@@ -128,6 +128,26 @@ class PayPalService {
         }
     }
 
+    async getPlan(planId) {
+        const token = await this.getAccessToken();
+
+        try {
+            const response = await axios({
+                method: 'GET',
+                url: `${this.baseUrl}/v1/billing/plans/${planId}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            console.error('PayPal get plan error:', error.response?.data || error.message);
+            throw error;
+        }
+    }
+
     async cancelSubscription(subscriptionId, reason) {
         const token = await this.getAccessToken();
         

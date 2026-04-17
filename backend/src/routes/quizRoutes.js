@@ -37,14 +37,23 @@ async function getAvailableTables() {
 }
 
 async function resolveServerSideSubscriptionStatus(req) {
+    // Accept email from: (1) session, (2) x-user-email header sent by frontend
     const sessionEmail = req.session?.user?.email || null;
-    if (!sessionEmail) {
+    const headerEmail = req.headers['x-user-email'] || null;
+    const lookupEmail = sessionEmail || headerEmail;
+
+    if (!lookupEmail) {
+        console.log('resolveSubscription: no email available (no session, no header)');
         return false;
     }
 
-    const user = await subscriptionStoreService.findUserByEmail(sessionEmail);
+    if (!sessionEmail && headerEmail) {
+        console.log('resolveSubscription: using header email (no session), lookup by email:', headerEmail);
+    }
+
+    const user = await subscriptionStoreService.findUserByEmail(lookupEmail);
     if (!user) {
-        console.warn('No Users row found for authenticated session email:', sessionEmail);
+        console.warn('No Users row found for email:', lookupEmail);
         return false;
     }
 

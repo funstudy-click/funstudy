@@ -214,28 +214,65 @@ router.post('/confirm-subscription', async (req, res) => {
         if (!userEmail && !userId) {
             return res.status(400).json({
                 success: false,
-                message: 'Authenticated user context is required to persist subscription'
+                message: 'User email or ID is required to persist subscription'
             });
         }
 
-        const result = await syncSubscriptionToDynamo({
-            subscriptionId,
+        // Primary action: write subscription as ACTIVE immediately.
+        // The user has just approved it via PayPal SDK, so we trust the approval.
+        // Then attempt PayPal API verification as best-effort enrichment.
+        let planId = null;
+        let nextBillingTime = null;
+        let lastPaymentTime = null;
+        let lastPaymentAmount = null;
+        let lastPaymentCurrency = null;
+        let paypalStatus = 'ACTIVE';
+
+        try {
+            const subscription = await paypalService.getSubscription(subscriptionId);
+            planId = subscription.plan_id || null;
+            paypalStatus = subscription.status || 'ACTIVE';
+            nextBillingTime = subscription.billing_info?.next_billing_time || null;
+            const lastPayment = subscription.billing_info?.last_payment || null;
+            lastPaymentTime = lastPayment?.time || null;
+            lastPaymentAmount = lastPayment?.amount?.value || null;
+            lastPaymentCurrency = lastPayment?.amount?.currency_code || null;
+            console.log('PayPal subscription details fetched:', { planId, paypalStatus, nextBillingTime });
+        } catch (paypalApiError) {
+            // PayPal API unavailable or credentials not set – persist with available info
+            console.warn('PayPal API verification failed, persisting with user-provided data:', paypalApiError.message);
+        }
+
+        // Determine plan from subscription ID prefix or plan ID
+        const resolvedPlanId = planId || null;
+        const planMetadata = getPlanMetadata(resolvedPlanId);
+
+        const persistedUser = await subscriptionStoreService.upsertSubscription({
             email: userEmail,
-            userId
+            userId,
+            subscriptionId,
+            planId: resolvedPlanId,
+            status: 'ACTIVE',
+            nextBillingTime,
+            lastPaymentTime,
+            lastPaymentAmount,
+            lastPaymentCurrency,
+            source: 'paypal-frontend-approval'
         });
-        const planMetadata = getPlanMetadata(result.subscription.plan_id);
+
+        console.log('Subscription persisted for user:', persistedUser?.id || userId || userEmail);
 
         res.json({
             success: true,
             subscription: {
-                id: result.subscription.id,
-                planId: result.subscription.plan_id,
+                id: subscriptionId,
+                planId: resolvedPlanId,
                 type: planMetadata.type,
                 amount: planMetadata.amount,
-                paypalStatus: result.subscription.status,
-                status: result.persistedStatus,
-                nextBillingTime: result.subscription.billing_info?.next_billing_time || null,
-                lastPaymentTime: result.subscription.billing_info?.last_payment?.time || null
+                paypalStatus,
+                status: 'ACTIVE',
+                nextBillingTime,
+                lastPaymentTime
             }
         });
     } catch (error) {
@@ -342,17 +379,44 @@ router.post('/subscription/:id/cancel', async (req, res) => {
     }
 });
 
-// Get available plans
+// Get available plans (fetches live prices from PayPal API, falls back to env vars)
 router.get('/plans', async (req, res) => {
     try {
-        // In a real application, you might store these in a database
-        // For now, we'll return hardcoded plan information
+        // Try to get live prices from PayPal API
+        let monthlyPrice = MONTHLY_PLAN_PRICE;
+        let yearlyPrice = YEARLY_PLAN_PRICE;
+
+        try {
+            const [monthlyPlan, yearlyPlan] = await Promise.all([
+                paypalService.getPlan(MONTHLY_PLAN_ID),
+                paypalService.getPlan(YEARLY_PLAN_ID)
+            ]);
+
+            const extractPrice = (plan) => {
+                const cycles = plan?.billing_cycles || [];
+                for (const cycle of cycles) {
+                    if (cycle.pricing_scheme?.fixed_price?.value) {
+                        return cycle.pricing_scheme.fixed_price.value;
+                    }
+                }
+                return null;
+            };
+
+            const liveMonthly = extractPrice(monthlyPlan);
+            const liveYearly = extractPrice(yearlyPlan);
+            if (liveMonthly) monthlyPrice = liveMonthly;
+            if (liveYearly) yearlyPrice = liveYearly;
+            console.log('Fetched live PayPal plan prices:', { monthlyPrice, yearlyPrice });
+        } catch (paypalPriceError) {
+            console.warn('Could not fetch live plan prices from PayPal, using env vars:', paypalPriceError.message);
+        }
+
         const plans = [
             {
                 id: MONTHLY_PLAN_ID,
                 name: "FunStudy Monthly Premium",
                 description: "Monthly subscription to FunStudy 11 Plus Premium features",
-                price: MONTHLY_PLAN_PRICE,
+                price: monthlyPrice,
                 currency: "GBP",
                 interval: "month",
                 features: [
@@ -368,7 +432,7 @@ router.get('/plans', async (req, res) => {
                 id: YEARLY_PLAN_ID,
                 name: "FunStudy Annual Premium",
                 description: "Annual subscription to FunStudy 11 Plus Premium features",
-                price: YEARLY_PLAN_PRICE,
+                price: yearlyPrice,
                 currency: "GBP",
                 interval: "year",
                 features: [

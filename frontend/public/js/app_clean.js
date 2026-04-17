@@ -880,15 +880,18 @@ async function refreshSubscriptionStatusFromServer() {
             credentials: 'include'
         });
 
+        // On non-200 (e.g. 401 no session, 503 backend down) treat as UNKNOWN, not unsubscribed.
+        // Only clear local state when server explicitly confirms user is not subscribed.
         if (!response.ok) {
-            localStorage.removeItem('funstudySubscription');
-            return false;
+            console.warn('Subscription status check returned', response.status, '– keeping local state');
+            return null; // unknown
         }
 
         const data = await response.json();
         if (!data.success) {
-            localStorage.removeItem('funstudySubscription');
-            return false;
+            // Server said it couldn't check – keep existing local state
+            console.warn('Subscription status check: data.success=false, keeping local state');
+            return null;
         }
 
         if (data.isSubscribed) {
@@ -907,12 +910,13 @@ async function refreshSubscriptionStatusFromServer() {
             return true;
         }
 
+        // Server explicitly said not subscribed (200 + isSubscribed:false) → clear local state
         localStorage.removeItem('funstudySubscription');
         return false;
     } catch (error) {
+        // Network error / backend unavailable – don't wipe local state
         console.warn('Subscription status sync failed:', error.message);
-        localStorage.removeItem('funstudySubscription');
-        return false;
+        return null;
     }
 }
 
@@ -964,6 +968,11 @@ async function startQuiz(difficulty) {
         const questionCount = isSubscribed ? 25 : 5;
         const apiUrl = `${API_BASE_URL}/api/quiz/questions/${currentGrade}/${currentSubject}/${difficulty}?subscribed=${isSubscribed}&questionCount=${questionCount}`;
         console.log('API URL:', apiUrl);
+
+        // Send user email header so backend can verify subscription even when session cookie
+        // is absent (cross-domain Vercel → Render setup).
+        const userCtx = getStoredUserContext();
+        const userEmailForHeader = userCtx?.email || '';
         
         let response;
         try {
@@ -971,9 +980,11 @@ async function startQuiz(difficulty) {
             response = await fetch(apiUrl, {
                 method: 'GET',
                 mode: 'cors',
+                credentials: 'include',
                 headers: {
                     'x-user-subscribed': String(isSubscribed),
-                    'subscription-status': isSubscribed ? 'active' : 'inactive'
+                    'subscription-status': isSubscribed ? 'active' : 'inactive',
+                    'x-user-email': userEmailForHeader
                 }
             });
             
