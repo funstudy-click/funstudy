@@ -13,6 +13,87 @@ function getSubscriptionPlanMetadata(planId) {
     return SUBSCRIPTION_PLAN_METADATA[planId] || { type: 'monthly', amount: null };
 }
 
+function setLoggedInUserPanel({
+    visible,
+    primary = '',
+    secondary = ''
+}) {
+    const panel = document.getElementById('loggedInUserPanel');
+    const primaryElement = document.getElementById('loggedInUserPrimary');
+    const secondaryElement = document.getElementById('loggedInUserSecondary');
+
+    if (!panel || !primaryElement || !secondaryElement) {
+        return;
+    }
+
+    if (!visible) {
+        panel.style.display = 'none';
+        primaryElement.textContent = '';
+        secondaryElement.textContent = '';
+        return;
+    }
+
+    panel.style.display = 'block';
+    primaryElement.textContent = primary;
+    secondaryElement.textContent = secondary;
+}
+
+function getLocalSubscriptionSummary() {
+    try {
+        const raw = localStorage.getItem('funstudySubscription');
+        if (!raw) return 'Subscription: Inactive';
+
+        const parsed = JSON.parse(raw);
+        if (parsed.status !== 'ACTIVE') {
+            return 'Subscription: Inactive';
+        }
+
+        const typeText = parsed.type ? `${String(parsed.type).toLowerCase()}` : 'active';
+        if (parsed.nextBillingTime) {
+            const renewDate = new Date(parsed.nextBillingTime).toLocaleDateString();
+            return `Subscription: ${typeText} (renews ${renewDate})`;
+        }
+
+        return `Subscription: ${typeText}`;
+    } catch (error) {
+        return 'Subscription: Inactive';
+    }
+}
+
+async function refreshLoggedInUserPanel() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/auth/debug/session`, {
+            method: 'GET',
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            setLoggedInUserPanel({ visible: false });
+            return;
+        }
+
+        const data = await response.json();
+        const user = data && data.user ? data.user : null;
+
+        if (!data.isAuthenticated || !user) {
+            setLoggedInUserPanel({ visible: false });
+            return;
+        }
+
+        const displayName = user.name || user.email || 'Signed in user';
+        const email = user.email || '';
+        const subscriptionSummary = getLocalSubscriptionSummary();
+
+        setLoggedInUserPanel({
+            visible: true,
+            primary: `${displayName}${email && email !== displayName ? ` (${email})` : ''}`,
+            secondary: `${subscriptionSummary}${user.sub ? ` | User ID: ${user.sub}` : ''}`
+        });
+    } catch (error) {
+        setLoggedInUserPanel({ visible: false });
+    }
+}
+
 // Utility functions
 function showSection(sectionId) {
     console.log('Switching to section:', sectionId);
@@ -26,6 +107,7 @@ function showSection(sectionId) {
     const targetSection = document.getElementById(sectionId);
     if (targetSection) {
         targetSection.classList.add('active');
+        refreshLoggedInUserPanel();
         
         // Initialize PayPal when showing subscription section
         if (sectionId === 'subscriptionSection') {
@@ -371,6 +453,7 @@ async function logout() {
         
         // Simple frontend logout without Cognito session interference
         console.log('✅ Logout successful');
+        setLoggedInUserPanel({ visible: false });
         showGenericMessage('You have been logged out successfully!', 'success');
         
         // Clean redirect to login page
@@ -1076,6 +1159,7 @@ function handleAuthCallback() {
     if (authStatus === 'success') {
         console.log('✅ Authentication successful!');
         window.history.replaceState({}, document.title, window.location.pathname);
+        refreshLoggedInUserPanel();
         refreshSubscriptionStatusFromServer().then(isSubscribed => {
             if (isSubscribed) {
                 showSection('gradeSection');
@@ -1295,6 +1379,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check existing subscription
     checkSubscriptionStatus();
     refreshSubscriptionStatusFromServer();
+    refreshLoggedInUserPanel();
     checkServer();
 
     window.addEventListener('focus', function() {
