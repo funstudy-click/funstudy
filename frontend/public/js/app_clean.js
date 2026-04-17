@@ -307,7 +307,9 @@ async function register() {
             
             document.getElementById('registerEmail').value = '';
             document.getElementById('registerPassword').value = '';
-            document.getElementById('gradeLevel').value = 'GradeA';
+            if (gradeLevelElement) {
+                gradeLevelElement.value = 'GradeA';
+            }
             
             setTimeout(() => showSection('verificationSection'), 2000);
         } else {
