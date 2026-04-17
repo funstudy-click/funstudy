@@ -71,7 +71,8 @@ const corsOptions = {
         'Access-Control-Allow-Headers',
         'Access-Control-Allow-Methods',
         'x-user-subscribed',        // Custom subscription headers
-        'subscription-status'       // Custom subscription headers
+        'subscription-status',      // Custom subscription headers
+        'x-user-email'              // User email for cross-domain subscription lookup
     ],
     exposedHeaders: [
         'Cache-Control',
