@@ -396,13 +396,16 @@ async function logout() {
 async function confirmEmail() {
     const emailElement = document.getElementById('verificationEmail');
     const codeElement = document.getElementById('verificationCode');
-    
-    if (!emailElement || !codeElement) {
+
+    if (!codeElement) {
         showGenericMessage('Verification form elements not found', 'error');
         return;
     }
-    
-    const email = emailElement.value.trim();
+
+    // Get email from hidden field, or fall back to what was stored during registration
+    const email = (emailElement && emailElement.value.trim())
+        || localStorage.getItem('userEmail')
+        || '';
     const code = codeElement.value.trim();
     
     if (!email || !code) {
@@ -437,14 +440,11 @@ async function confirmEmail() {
 
 async function resendConfirmationCode() {
     const emailElement = document.getElementById('verificationEmail');
-    
-    if (!emailElement) {
-        showGenericMessage('Email field not found', 'error');
-        return;
-    }
-    
-    const email = emailElement.value.trim();
-    
+
+    const email = (emailElement && emailElement.value.trim())
+        || localStorage.getItem('userEmail')
+        || '';
+
     if (!email) {
         showGenericMessage('Please enter your email address', 'error');
         return;

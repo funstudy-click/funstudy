@@ -67,12 +67,13 @@
         <section id="verificationSection" class="section">
             <h2>📧 Verify Your Email</h2>
             <p>We've sent a verification code to your email. Please enter it below:</p>
+            <input type="hidden" id="verificationEmail">
             <div class="form-group">
                 <label for="verificationCode">🔢 Verification Code:</label>
                 <input type="text" id="verificationCode" placeholder="Enter 6-digit code">
             </div>
-            <button class="btn" onclick="verifyEmail()">✅ Verify Email</button>
-            <button class="btn btn-secondary" onclick="resendVerificationCode()">📧 Resend Code</button>
+            <button class="btn" onclick="confirmEmail()">✅ Verify Email</button>
+            <button class="btn btn-secondary" onclick="resendConfirmationCode()">📧 Resend Code</button>
             <div id="verificationMessage"></div>
         </section>
 
