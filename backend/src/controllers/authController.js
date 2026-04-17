@@ -561,10 +561,26 @@ function fetchUserInfo(accessToken) {
 }
 
 async function saveUserIfNew(userInfo) {
+    const now = new Date().toISOString();
     const params = {
         TableName: 'Users',
         Key: { id: userInfo.sub },
-        UpdateExpression: 'SET email = :email, username = :username, lastLogin = :now, #name = :name',
+        UpdateExpression: [
+            'SET email = :email',
+            'username = :username',
+            'lastLogin = :now',
+            '#name = :name',
+            'createdAt = if_not_exists(createdAt, :now)',
+            'isSubscribed = if_not_exists(isSubscribed, :isSubscribed)',
+            'subscriptionStatus = if_not_exists(subscriptionStatus, :subscriptionStatus)',
+            'subscriptionId = if_not_exists(subscriptionId, :subscriptionId)',
+            'subscriptionPlanId = if_not_exists(subscriptionPlanId, :subscriptionPlanId)',
+            'subscriptionNextBillingTime = if_not_exists(subscriptionNextBillingTime, :subscriptionNextBillingTime)',
+            'subscriptionLastPaymentTime = if_not_exists(subscriptionLastPaymentTime, :subscriptionLastPaymentTime)',
+            'subscriptionLastPaymentAmount = if_not_exists(subscriptionLastPaymentAmount, :subscriptionLastPaymentAmount)',
+            'subscriptionPayments = if_not_exists(subscriptionPayments, :subscriptionPayments)',
+            'subscriptionUpdatedAt = if_not_exists(subscriptionUpdatedAt, :subscriptionUpdatedAt)'
+        ].join(', '),
         ExpressionAttributeNames: {
             '#name': 'name'
         },
@@ -572,7 +588,16 @@ async function saveUserIfNew(userInfo) {
             ':email': userInfo.email,
             ':username': userInfo.preferred_username || userInfo.email,
             ':name': userInfo.name || userInfo.email.split('@')[0],
-            ':now': new Date().toISOString()
+            ':now': now,
+            ':isSubscribed': false,
+            ':subscriptionStatus': 'INACTIVE',
+            ':subscriptionId': null,
+            ':subscriptionPlanId': null,
+            ':subscriptionNextBillingTime': null,
+            ':subscriptionLastPaymentTime': null,
+            ':subscriptionLastPaymentAmount': null,
+            ':subscriptionPayments': [],
+            ':subscriptionUpdatedAt': now
         },
         ReturnValues: 'ALL_NEW'
     };
@@ -586,6 +611,7 @@ async function saveUserIfNew(userInfo) {
 }
 
 async function saveUserMetadata(userData) {
+    const now = new Date().toISOString();
     const params = {
         TableName: 'Users',
         Item: {
@@ -594,8 +620,17 @@ async function saveUserMetadata(userData) {
             username: userData.email,
             name: userData.name,
             gradeLevel: userData.gradeLevel,
-            createdAt: new Date().toISOString(),
-            lastLogin: new Date().toISOString()
+            createdAt: now,
+            lastLogin: now,
+            isSubscribed: false,
+            subscriptionStatus: 'INACTIVE',
+            subscriptionId: null,
+            subscriptionPlanId: null,
+            subscriptionNextBillingTime: null,
+            subscriptionLastPaymentTime: null,
+            subscriptionLastPaymentAmount: null,
+            subscriptionPayments: [],
+            subscriptionUpdatedAt: now
         }
     };
 
