@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const AWS = require('aws-sdk');
+const subscriptionStoreService = require('../services/subscriptionStoreService');
 
 // Configure AWS
 AWS.config.update({ region: process.env.AWS_REGION || 'eu-north-1' });
@@ -33,6 +34,21 @@ async function getAvailableTables() {
         console.error('Error listing tables:', error);
         return [];
     }
+}
+
+async function resolveServerSideSubscriptionStatus(req) {
+    const sessionEmail = req.session?.user?.email || null;
+    if (!sessionEmail) {
+        return false;
+    }
+
+    const user = await subscriptionStoreService.findUserByEmail(sessionEmail);
+    if (!user) {
+        console.warn('No Users row found for authenticated session email:', sessionEmail);
+        return false;
+    }
+
+    return user.subscriptionStatus === 'ACTIVE' || user.isSubscribed === true;
 }
 
 // GET /api/quiz/questions/:grade/:subject/:difficulty
@@ -126,11 +142,8 @@ router.get('/questions/:grade/:subject/:difficulty', async (req, res) => {
             });
         }
         
-        // Check user subscription status from query params first, then headers.
-        const subscribedFromQuery = String(req.query.subscribed || '').toLowerCase() === 'true';
-        const subscribedFromHeader = req.headers['x-user-subscribed'] === 'true' ||
-                                    req.headers['subscription-status'] === 'active';
-        const isSubscribed = subscribedFromQuery || subscribedFromHeader || false;
+        // Security: subscription access must be resolved on the server, not trusted from client flags.
+        const isSubscribed = await resolveServerSideSubscriptionStatus(req);
 
         // Allow caller to request a count, but cap to avoid huge payloads.
         const requestedCount = parseInt(req.query.questionCount, 10);

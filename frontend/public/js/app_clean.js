@@ -881,12 +881,14 @@ async function refreshSubscriptionStatusFromServer() {
         });
 
         if (!response.ok) {
-            return checkSubscriptionStatus();
+            localStorage.removeItem('funstudySubscription');
+            return false;
         }
 
         const data = await response.json();
         if (!data.success) {
-            return checkSubscriptionStatus();
+            localStorage.removeItem('funstudySubscription');
+            return false;
         }
 
         if (data.isSubscribed) {
@@ -909,7 +911,8 @@ async function refreshSubscriptionStatusFromServer() {
         return false;
     } catch (error) {
         console.warn('Subscription status sync failed:', error.message);
-        return checkSubscriptionStatus();
+        localStorage.removeItem('funstudySubscription');
+        return false;
     }
 }
 
@@ -1413,7 +1416,7 @@ function handleAuthCallback() {
         });
         window.history.replaceState({}, document.title, window.location.pathname);
         refreshLoggedInUserPanel();
-        reconcileLocalSubscriptionWithServer().finally(() => refreshSubscriptionStatusFromServer().then(isSubscribed => {
+        refreshSubscriptionStatusFromServer().then(isSubscribed => {
             if (isSubscribed) {
                 showSection('gradeSection');
                 showGenericMessage('Welcome back! Subscription active.', 'success');
@@ -1421,7 +1424,7 @@ function handleAuthCallback() {
                 showSection('subscriptionSection');
                 showGenericMessage('Login successful! Please choose your subscription to access quizzes!', 'success');
             }
-        }));
+        });
         return;
     }
 
@@ -1632,7 +1635,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check existing subscription
     checkSubscriptionStatus();
     refreshLoggedInUserPanel();
-    reconcileLocalSubscriptionWithServer().finally(() => refreshSubscriptionStatusFromServer());
+    refreshSubscriptionStatusFromServer();
     checkServer();
 
     window.addEventListener('focus', function() {
