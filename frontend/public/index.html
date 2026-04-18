@@ -190,6 +190,9 @@
                                     const userContext = globalThis.getCurrentUserContext ? globalThis.getCurrentUserContext() : null;
                                     const userEmail = userContext && userContext.email ? userContext.email : (localStorage.getItem('userEmail') || null);
                                     const userId = userContext && userContext.sub ? userContext.sub : null;
+                                    const normalizedAmount = typeof config.amount === 'string'
+                                        ? config.amount.replace('£', '').trim()
+                                        : null;
 
                                     fetch(`${backendBaseUrl}/api/paypal/confirm-subscription`, {
                                         method: 'POST',
@@ -200,7 +203,11 @@
                                         body: JSON.stringify({
                                             subscriptionId: data.subscriptionID,
                                             email: userEmail,
-                                            userId: userId
+                                            userId: userId,
+                                            planId: config.planId,
+                                            planType: config.type,
+                                            amount: normalizedAmount,
+                                            currency: 'GBP'
                                         })
                                     })
                                     .then(response => response.json())

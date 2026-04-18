@@ -44,6 +44,16 @@ function isOverdueByOneMonth(nextBillingTime) {
     return now > (nextBilling + graceMs);
 }
 
+function computeFallbackNextBillingTime(planType) {
+    const next = new Date();
+    if (planType === 'yearly') {
+        next.setFullYear(next.getFullYear() + 1);
+    } else {
+        next.setMonth(next.getMonth() + 1);
+    }
+    return next.toISOString();
+}
+
 async function syncSubscriptionToDynamo({ subscriptionId, email, userId }) {
     const subscription = await paypalService.getSubscription(subscriptionId);
 
@@ -199,7 +209,15 @@ router.get('/subscription/:id', async (req, res) => {
 // Confirm and persist subscription after frontend PayPal approval
 router.post('/confirm-subscription', async (req, res) => {
     try {
-        const { subscriptionId, email, userId: requestedUserId } = req.body;
+        const {
+            subscriptionId,
+            email,
+            userId: requestedUserId,
+            planId: requestedPlanId,
+            planType: requestedPlanType,
+            amount: requestedAmount,
+            currency: requestedCurrency
+        } = req.body;
 
         if (!subscriptionId) {
             return res.status(400).json({
@@ -243,9 +261,23 @@ router.post('/confirm-subscription', async (req, res) => {
             console.warn('PayPal API verification failed, persisting with user-provided data:', paypalApiError.message);
         }
 
-        // Determine plan from subscription ID prefix or plan ID
-        const resolvedPlanId = planId || null;
+        // Resolve plan and payment metadata even when PayPal API details are delayed/unavailable.
+        const resolvedPlanId = planId || requestedPlanId || null;
         const planMetadata = getPlanMetadata(resolvedPlanId);
+        const resolvedPlanType = requestedPlanType || planMetadata.type || 'monthly';
+        const resolvedCurrency = lastPaymentCurrency || requestedCurrency || 'GBP';
+        const resolvedAmount =
+            lastPaymentAmount ||
+            (requestedAmount != null ? String(requestedAmount) : null) ||
+            (planMetadata.amount ? String(planMetadata.amount).replace('£', '') : null);
+
+        if (!lastPaymentTime) {
+            lastPaymentTime = new Date().toISOString();
+        }
+
+        if (!nextBillingTime) {
+            nextBillingTime = computeFallbackNextBillingTime(resolvedPlanType);
+        }
 
         const persistedUser = await subscriptionStoreService.upsertSubscription({
             email: userEmail,
@@ -255,10 +287,26 @@ router.post('/confirm-subscription', async (req, res) => {
             status: 'ACTIVE',
             nextBillingTime,
             lastPaymentTime,
-            lastPaymentAmount,
-            lastPaymentCurrency,
+            lastPaymentAmount: resolvedAmount,
+            lastPaymentCurrency: resolvedCurrency,
             source: 'paypal-frontend-approval'
         });
+
+        try {
+            await subscriptionStoreService.addPaymentRecord({
+                email: userEmail,
+                userId: persistedUser?.id || userId,
+                subscriptionId,
+                amount: resolvedAmount,
+                currency: resolvedCurrency,
+                paidAt: lastPaymentTime,
+                transactionId: `paypal_approval_${subscriptionId}`,
+                status: 'COMPLETED',
+                source: 'paypal-frontend-approval'
+            });
+        } catch (paymentRecordError) {
+            console.warn('Unable to append initial payment record:', paymentRecordError.message);
+        }
 
         console.log('Subscription persisted for user:', persistedUser?.id || userId || userEmail);
 
@@ -267,8 +315,8 @@ router.post('/confirm-subscription', async (req, res) => {
             subscription: {
                 id: subscriptionId,
                 planId: resolvedPlanId,
-                type: planMetadata.type,
-                amount: planMetadata.amount,
+                type: resolvedPlanType,
+                amount: resolvedAmount ? `£${resolvedAmount}` : planMetadata.amount,
                 paypalStatus,
                 status: 'ACTIVE',
                 nextBillingTime,
