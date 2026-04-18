@@ -446,22 +446,27 @@ exports.logout = (req, res) => {
     try {
         console.log('=== LOGOUT REQUEST ===');
 
-        // Check if user is authenticated
-        if (!req.session?.user) {
-            console.log('No user session found, returning success');
-            return res.json({ success: true, message: 'Already logged out' });
+        // Build the Cognito logout URL — this clears the Cognito SSO session so the
+        // next login always prompts for credentials.
+        const appBaseUrl = process.env.FRONTEND_URL || 'https://funstudy-snowy.vercel.app';
+        const cognitoLogoutUrl = `https://${COGNITO_DOMAIN}/logout?client_id=${process.env.COGNITO_CLIENT_ID}&logout_uri=${encodeURIComponent(appBaseUrl)}`;
+
+        const sendLogoutResponse = () => {
+            res.json({ success: true, message: 'Logout successful', cognitoLogoutUrl });
+        };
+
+        if (req.session?.user) {
+            req.session.destroy((err) => {
+                if (err) {
+                    console.error('Session destruction error:', err);
+                }
+                console.log('Session destroyed successfully');
+                sendLogoutResponse();
+            });
+        } else {
+            console.log('No user session found');
+            sendLogoutResponse();
         }
-
-        req.session.destroy((err) => {
-            if (err) {
-                console.error('Session destruction error:', err);
-                return res.status(500).json({ success: false, error: 'Failed to logout' });
-            }
-
-            // Return success response instead of redirecting
-            console.log('Session destroyed successfully');
-            res.json({ success: true, message: 'Logout successful' });
-        });
     } catch (error) {
         console.error('Logout error:', error);
         res.status(500).json({ success: false, error: 'Logout failed' });

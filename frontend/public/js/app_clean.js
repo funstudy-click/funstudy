@@ -664,6 +664,7 @@ async function logout() {
         }
         
         // Call backend logout to destroy session
+        let cognitoLogoutUrl = null;
         try {
             const response = await fetch(`${API_BASE_URL}/auth/logout`, {
                 method: 'GET',
@@ -673,6 +674,7 @@ async function logout() {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Backend logout response:', data);
+                cognitoLogoutUrl = data.cognitoLogoutUrl || null;
             } else {
                 console.log('Backend logout failed with status:', response.status);
             }
@@ -680,18 +682,26 @@ async function logout() {
             console.log('Backend logout failed, but continuing with frontend logout:', backendError);
         }
         
-        // Simple frontend logout without Cognito session interference
-        console.log('✅ Logout successful');
+        // Clear all frontend state
         clearStoredUserContext();
         setLoggedInUserPanel({ visible: false });
-        showGenericMessage('You have been logged out successfully!', 'success');
-        
-        // Clean redirect to login page
-        setTimeout(() => {
+        console.log('✅ Logout successful');
+
+        if (cognitoLogoutUrl) {
+            // Redirect to Cognito logout endpoint — this clears the Cognito SSO session
+            // so the next login always shows the credentials form.
+            console.log('Redirecting to Cognito logout:', cognitoLogoutUrl);
             hideLoader();
-            window.history.replaceState({}, document.title, window.location.pathname);
-            showSection('loginSection');
-        }, 1500);
+            window.location.href = cognitoLogoutUrl;
+        } else {
+            // Fallback: Cognito URL unavailable, just show login page locally.
+            showGenericMessage('You have been logged out successfully!', 'success');
+            setTimeout(() => {
+                hideLoader();
+                window.history.replaceState({}, document.title, window.location.pathname);
+                showSection('loginSection');
+            }, 1500);
+        }
         
     } catch (error) {
         console.error('Logout error:', error);
