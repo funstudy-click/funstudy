@@ -539,12 +539,6 @@ function displayDifficulties(difficulties) {
 async function login() {
     try {
         console.log('🔐 Starting login process...');
-
-        // If already subscribed on this device, skip payment screen after login.
-        if (checkSubscriptionStatus()) {
-            showSection('gradeSection');
-            return;
-        }
         
         // Local development bypass
         if (window.location.hostname === 'localhost') {
@@ -646,17 +640,9 @@ async function logout() {
             delete window.quizResults;
         }
         
-        // Clear browser storage but preserve subscription for the same returning user.
+        // Clear browser storage to avoid stale subscription flags after logout.
         try {
-            const savedSubscription = localStorage.getItem('funstudySubscription');
-            const savedUserEmail = localStorage.getItem('userEmail');
             localStorage.clear();
-            if (savedSubscription) {
-                localStorage.setItem('funstudySubscription', savedSubscription);
-            }
-            if (savedUserEmail) {
-                localStorage.setItem('userEmail', savedUserEmail);
-            }
             sessionStorage.clear();
             console.log('Browser storage cleared');
         } catch (storageError) {
