@@ -417,10 +417,25 @@ router.post('/subscription/:id/cancel', async (req, res) => {
     try {
         const { id } = req.params;
         const { reason } = req.body;
+        const requestedEmail = req.body?.email || null;
+        const requestedUserId = req.body?.userId || null;
+        const sessionEmail = req.session?.user?.email || null;
+        const sessionUserId = req.session?.user?.sub || null;
         
         const cancelled = await paypalService.cancelSubscription(id, reason);
         
         if (cancelled) {
+            const existing = await subscriptionStoreService.findUserBySubscriptionId(id);
+            await subscriptionStoreService.upsertSubscription({
+                email: sessionEmail || requestedEmail || existing?.email || null,
+                userId: sessionUserId || requestedUserId || existing?.id || null,
+                subscriptionId: id,
+                planId: existing?.subscriptionPlanId || null,
+                status: 'INACTIVE',
+                nextBillingTime: null,
+                source: 'paypal-api-cancel'
+            });
+
             res.json({
                 success: true,
                 message: 'Subscription cancelled successfully'
@@ -638,6 +653,27 @@ router.post('/webhook', async (req, res) => {
                     status: 'COMPLETED',
                     source: 'paypal-webhook'
                 });
+                break;
+
+            case 'PAYMENT.SALE.REFUNDED':
+                console.log('Subscription payment refunded:', event.resource.id);
+                await subscriptionStoreService.addPaymentRecord({
+                    subscriptionId: event.resource.billing_agreement_id || event.resource.subscription_id,
+                    amount: event.resource.amount?.total || event.resource.amount?.value || null,
+                    currency: event.resource.amount?.currency || event.resource.amount?.currency_code || null,
+                    paidAt: event.resource.update_time || event.resource.create_time || new Date().toISOString(),
+                    transactionId: event.resource.id,
+                    status: 'REFUNDED',
+                    source: 'paypal-webhook'
+                });
+
+                if (event.resource.billing_agreement_id || event.resource.subscription_id) {
+                    await subscriptionStoreService.upsertSubscription({
+                        subscriptionId: event.resource.billing_agreement_id || event.resource.subscription_id,
+                        status: 'INACTIVE',
+                        source: 'paypal-webhook-refund'
+                    });
+                }
                 break;
 
             default:

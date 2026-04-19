@@ -916,6 +916,57 @@ async function refreshSubscriptionStatusFromServer() {
     }
 }
 
+async function cancelSubscription() {
+    try {
+        const localSubscriptionRaw = localStorage.getItem('funstudySubscription');
+        const localSubscription = localSubscriptionRaw ? JSON.parse(localSubscriptionRaw) : null;
+        const subscriptionId = localSubscription?.id || null;
+
+        if (!subscriptionId) {
+            showGenericMessage('No active subscription found to cancel.', 'error');
+            return;
+        }
+
+        const confirmed = window.confirm('Are you sure you want to cancel your subscription? You will lose premium access after cancellation.');
+        if (!confirmed) {
+            return;
+        }
+
+        showLoader();
+
+        const userContext = getCurrentUserContext();
+        const response = await fetch(`${API_BASE_URL}/api/paypal/subscription/${subscriptionId}/cancel`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                reason: 'Cancelled by user from frontend',
+                email: userContext?.email || null,
+                userId: userContext?.sub || null
+            })
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || 'Unable to cancel subscription');
+        }
+
+        localStorage.removeItem('funstudySubscription');
+        await refreshSubscriptionStatusFromServer();
+        refreshLoggedInUserPanel();
+
+        showGenericMessage('Subscription cancelled successfully.', 'success');
+        showSection('subscriptionSection');
+    } catch (error) {
+        console.error('Cancel subscription error:', error);
+        showGenericMessage(`Failed to cancel subscription: ${error.message}`, 'error');
+    } finally {
+        hideLoader();
+    }
+}
+
 // Skip subscription and continue with limited access
 function skipSubscription() {
     console.log('User skipped subscription');
