@@ -31,8 +31,22 @@ function getPlanMetadata(planId) {
     };
 }
 
-function resolveSubscriptionStatus(paypalStatus) {
-    return String(paypalStatus || '').toUpperCase() === 'ACTIVE' ? 'ACTIVE' : 'INACTIVE';
+function resolveSubscriptionStatus(paypalStatus, previousStatus) {
+    const status = String(paypalStatus || '').toUpperCase();
+
+    if (status === 'ACTIVE') return 'ACTIVE';
+
+    // Only treat terminal states as inactive.
+    if (['CANCELLED', 'EXPIRED', 'SUSPENDED'].includes(status)) {
+        return 'INACTIVE';
+    }
+
+    // Keep active state for pending/transitional statuses to avoid false downgrades.
+    if (previousStatus === 'ACTIVE') {
+        return 'ACTIVE';
+    }
+
+    return 'INACTIVE';
 }
 
 function isOverdueByOneMonth(nextBillingTime) {
@@ -54,10 +68,10 @@ function computeFallbackNextBillingTime(planType) {
     return next.toISOString();
 }
 
-async function syncSubscriptionToDynamo({ subscriptionId, email, userId }) {
+async function syncSubscriptionToDynamo({ subscriptionId, email, userId, previousStatus }) {
     const subscription = await paypalService.getSubscription(subscriptionId);
 
-    let status = resolveSubscriptionStatus(subscription.status);
+    let status = resolveSubscriptionStatus(subscription.status, previousStatus);
     const nextBillingTime = subscription.billing_info?.next_billing_time || null;
     const lastPayment = subscription.billing_info?.last_payment || null;
 
@@ -362,7 +376,8 @@ router.get('/subscription-status', async (req, res) => {
             const syncResult = await syncSubscriptionToDynamo({
                 subscriptionId: user.subscriptionId,
                 email: userEmail,
-                userId: user.id
+                userId: user.id,
+                previousStatus: resolvedStatus
             });
 
             resolvedStatus = syncResult.persistedStatus;

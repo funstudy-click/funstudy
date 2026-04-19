@@ -20,11 +20,33 @@ async function findUserByEmail(email) {
         TableName: USERS_TABLE,
         FilterExpression: '#email = :email',
         ExpressionAttributeNames: { '#email': 'email' },
-        ExpressionAttributeValues: { ':email': email },
-        Limit: 1
+        ExpressionAttributeValues: { ':email': email }
     }).promise();
 
-    return result.Items && result.Items.length > 0 ? result.Items[0] : null;
+    const items = result.Items || [];
+    if (items.length === 0) return null;
+
+    const scoreItem = (item) => {
+        let score = 0;
+        const id = String(item.id || '');
+        if (id && !id.startsWith('paypal#')) score += 50;
+        if (item.subscriptionStatus === 'ACTIVE' || item.isSubscribed === true) score += 20;
+        if (item.subscriptionId) score += 10;
+        if (item.subscriptionPlanId) score += 5;
+        if (item.subscriptionUpdatedAt) score += 2;
+        return score;
+    };
+
+    const sorted = [...items].sort((a, b) => {
+        const scoreDiff = scoreItem(b) - scoreItem(a);
+        if (scoreDiff !== 0) return scoreDiff;
+
+        const aTime = Date.parse(a.subscriptionUpdatedAt || a.updatedAt || a.createdAt || 0) || 0;
+        const bTime = Date.parse(b.subscriptionUpdatedAt || b.updatedAt || b.createdAt || 0) || 0;
+        return bTime - aTime;
+    });
+
+    return sorted[0] || null;
 }
 
 async function findUserBySubscriptionId(subscriptionId) {
