@@ -424,8 +424,6 @@ router.post('/subscription/:id/cancel', async (req, res) => {
 
         let cancelled = false;
         let paypalCancelError = null;
-        let refundResult = null;
-        let refundError = null;
 
         try {
             cancelled = await paypalService.cancelSubscription(id, reason);
@@ -445,55 +443,12 @@ router.post('/subscription/:id/cancel', async (req, res) => {
             source: cancelled ? 'paypal-api-cancel' : 'paypal-local-fallback-cancel'
         });
 
-        // Attempt to refund the most recent transaction for this subscription
-        if (cancelled) {
-            try {
-                const txns = await paypalService.getSubscriptionTransactions(id);
-                const completedTxns = (txns?.transactions || []).filter(t => t.status === 'COMPLETED');
-                if (completedTxns.length > 0) {
-                    const latest = completedTxns.sort((a, b) =>
-                        new Date(b.time || 0) - new Date(a.time || 0)
-                    )[0];
-                    const captureId = latest.id;
-                    const amount = latest.amount_with_breakdown?.gross_amount?.value || null;
-                    const currency = latest.amount_with_breakdown?.gross_amount?.currency_code || 'GBP';
-                    console.log('Attempting refund for capture:', captureId, amount, currency);
-                    refundResult = await paypalService.refundCapture(captureId, amount, currency,
-                        'Refund on subscription cancellation');
-                    console.log('Refund successful:', refundResult?.id);
-                    await subscriptionStoreService.addPaymentRecord({
-                        email: sessionEmail || requestedEmail || existing?.email || null,
-                        userId: sessionUserId || requestedUserId || existing?.id || null,
-                        subscriptionId: id,
-                        amount: amount ? `-${amount}` : null,
-                        currency,
-                        paidAt: new Date().toISOString(),
-                        transactionId: refundResult?.id || `refund_${captureId}`,
-                        status: 'REFUNDED',
-                        source: 'paypal-api-refund'
-                    });
-                } else {
-                    console.log('No completed transactions found to refund for subscription:', id);
-                }
-            } catch (err) {
-                refundError = err;
-                console.warn('Refund attempt failed:', err.message);
-            }
-        }
-
-        const responseMessage = cancelled
-            ? (refundResult
-                ? 'Subscription cancelled and last payment refunded successfully.'
-                : `Subscription cancelled. ${refundError ? 'Refund could not be processed automatically: ' + refundError.message : 'No payment found to refund.'}`)
-            : 'Subscription access removed. PayPal cancellation could not be confirmed — please also cancel from your PayPal account.';
-
         return res.json({
             success: true,
-            message: responseMessage,
-            refunded: !!refundResult,
-            refundId: refundResult?.id || null,
-            ...(paypalCancelError && { cancelWarning: paypalCancelError.message }),
-            ...(refundError && { refundWarning: refundError.message })
+            message: cancelled
+                ? 'Subscription cancelled successfully.'
+                : 'Subscription access removed. PayPal cancellation could not be confirmed — please also cancel from your PayPal account.',
+            ...(paypalCancelError && { warning: paypalCancelError.message })
         });
 
     } catch (error) {

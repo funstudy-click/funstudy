@@ -171,57 +171,7 @@ class PayPalService {
         }
     }
 
-    // Fetch subscription transaction history to get last sale/capture ID for refund
-    async getSubscriptionTransactions(subscriptionId) {
-        const token = await this.getAccessToken();
-        const startTime = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString();
-        const endTime = new Date().toISOString();
 
-        try {
-            const response = await axios({
-                method: 'GET',
-                url: `${this.baseUrl}/v1/billing/subscriptions/${subscriptionId}/transactions`,
-                params: { start_time: startTime, end_time: endTime },
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            return response.data;
-        } catch (error) {
-            console.error('PayPal get transactions error:', error.response?.data || error.message);
-            throw error;
-        }
-    }
-
-    // Refund a captured payment by its PayPal sale/capture ID
-    async refundCapture(captureId, amount, currency, note) {
-        const token = await this.getAccessToken();
-
-        try {
-            const body = {};
-            if (amount && currency) {
-                body.amount = { value: String(amount), currency_code: currency };
-            }
-            if (note) body.note_to_payer = note;
-
-            const response = await axios({
-                method: 'POST',
-                url: `${this.baseUrl}/v2/payments/captures/${captureId}/refund`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                    'PayPal-Request-Id': `REFUND-${captureId}-${Date.now()}`
-                },
-                data: body
-            });
-
-            return response.data;
-        } catch (error) {
-            console.error('PayPal refund error:', error.response?.data || error.message);
-            throw error;
-        }
-    }
 
     // Method to initialize FunStudy products and plans
     async initializeFunStudyProducts() {
