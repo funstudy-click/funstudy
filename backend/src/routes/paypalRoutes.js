@@ -421,31 +421,40 @@ router.post('/subscription/:id/cancel', async (req, res) => {
         const requestedUserId = req.body?.userId || null;
         const sessionEmail = req.session?.user?.email || null;
         const sessionUserId = req.session?.user?.sub || null;
-        
-        const cancelled = await paypalService.cancelSubscription(id, reason);
-        
-        if (cancelled) {
-            const existing = await subscriptionStoreService.findUserBySubscriptionId(id);
-            await subscriptionStoreService.upsertSubscription({
-                email: sessionEmail || requestedEmail || existing?.email || null,
-                userId: sessionUserId || requestedUserId || existing?.id || null,
-                subscriptionId: id,
-                planId: existing?.subscriptionPlanId || null,
-                status: 'INACTIVE',
-                nextBillingTime: null,
-                source: 'paypal-api-cancel'
-            });
 
-            res.json({
+        let cancelled = false;
+        let paypalCancelError = null;
+
+        try {
+            cancelled = await paypalService.cancelSubscription(id, reason);
+        } catch (err) {
+            paypalCancelError = err;
+            console.warn('PayPal cancel call failed, applying local downgrade fallback:', err.message);
+        }
+
+        const existing = await subscriptionStoreService.findUserBySubscriptionId(id);
+        await subscriptionStoreService.upsertSubscription({
+            email: sessionEmail || requestedEmail || existing?.email || null,
+            userId: sessionUserId || requestedUserId || existing?.id || null,
+            subscriptionId: id,
+            planId: existing?.subscriptionPlanId || null,
+            status: 'INACTIVE',
+            nextBillingTime: null,
+            source: cancelled ? 'paypal-api-cancel' : 'paypal-local-fallback-cancel'
+        });
+
+        if (cancelled) {
+            return res.json({
                 success: true,
                 message: 'Subscription cancelled successfully'
             });
-        } else {
-            res.status(400).json({
-                success: false,
-                message: 'Failed to cancel subscription'
-            });
         }
+
+        return res.json({
+            success: true,
+            message: 'Subscription access removed locally. PayPal cancellation could not be confirmed at this time.',
+            warning: paypalCancelError?.message || 'PayPal cancellation unavailable'
+        });
 
     } catch (error) {
         console.error('Cancel subscription error:', error);
