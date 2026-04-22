@@ -581,6 +581,39 @@ router.post('/admin/initialize', async (req, res) => {
     }
 });
 
+// Admin endpoint to list unresolved PayPal cancellation sync failures
+router.get('/admin/cancel-sync-pending', async (req, res) => {
+    try {
+        const limit = req.query.limit || 50;
+        const items = await subscriptionStoreService.listPendingSubscriptionCancelSync({ limit });
+
+        res.json({
+            success: true,
+            count: items.length,
+            items: items.map((item) => ({
+                id: item.id || null,
+                email: item.email || null,
+                subscriptionId: item.subscriptionId || null,
+                subscriptionPlanId: item.subscriptionPlanId || null,
+                subscriptionStatus: item.subscriptionStatus || null,
+                isSubscribed: item.isSubscribed === true,
+                subscriptionCancelSyncPending: item.subscriptionCancelSyncPending === true,
+                subscriptionCancelSyncError: item.subscriptionCancelSyncError || null,
+                subscriptionCancelSyncAttempts: item.subscriptionCancelSyncAttempts || 0,
+                subscriptionCancelSyncUpdatedAt: item.subscriptionCancelSyncUpdatedAt || null,
+                subscriptionUpdatedAt: item.subscriptionUpdatedAt || null
+            }))
+        });
+    } catch (error) {
+        console.error('List pending cancel sync error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch pending cancel sync items',
+            error: error.message
+        });
+    }
+});
+
 // Webhook endpoint for PayPal events
 router.post('/webhook', async (req, res) => {
     try {

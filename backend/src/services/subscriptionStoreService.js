@@ -266,10 +266,31 @@ async function setSubscriptionCancelSyncStatus({
     return result.Attributes;
 }
 
+async function listPendingSubscriptionCancelSync({ limit = 50 } = {}) {
+    const parsedLimit = Math.max(1, Math.min(Number(limit) || 50, 200));
+
+    const result = await dynamodb.scan({
+        TableName: USERS_TABLE,
+        FilterExpression: 'subscriptionCancelSyncPending = :pending',
+        ExpressionAttributeValues: {
+            ':pending': true
+        }
+    }).promise();
+
+    const items = (result.Items || []).sort((a, b) => {
+        const aTime = Date.parse(a.subscriptionCancelSyncUpdatedAt || 0) || 0;
+        const bTime = Date.parse(b.subscriptionCancelSyncUpdatedAt || 0) || 0;
+        return bTime - aTime;
+    });
+
+    return items.slice(0, parsedLimit);
+}
+
 module.exports = {
     findUserByEmail,
     findUserBySubscriptionId,
     upsertSubscription,
     addPaymentRecord,
-    setSubscriptionCancelSyncStatus
+    setSubscriptionCancelSyncStatus,
+    listPendingSubscriptionCancelSync
 };
