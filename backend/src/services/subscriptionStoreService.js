@@ -210,9 +210,66 @@ async function addPaymentRecord({
     return result.Attributes;
 }
 
+async function setSubscriptionCancelSyncStatus({
+    email,
+    userId,
+    subscriptionId,
+    pending,
+    errorMessage
+}) {
+    let targetUserId = userId;
+
+    if (!targetUserId && subscriptionId) {
+        const existingBySub = await findUserBySubscriptionId(subscriptionId);
+        if (existingBySub && existingBySub.id) {
+            targetUserId = existingBySub.id;
+            if (!email && existingBySub.email) {
+                email = existingBySub.email;
+            }
+        }
+    }
+
+    if (!targetUserId && email) {
+        const existingByEmail = await findUserByEmail(email);
+        if (existingByEmail && existingByEmail.id) {
+            targetUserId = existingByEmail.id;
+        }
+    }
+
+    if (!targetUserId) {
+        if (!email) return null;
+        targetUserId = `paypal#${email.toLowerCase()}`;
+    }
+
+    const params = {
+        TableName: USERS_TABLE,
+        Key: { id: targetUserId },
+        UpdateExpression: [
+            'SET subscriptionCancelSyncPending = :pending',
+            'subscriptionCancelSyncError = :errorMessage',
+            'subscriptionCancelSyncUpdatedAt = :updatedAt'
+        ].join(', '),
+        ExpressionAttributeValues: {
+            ':pending': !!pending,
+            ':errorMessage': errorMessage || null,
+            ':updatedAt': nowIso()
+        },
+        ReturnValues: 'ALL_NEW'
+    };
+
+    if (pending) {
+        params.UpdateExpression += ' ADD subscriptionCancelSyncAttempts :one';
+        params.ExpressionAttributeValues[':one'] = 1;
+    }
+
+    const result = await dynamodb.update(params).promise();
+    return result.Attributes;
+}
+
 module.exports = {
     findUserByEmail,
     findUserBySubscriptionId,
     upsertSubscription,
-    addPaymentRecord
+    addPaymentRecord,
+    setSubscriptionCancelSyncStatus
 };

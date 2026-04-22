@@ -443,6 +443,23 @@ router.post('/subscription/:id/cancel', async (req, res) => {
             source: cancelled ? 'paypal-api-cancel' : 'paypal-local-fallback-cancel'
         });
 
+        await subscriptionStoreService.setSubscriptionCancelSyncStatus({
+            email: sessionEmail || requestedEmail || existing?.email || null,
+            userId: sessionUserId || requestedUserId || existing?.id || null,
+            subscriptionId: id,
+            pending: !cancelled,
+            errorMessage: cancelled ? null : (paypalCancelError?.message || 'PayPal cancellation failed')
+        });
+
+        if (!cancelled) {
+            console.error('ALERT: PAYPAL_CANCEL_SYNC_PENDING', {
+                subscriptionId: id,
+                email: sessionEmail || requestedEmail || existing?.email || null,
+                userId: sessionUserId || requestedUserId || existing?.id || null,
+                reason: paypalCancelError?.message || 'unknown'
+            });
+        }
+
         return res.json({
             success: true,
             message: cancelled
