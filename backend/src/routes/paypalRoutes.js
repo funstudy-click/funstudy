@@ -614,6 +614,34 @@ router.get('/admin/cancel-sync-pending', async (req, res) => {
     }
 });
 
+// Admin endpoint to debug PayPal auth configuration in the deployed environment
+router.get('/admin/debug-auth', async (req, res) => {
+    try {
+        const result = await paypalService.debugAccessToken();
+
+        if (result.ok) {
+            return res.json({
+                success: true,
+                authOk: true,
+                ...result
+            });
+        }
+
+        return res.status(500).json({
+            success: false,
+            authOk: false,
+            ...result
+        });
+    } catch (error) {
+        console.error('PayPal debug auth error:', error);
+        res.status(500).json({
+            success: false,
+            authOk: false,
+            message: error.message
+        });
+    }
+});
+
 // Webhook endpoint for PayPal events
 router.post('/webhook', async (req, res) => {
     try {

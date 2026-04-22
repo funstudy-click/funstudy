@@ -11,6 +11,53 @@ class PayPalService {
         this.tokenExpiry = null;
     }
 
+    getConfigSummary() {
+        return {
+            nodeEnv: process.env.NODE_ENV || null,
+            baseUrl: this.baseUrl,
+            hasClientId: !!this.clientId,
+            hasClientSecret: !!this.clientSecret,
+            clientIdPrefix: this.clientId ? this.clientId.slice(0, 6) : null,
+            clientIdSuffix: this.clientId ? this.clientId.slice(-6) : null,
+            clientSecretLength: this.clientSecret ? this.clientSecret.length : 0
+        };
+    }
+
+    async debugAccessToken() {
+        const summary = this.getConfigSummary();
+
+        try {
+            const auth = Buffer.from(`${this.clientId}:${this.clientSecret}`).toString('base64');
+            const response = await axios({
+                method: 'POST',
+                url: `${this.baseUrl}/v1/oauth2/token`,
+                headers: {
+                    'Accept': 'application/json',
+                    'Accept-Language': 'en_US',
+                    'Authorization': `Basic ${auth}`,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: 'grant_type=client_credentials'
+            });
+
+            return {
+                ok: true,
+                summary,
+                tokenType: response.data?.token_type || null,
+                expiresIn: response.data?.expires_in || null,
+                scope: response.data?.scope || null
+            };
+        } catch (error) {
+            return {
+                ok: false,
+                summary,
+                status: error.response?.status || null,
+                paypalError: error.response?.data || null,
+                message: error.message
+            };
+        }
+    }
+
     async getAccessToken() {
         // Check if we have a valid token
         if (this.accessToken && this.tokenExpiry && Date.now() < this.tokenExpiry) {
