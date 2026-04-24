@@ -672,6 +672,13 @@ router.post('/webhook', async (req, res) => {
                         lastPaymentCurrency: event.resource.billing_info?.last_payment?.amount?.currency_code || null,
                         source: 'paypal-webhook'
                     });
+
+                    await subscriptionStoreService.setSubscriptionCancelSyncStatus({
+                        email: activationEmail,
+                        subscriptionId: event.resource.id,
+                        pending: false,
+                        errorMessage: null
+                    });
                 }
                 if (userData) {
                     subscriptionStore.delete(event.resource.id);
@@ -689,6 +696,14 @@ router.post('/webhook', async (req, res) => {
                     lastPaymentCurrency: event.resource.billing_info?.last_payment?.amount?.currency_code || null,
                     source: 'paypal-webhook'
                 });
+
+                if (['CANCELLED', 'EXPIRED', 'SUSPENDED', 'ACTIVE'].includes(String(event.resource.status || '').toUpperCase())) {
+                    await subscriptionStoreService.setSubscriptionCancelSyncStatus({
+                        subscriptionId: event.resource.id,
+                        pending: false,
+                        errorMessage: null
+                    });
+                }
                 break;
 
             case 'BILLING.SUBSCRIPTION.CANCELLED':
@@ -699,6 +714,11 @@ router.post('/webhook', async (req, res) => {
                     planId: event.resource.plan_id,
                     status: 'INACTIVE',
                     source: 'paypal-webhook'
+                });
+                await subscriptionStoreService.setSubscriptionCancelSyncStatus({
+                    subscriptionId: event.resource.id,
+                    pending: false,
+                    errorMessage: null
                 });
                 break;
 
@@ -711,6 +731,11 @@ router.post('/webhook', async (req, res) => {
                     status: 'INACTIVE',
                     source: 'paypal-webhook'
                 });
+                await subscriptionStoreService.setSubscriptionCancelSyncStatus({
+                    subscriptionId: event.resource.id,
+                    pending: false,
+                    errorMessage: null
+                });
                 break;
 
             case 'BILLING.SUBSCRIPTION.EXPIRED':
@@ -721,6 +746,11 @@ router.post('/webhook', async (req, res) => {
                     planId: event.resource.plan_id,
                     status: 'INACTIVE',
                     source: 'paypal-webhook'
+                });
+                await subscriptionStoreService.setSubscriptionCancelSyncStatus({
+                    subscriptionId: event.resource.id,
+                    pending: false,
+                    errorMessage: null
                 });
                 break;
 
