@@ -5,51 +5,61 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #ffeaa7 100%);
-    background-size: 400% 400%;
-    animation: gradientShift 8s ease infinite;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    line-height: 1.4;
-    color: #1f2937;
+:root {
+    --bg-ink: #0f172a;
+    --bg-sky: #155e75;
+    --bg-mint: #0f766e;
+    --card: rgba(255, 255, 255, 0.94);
+    --card-border: rgba(148, 163, 184, 0.3);
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --btn-primary-start: #f97316;
+    --btn-primary-end: #ea580c;
+    --btn-secondary-start: #0ea5e9;
+    --btn-secondary-end: #0284c7;
 }
 
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+body {
+    font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(56, 189, 248, 0.28), transparent 60%),
+        radial-gradient(1200px 700px at 100% 0%, rgba(20, 184, 166, 0.2), transparent 62%),
+        linear-gradient(140deg, var(--bg-ink) 0%, #1e293b 42%, var(--bg-sky) 78%, var(--bg-mint) 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px clamp(14px, 2.5vw, 42px);
+    line-height: 1.4;
+    color: var(--text-main);
 }
 
 /* Container Styles */
 .container {
-    background: rgba(255, 255, 255, 0.98);
+    background: var(--card);
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
-    border-radius: 24px;
-    padding: 24px;
+    border-radius: 28px;
+    padding: clamp(22px, 2.2vw, 34px);
     box-shadow: 
-        0 25px 50px -12px rgba(0, 0, 0, 0.25),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
-    width: 95%;
-    max-width: 700px;
+        0 32px 65px -22px rgba(2, 8, 23, 0.58),
+        0 0 0 1px rgba(255, 255, 255, 0.15);
+    width: min(85vw, 1360px);
+    min-width: min(980px, 100%);
     text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--card-border);
     max-height: 95vh;
     overflow-y: auto;
 }
 
 /* Typography */
 h1 {
-    color: #1f2937;
+    font-family: 'Baloo 2', 'Poppins', system-ui, sans-serif;
+    color: var(--text-main);
     margin-bottom: 20px;
-    font-size: 2.2rem;
+    font-size: clamp(2.1rem, 3.5vw, 3.1rem);
     font-weight: 800;
-    background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+    background: linear-gradient(130deg, #0ea5e9, #14b8a6 55%, #f97316);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -58,9 +68,9 @@ h1 {
 }
 
 h2 {
-    color: #1f2937;
+    color: var(--text-main);
     margin-bottom: 16px;
-    font-size: 1.6rem;
+    font-size: clamp(1.35rem, 2.2vw, 1.9rem);
     font-weight: 700;
 }
 
@@ -95,19 +105,19 @@ h4 {
 
 /* Modern Button Styles */
 .btn {
-    background: linear-gradient(135deg, #ff6b6b, #ffa726);
+    background: linear-gradient(135deg, var(--btn-primary-start), var(--btn-primary-end));
     color: white;
     border: none;
-    padding: 16px 32px;
-    border-radius: 20px;
+    padding: 15px 30px;
+    border-radius: 16px;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     margin: 8px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 
-        0 8px 15px rgba(255, 107, 107, 0.3),
-        0 4px 6px rgba(255, 167, 38, 0.2);
+        0 12px 22px rgba(234, 88, 12, 0.28),
+        0 4px 8px rgba(249, 115, 22, 0.2);
     position: relative;
     overflow: hidden;
     min-width: 160px;
@@ -125,11 +135,11 @@ h4 {
 }
 
 .btn:hover:not(:disabled) {
-    transform: translateY(-3px) scale(1.02);
+    transform: translateY(-2px) scale(1.01);
     box-shadow: 
-        0 15px 25px rgba(255, 107, 107, 0.4),
-        0 8px 15px rgba(255, 167, 38, 0.3);
-    background: linear-gradient(135deg, #ff5252, #ff9800);
+        0 16px 28px rgba(194, 65, 12, 0.34),
+        0 8px 16px rgba(234, 88, 12, 0.25);
+    background: linear-gradient(135deg, #fb923c, #c2410c);
 }
 
 .btn:hover:not(:disabled)::before {
@@ -149,13 +159,13 @@ h4 {
 
 /* Special Button Variants */
 .btn-secondary {
-    background: linear-gradient(135deg, #42a5f5, #66bb6a);
-    box-shadow: 0 8px 15px rgba(66, 165, 245, 0.3);
+    background: linear-gradient(135deg, var(--btn-secondary-start), var(--btn-secondary-end));
+    box-shadow: 0 10px 18px rgba(2, 132, 199, 0.27);
 }
 
 .btn-secondary:hover:not(:disabled) {
-    background: linear-gradient(135deg, #1e88e5, #43a047);
-    box-shadow: 0 12px 20px rgba(66, 165, 245, 0.4);
+    background: linear-gradient(135deg, #38bdf8, #0369a1);
+    box-shadow: 0 14px 24px rgba(3, 105, 161, 0.35);
 }
 
 .btn-success {
@@ -318,54 +328,54 @@ input:focus, select:focus {
 
 .grade-btn {
     padding: 16px 32px;
-    border-radius: 20px;
+    border-radius: 18px;
     font-size: 1rem;
     font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #673ab7, #9c27b0);
-    box-shadow: 0 8px 15px rgba(103, 58, 183, 0.3);
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
+    box-shadow: 0 10px 18px rgba(37, 99, 235, 0.28);
     color: white;
     border: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .grade-btn:hover:not(:disabled) {
-    background: linear-gradient(135deg, #5e35b1, #8e24aa);
-    box-shadow: 0 12px 20px rgba(103, 58, 183, 0.4);
+    background: linear-gradient(135deg, #1d4ed8, #0284c7);
+    box-shadow: 0 14px 22px rgba(2, 132, 199, 0.34);
     transform: translateY(-3px) scale(1.02);
 }
 
 /* Individual Grade Color Variants */
 .grade-btn:nth-child(1) {
-    background: linear-gradient(135deg, #ff4081, #e91e63);
-    box-shadow: 0 8px 15px rgba(255, 64, 129, 0.3);
+    background: linear-gradient(135deg, #14b8a6, #0f766e);
+    box-shadow: 0 10px 18px rgba(15, 118, 110, 0.3);
 }
 
 .grade-btn:nth-child(1):hover:not(:disabled) {
-    background: linear-gradient(135deg, #f50057, #c2185b);
-    box-shadow: 0 12px 20px rgba(255, 64, 129, 0.4);
+    background: linear-gradient(135deg, #0d9488, #115e59);
+    box-shadow: 0 14px 24px rgba(17, 94, 89, 0.35);
 }
 
 .grade-btn:nth-child(2) {
-    background: linear-gradient(135deg, #00bcd4, #0097a7);
-    box-shadow: 0 8px 15px rgba(0, 188, 212, 0.3);
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    box-shadow: 0 10px 18px rgba(29, 78, 216, 0.3);
 }
 
 .grade-btn:nth-child(2):hover:not(:disabled) {
-    background: linear-gradient(135deg, #00acc1, #00838f);
-    box-shadow: 0 12px 20px rgba(0, 188, 212, 0.4);
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+    box-shadow: 0 14px 24px rgba(30, 64, 175, 0.36);
 }
 
 .grade-btn:nth-child(3) {
-    background: linear-gradient(135deg, #4caf50, #388e3c);
-    box-shadow: 0 8px 15px rgba(76, 175, 80, 0.3);
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    box-shadow: 0 10px 18px rgba(234, 88, 12, 0.3);
 }
 
 .grade-btn:nth-child(3):hover:not(:disabled) {
-    background: linear-gradient(135deg, #43a047, #2e7d32);
-    box-shadow: 0 12px 20px rgba(76, 175, 80, 0.4);
+    background: linear-gradient(135deg, #fb923c, #c2410c);
+    box-shadow: 0 14px 24px rgba(194, 65, 12, 0.35);
 }
 
 /* Subject Button Specific Styles - Match Grade Button Size */
@@ -1242,7 +1252,9 @@ input:focus, select:focus {
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        padding: 32px 24px;
+        width: min(96vw, 100%);
+        min-width: 0;
+        padding: 30px 22px;
         margin: 10px;
         border-radius: 20px;
     }
