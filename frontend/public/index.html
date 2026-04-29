@@ -12,13 +12,13 @@
     <script src="https://www.paypal.com/sdk/js?client-id=Ac0BGawzgnNmEkVuEMtJOV3Mjyh4sFeuNz1HmKfcyaLtdbL45swSbUkI4RBF16vfFHf4cXMh7IzKEDKC&vault=true&intent=subscription&currency=GBP" data-sdk-integration-source="button-factory"></script>
 </head>
 <body>
-    <div class="container" style="position: relative;">
-        <div style="position: absolute; top: 12px; right: 12px; z-index: 50;">
-            <button id="menuToggleButton" class="btn btn-secondary" style="padding: 8px 12px; font-size: 0.82rem;" onclick="toggleTopMenu()">☰ <span id="menuUserEmailLabel">Menu</span></button>
-            <div id="topMenuDropdown" style="display: none; margin-top: 8px; min-width: 220px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.16); padding: 10px; text-align: left;">
-                <button class="btn btn-secondary" style="width: 100%; margin-bottom: 8px;" onclick="openUserSection()">User</button>
-                <button class="btn btn-secondary" style="width: 100%; margin-bottom: 8px;" onclick="openContactSection()">Contact Us</button>
-                <button class="btn btn-secondary" style="width: 100%;" onclick="logout()">Logout</button>
+    <div class="container app-shell">
+        <div class="top-menu-wrap">
+            <button id="menuToggleButton" class="btn btn-secondary menu-toggle-btn" onclick="toggleTopMenu()">☰ <span id="menuUserEmailLabel">Menu</span></button>
+            <div id="topMenuDropdown" class="top-menu-dropdown" style="display: none;">
+                <button class="btn btn-secondary top-menu-item" onclick="openUserSection()">User</button>
+                <button class="btn btn-secondary top-menu-item" onclick="openContactSection()">Contact Us</button>
+                <button class="btn btn-secondary top-menu-item" onclick="logout()">Logout</button>
             </div>
         </div>
         <h1 style="color: #1e40af; background: linear-gradient(135deg, #3b82f6, #1e40af); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 2px 2px 4px rgba(30, 64, 175, 0.3);">🎓 FunStudy 11 Plus</h1>
@@ -87,27 +87,27 @@
         <!-- Subscription Section -->
         <section id="subscriptionSection" class="section">
             <div class="subscription-container">
-                <div class="sandbox-notice" style="background: #fef3c7; border: 1px solid #f59e0b; padding: 15px; border-radius: 8px; margin: 15px 0;">
-                    <p style="margin: 0; color: #92400e; font-size: 0.9rem;">
+                <div class="sandbox-notice">
+                    <p>
                         💳 <strong>PAYPAL SUBSCRIPTION</strong> - Complete payment to unlock full question access.
                     </p>
                 </div>
                 <div class="paypal-form-container">
-                    <div class="subscription-plans-container" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; align-items: stretch;">
+                    <div class="subscription-plans-container">
                         <!-- Monthly Plan -->
-                        <div class="plan-card" style="flex: 1; min-width: 280px; max-width: 320px;">
+                        <div class="plan-card plan-card-monthly">
                             <h4>📅 Monthly Access</h4>
                             <div class="price"><span id="monthlyPriceText">--</span><span class="period">/month</span></div>
-                            <p style="color: #6b7280; font-size: 0.9rem; margin: 10px 0;">Perfect for short-term preparation</p>
+                            <p class="plan-subtext">Perfect for short-term preparation</p>
                             <div id="paypal-button-container-P-40D15785KF4126507NHQPRZY"></div>
                         </div>
 
                         <!-- Yearly Plan -->
-                        <div class="plan-card" style="flex: 1; min-width: 280px; max-width: 320px; border: 2px solid #0ea5e9; position: relative;">
-                            <div style="position: absolute; top: -12px; right: 16px; background: #0ea5e9; color: white; padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700;">Best Value</div>
+                        <div class="plan-card plan-card-yearly">
+                            <div class="best-value-chip">Best Value</div>
                             <h4>🗓️ Yearly Access</h4>
                             <div class="price"><span id="yearlyPriceText">--</span><span class="period">/year</span></div>
-                            <p style="color: #6b7280; font-size: 0.9rem; margin: 10px 0;">Best for ongoing preparation with uninterrupted access</p>
+                            <p class="plan-subtext">Best for ongoing preparation with uninterrupted access</p>
                             <div id="paypal-button-container-P-8Y97299421124160VNHQPS7Y"></div>
                         </div>
                     </div>
@@ -271,10 +271,7 @@
                 
                 <div class="subscription-footer">
                     <p><small>🔒 Secure payment processing by PayPal</small></p>
-                    <button class="btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; box-shadow: 0 4px 6px rgba(245, 158, 11, 0.3); transition: all 0.3s ease;" 
-                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(245, 158, 11, 0.4)';"
-                            onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 4px 6px rgba(245, 158, 11, 0.3)';"
-                            onclick="skipSubscription()">Continue without payment (Limited Access)</button>
+                    <button class="btn btn-warning-light" onclick="skipSubscription()">Continue without payment (Limited Access)</button>
                 </div>
             </div>
         </section>

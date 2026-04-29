@@ -52,6 +52,53 @@ body {
     overflow-y: auto;
 }
 
+.app-shell {
+    position: relative;
+}
+
+.top-menu-wrap {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 50;
+}
+
+.menu-toggle-btn {
+    min-width: 150px;
+    margin: 0;
+    padding: 10px 14px;
+    font-size: 0.84rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 18px rgba(2, 132, 199, 0.3);
+}
+
+.top-menu-dropdown {
+    margin-top: 10px;
+    min-width: 230px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    border-radius: 14px;
+    box-shadow: 0 18px 34px rgba(15, 23, 42, 0.2);
+    padding: 10px;
+    text-align: left;
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+}
+
+.top-menu-item {
+    width: 100%;
+    margin: 0 0 8px;
+    min-width: 0;
+    justify-content: flex-start;
+    padding: 11px 14px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+.top-menu-item:last-child {
+    margin-bottom: 0;
+}
+
 /* Typography */
 h1 {
     font-family: 'Baloo 2', 'Poppins', system-ui, sans-serif;
@@ -1672,15 +1719,30 @@ input:focus, select:focus {
 
 /* Subscription Section Styles */
 .subscription-container {
-    max-width: 800px;
+    max-width: 1180px;
     margin: 0 auto;
     padding: 30px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-    border-radius: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(140deg, rgba(15, 23, 42, 0.04), rgba(14, 165, 233, 0.04));
+    border-radius: 22px;
+    border: 1px solid rgba(148, 163, 184, 0.3);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 16px 38px rgba(2, 8, 23, 0.12);
+}
+
+.sandbox-notice {
+    background: linear-gradient(135deg, #fff7ed, #ffedd5);
+    border: 1px solid #fdba74;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+.sandbox-notice p {
+    margin: 0;
+    color: #9a3412;
+    font-size: 0.92rem;
+    font-weight: 500;
 }
 
 .subscription-info {
@@ -1715,43 +1777,70 @@ input:focus, select:focus {
 }
 
 .paypal-form-container {
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 16px;
-    padding: 25px;
+    background: rgba(255, 255, 255, 0.82);
+    border-radius: 18px;
+    padding: 26px;
     margin: 25px 0;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(148, 163, 184, 0.25);
 }
 
 .subscription-plans-container {
     display: flex;
     justify-content: center;
+    gap: 22px;
+    flex-wrap: wrap;
+    align-items: stretch;
     margin-bottom: 20px;
 }
 
 .plan-card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
-    border-radius: 16px;
-    padding: 30px;
-    border: 2px solid rgba(79, 172, 254, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-radius: 18px;
+    padding: 28px;
+    border: 2px solid rgba(148, 163, 184, 0.25);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
     text-align: center;
-    max-width: 350px;
-    width: 100%;
+    width: min(100%, 350px);
+    min-width: 280px;
+    flex: 1;
+    position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .plan-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    border-color: #4facfe;
+    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.16);
+    border-color: #38bdf8;
+}
+
+.plan-card-monthly {
+    border-color: rgba(14, 165, 233, 0.32);
+}
+
+.plan-card-yearly {
+    border-color: rgba(20, 184, 166, 0.38);
+    box-shadow: 0 16px 32px rgba(15, 118, 110, 0.18);
+}
+
+.best-value-chip {
+    position: absolute;
+    top: -12px;
+    right: 16px;
+    background: linear-gradient(135deg, #14b8a6, #0f766e);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
 }
 
 .plan-card h4 {
-    font-size: 1.5rem;
+    font-size: 1.45rem;
     font-weight: 700;
-    color: #1f2937;
+    color: #0f172a;
     margin-bottom: 15px;
-    background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+    background: linear-gradient(135deg, #0ea5e9, #0f766e);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1768,6 +1857,12 @@ input:focus, select:focus {
     font-size: 1rem;
     font-weight: 500;
     color: #6b7280;
+}
+
+.plan-subtext {
+    color: #64748b;
+    font-size: 0.92rem;
+    margin: 10px 0 14px;
 }
 
 .plan-features {
@@ -1906,8 +2001,36 @@ input:focus, select:focus {
     padding: 10px 20px;
 }
 
+.btn-warning-light {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+    border: none;
+    box-shadow: 0 8px 16px rgba(217, 119, 6, 0.25);
+}
+
+.btn-warning-light:hover:not(:disabled) {
+    background: linear-gradient(135deg, #fbbf24, #b45309);
+    box-shadow: 0 14px 24px rgba(180, 83, 9, 0.3);
+}
+
 /* Responsive Design for Subscription */
 @media (max-width: 768px) {
+    .top-menu-wrap {
+        position: static;
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+    }
+
+    .menu-toggle-btn {
+        min-width: 130px;
+        font-size: 0.8rem;
+    }
+
+    .top-menu-dropdown {
+        min-width: 200px;
+    }
+
     .subscription-container {
         padding: 20px;
         margin: 10px;
@@ -1931,7 +2054,9 @@ input:focus, select:focus {
     
     .plan-card {
         padding: 20px;
-        margin: 0 10px;
+        margin: 0;
+        width: 100%;
+        min-width: 0;
     }
     
     .plan-card h4 {
