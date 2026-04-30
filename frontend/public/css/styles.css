@@ -1898,6 +1898,13 @@ input:focus, select:focus {
     margin: 10px 0 14px;
 }
 
+.plan-legal-note {
+    font-size: 0.78rem;
+    color: #475569;
+    margin: 8px 0 12px;
+    line-height: 1.4;
+}
+
 .plan-terms-link {
     width: 100%;
     min-width: 0;
@@ -2038,6 +2045,17 @@ input:focus, select:focus {
     font-size: 0.9rem;
 }
 
+.inline-link-btn {
+    border: none;
+    background: transparent;
+    color: #0f766e;
+    text-decoration: underline;
+    font-size: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+}
+
 .subscription-footer .btn {
     font-size: 0.9rem;
     padding: 10px 20px;
@@ -2075,6 +2093,90 @@ input:focus, select:focus {
 .terms-list li {
     margin-bottom: 8px;
     line-height: 1.5;
+}
+
+.legal-meta {
+    font-size: 0.82rem;
+    color: #475569;
+    margin-bottom: 10px;
+}
+
+.faq-panel details {
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.75);
+    margin-bottom: 10px;
+}
+
+.faq-panel summary {
+    font-weight: 700;
+    cursor: pointer;
+    color: #0f172a;
+}
+
+.faq-panel details p {
+    margin-top: 8px;
+}
+
+.form-row-inline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.site-legal-footer {
+    margin-top: 22px;
+    padding-top: 14px;
+    border-top: 1px dashed #cbd5e1;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.footer-link-btn {
+    min-width: 0;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+}
+
+.cookie-banner {
+    position: sticky;
+    bottom: 0;
+    margin-top: 16px;
+    background: #0f172a;
+    color: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #334155;
+    padding: 14px;
+    text-align: left;
+    box-shadow: 0 12px 22px rgba(2, 6, 23, 0.35);
+}
+
+.cookie-banner::backdrop {
+    background: rgba(15, 23, 42, 0.35);
+}
+
+.cookie-banner p {
+    margin: 0 0 10px;
+    font-size: 0.9rem;
+}
+
+.cookie-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+    outline: 3px solid #0ea5e9;
+    outline-offset: 2px;
 }
 
 .btn-warning-light {
@@ -2142,6 +2244,10 @@ input:focus, select:focus {
     .plan-terms-link {
         font-size: 0.8rem;
     }
+
+    .plan-legal-note {
+        font-size: 0.75rem;
+    }
     
     .price {
         font-size: 2rem;
@@ -2155,6 +2261,18 @@ input:focus, select:focus {
     .subscription-dropdown {
         padding: 10px 14px;
         font-size: 0.9rem;
+    }
+
+    .site-legal-footer {
+        justify-content: stretch;
+    }
+
+    .footer-link-btn {
+        width: calc(50% - 8px);
+    }
+
+    .cookie-actions .btn {
+        width: 100%;
     }
 }
 

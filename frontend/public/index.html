@@ -19,7 +19,9 @@
                 <button class="btn btn-secondary top-menu-item" onclick="openAboutSection()">About Us</button>
                 <button class="btn btn-secondary top-menu-item" onclick="openUserSection()">User</button>
                 <button class="btn btn-secondary top-menu-item" onclick="openContactSection()">Contact Us</button>
+                <button class="btn btn-secondary top-menu-item" onclick="openPrivacySection()">Privacy Policy</button>
                 <button class="btn btn-secondary top-menu-item" onclick="openTermsSection()">Terms &amp; Conditions</button>
+                <button class="btn btn-secondary top-menu-item" onclick="openFaqSection()">FAQ</button>
                 <button class="btn btn-secondary top-menu-item" onclick="logout()">Logout</button>
             </div>
         </div>
@@ -36,6 +38,7 @@
                     <button class="btn" style="margin-top: 10px; font-size: 0.8rem; padding: 8px 15px;" onclick="localStorage.setItem('funstudySubscription', JSON.stringify({id: 'test-sub-123', type: 'monthly', status: 'ACTIVE', mode: 'test'})); alert('✅ Test subscription activated!'); location.reload();">🧪 Activate Test Subscription</button>
                 </div>            <button class="btn" onclick="login()">🔐 Sign In</button>
             <button class="btn btn-secondary" onclick="showSection('registerSection')">✨ New User? Register</button>
+            <button class="btn btn-secondary" onclick="showSection('forgotPasswordSection')">🔑 Forgot Password?</button>
             <div id="loginMessage"></div>
         </section>
         
@@ -86,6 +89,32 @@
             <div id="verificationMessage"></div>
         </section>
 
+        <section id="forgotPasswordSection" class="section">
+            <h2>🔑 Reset Password</h2>
+            <p class="legal-meta">Request a code by email, then set your new password.</p>
+            <div class="form-group">
+                <label for="forgotPasswordEmail">📧 Email:</label>
+                <input type="email" id="forgotPasswordEmail" placeholder="Enter your registered email">
+            </div>
+            <div class="form-row-inline">
+                <button class="btn" onclick="requestPasswordResetCode()">📨 Send Reset Code</button>
+                <button class="btn btn-secondary" onclick="copyRegisterEmailToReset()">Use Register Email</button>
+            </div>
+            <div class="form-group">
+                <label for="forgotPasswordCode">🔢 Reset Code:</label>
+                <input type="text" id="forgotPasswordCode" placeholder="Enter verification code">
+            </div>
+            <div class="form-group">
+                <label for="forgotPasswordNewPassword">🔒 New Password:</label>
+                <input type="password" id="forgotPasswordNewPassword" placeholder="Create a new password">
+            </div>
+            <div class="form-row-inline">
+                <button class="btn" onclick="confirmPasswordReset()">✅ Update Password</button>
+                <button class="btn btn-secondary" onclick="showSection('loginSection')">🔙 Back to Login</button>
+            </div>
+            <div id="forgotPasswordMessage"></div>
+        </section>
+
         <!-- Subscription Section -->
         <section id="subscriptionSection" class="section">
             <div class="subscription-container">
@@ -101,6 +130,7 @@
                             <h4>📅 Monthly Access</h4>
                             <div class="price"><span id="monthlyPriceText">--</span><span class="period">/month</span></div>
                             <p class="plan-subtext">Perfect for short-term preparation</p>
+                            <p class="plan-legal-note">Auto-renews monthly. No full, partial, or pro-rata refunds after enrollment.</p>
                             <button class="btn btn-secondary plan-terms-link" onclick="openTermsSection('subscriptionSection')">View Terms &amp; Conditions</button>
                             <div id="paypal-button-container-P-40D15785KF4126507NHQPRZY"></div>
                         </div>
@@ -111,6 +141,7 @@
                             <h4>🗓️ Yearly Access</h4>
                             <div class="price"><span id="yearlyPriceText">--</span><span class="period">/year</span></div>
                             <p class="plan-subtext">Best for ongoing preparation with uninterrupted access</p>
+                            <p class="plan-legal-note">Auto-renews yearly. Cancellation stops future renewals only. No refunds after enrollment.</p>
                             <button class="btn btn-secondary plan-terms-link" onclick="openTermsSection('subscriptionSection')">View Terms &amp; Conditions</button>
                             <div id="paypal-button-container-P-8Y97299421124160VNHQPS7Y"></div>
                         </div>
@@ -184,7 +215,12 @@
                                     }).catch(function(error) {
                                         console.error(`❌ ${config.label} subscription creation failed:`, error);
                                         console.log('Error details:', JSON.stringify(error, null, 2));
-                                        alert('❌ Subscription creation failed: ' + (error.message || 'Plan may be inactive. Check console for details.'));
+                                        const message = 'Subscription could not be started. Please retry in a moment or contact support if this continues.';
+                                        if (typeof showGenericMessage === 'function') {
+                                            showGenericMessage(message, 'error');
+                                        } else {
+                                            alert('❌ ' + message);
+                                        }
                                         throw error;
                                     });
                                 },
@@ -228,20 +264,31 @@
                                             saveSubscriptionLocally(data.subscriptionID, config.type, config.amount, 'ACTIVE');
                                         }
 
-                                        alert(`✅ ${config.label} subscription activated! Subscription ID: ${data.subscriptionID}`);
+                                        if (typeof showGenericMessage === 'function') {
+                                            showGenericMessage(`${config.label} subscription activated successfully.`, 'success');
+                                        }
                                         setTimeout(() => showSection('gradeSection'), 1200);
                                     })
                                     .catch(function(syncError) {
                                         console.error('Subscription sync error:', syncError);
                                         saveSubscriptionLocally(data.subscriptionID, config.type, config.amount, 'ACTIVE');
-                                        alert(`✅ ${config.label} subscription activated! Subscription ID: ${data.subscriptionID}`);
+                                        if (typeof showGenericMessage === 'function') {
+                                            showGenericMessage(`${config.label} subscription activated successfully.`, 'success');
+                                        }
                                         setTimeout(() => showSection('gradeSection'), 1200);
                                     });
                                 },
                                 onError: function(err) {
                                     console.error(`❌ PayPal ${config.label} Error:`, err);
                                     console.log('Full error object:', JSON.stringify(err, null, 2));
-                                    alert('❌ Payment failed: ' + (err.message || err.name || 'Check browser console (F12) for details'));
+                                    const message = err && err.message
+                                        ? `Payment failed: ${err.message}`
+                                        : 'Payment could not be completed. Please verify your details and try again.';
+                                    if (typeof showGenericMessage === 'function') {
+                                        showGenericMessage(message, 'error');
+                                    } else {
+                                        alert('❌ ' + message);
+                                    }
                                 }
                             }).render(config.containerSelector);
                         }
@@ -275,6 +322,7 @@
                 
                 <div class="subscription-footer">
                     <p><small>🔒 Secure payment processing by PayPal</small></p>
+                    <p><small>By subscribing you accept our <button type="button" class="inline-link-btn" onclick="openTermsSection('subscriptionSection')">Terms &amp; Conditions</button> and <button type="button" class="inline-link-btn" onclick="openPrivacySection()">Privacy Policy</button>.</small></p>
                     <button class="btn btn-warning-light" onclick="skipSubscription()">Continue without payment (Limited Access)</button>
                 </div>
             </div>
@@ -349,6 +397,7 @@
         <section id="termsSection" class="section">
             <h2>📘 Terms &amp; Conditions</h2>
             <div class="info-panel terms-panel">
+                <p class="legal-meta"><strong>Effective Date:</strong> 30 April 2026 | <strong>Version:</strong> 1.0</p>
                 <p><strong>By enrolling in a subscription, you acknowledge and agree to the following Terms &amp; Conditions:</strong></p>
                 <ul class="terms-list">
                     <li><strong>Refund Policy:</strong> No refunds shall be issued after subscription enrollment, including full, partial, or pro-rata refunds.</li>
@@ -359,9 +408,47 @@
                     <li><strong>Service Modifications:</strong> We reserve the right to update, improve, add, or modify question content and platform features from time to time to support educational quality and service continuity.</li>
                     <li><strong>Permitted Use:</strong> All content is provided for personal educational use only and must not be copied, reproduced, redistributed, or resold without prior written permission.</li>
                     <li><strong>Support and Contact:</strong> For billing, subscription, or account-related assistance, please use the Contact Us section.</li>
+                    <li><strong>Limitation of Liability:</strong> To the maximum extent permitted by law, service is provided on an "as available" basis and liability for indirect or consequential loss is excluded.</li>
+                    <li><strong>Governing Law:</strong> These Terms shall be governed by and interpreted in accordance with applicable law in your service jurisdiction.</li>
                 </ul>
             </div>
             <button id="termsBackButton" class="btn btn-secondary" onclick="showSection('subscriptionSection')">🔙 Back to Subscription</button>
+        </section>
+
+        <section id="privacySection" class="section">
+            <h2>🛡️ Privacy Policy</h2>
+            <div class="info-panel">
+                <p class="legal-meta"><strong>Effective Date:</strong> 30 April 2026 | <strong>Version:</strong> 1.0</p>
+                <p>We collect limited data required to provide learning services, including account identifiers, subscription status, quiz activity, and support communications.</p>
+                <p>Your data is used for account authentication, progress tracking, billing/subscription management, security, and service improvement.</p>
+                <p>We do not sell personal data. Payment processing is handled by PayPal and authentication is handled by AWS Cognito under their own policies.</p>
+                <p>Where legally required, you may request access, correction, or deletion of your data by contacting us using the Contact Us section.</p>
+                <p>Essential cookies/session storage may be used for login state, security, and application functionality. Optional analytics cookies are only used if consent is provided.</p>
+            </div>
+            <button class="btn btn-secondary" onclick="showSection('gradeSection')">🔙 Back</button>
+        </section>
+
+        <section id="faqSection" class="section">
+            <h2>❓ Frequently Asked Questions</h2>
+            <div class="info-panel faq-panel">
+                <details>
+                    <summary>Can I get a refund after subscribing?</summary>
+                    <p>No. Full, partial, and pro-rata refunds are not issued after enrollment.</p>
+                </details>
+                <details>
+                    <summary>How do I cancel my subscription?</summary>
+                    <p>Open the User section from the menu and select Cancel Subscription. Cancellation prevents future renewals.</p>
+                </details>
+                <details>
+                    <summary>How do I reset my password?</summary>
+                    <p>Use the Forgot Password option on the login page, request a reset code, then set a new password.</p>
+                </details>
+                <details>
+                    <summary>How many questions are available?</summary>
+                    <p>Subscribers get access to thousands of questions and regular new additions across key 11+ maths skills.</p>
+                </details>
+            </div>
+            <button class="btn btn-secondary" onclick="showSection('gradeSection')">🔙 Back</button>
         </section>
 
         <section id="userSection" class="section">
@@ -394,6 +481,23 @@
                 <button class="btn btn-secondary" onclick="showSection('gradeSection')">🔙 Back</button>
             </div>
         </section>
+
+        <footer class="site-legal-footer" aria-label="Legal and support links">
+            <button class="btn btn-secondary footer-link-btn" onclick="openAboutSection()">About Us</button>
+            <button class="btn btn-secondary footer-link-btn" onclick="openPrivacySection()">Privacy Policy</button>
+            <button class="btn btn-secondary footer-link-btn" onclick="openTermsSection()">Terms &amp; Conditions</button>
+            <button class="btn btn-secondary footer-link-btn" onclick="openFaqSection()">FAQ</button>
+            <button class="btn btn-secondary footer-link-btn" onclick="openContactSection()">Contact Us</button>
+        </footer>
+
+        <dialog id="cookieBanner" class="cookie-banner" aria-live="polite" aria-label="Cookie consent">
+            <p>We use essential cookies for login and security. Optional analytics cookies help improve the service.</p>
+            <div class="cookie-actions">
+                <button class="btn btn-secondary" onclick="setCookieConsent('essential')">Essential Only</button>
+                <button class="btn" onclick="setCookieConsent('all')">Accept All</button>
+                <button class="btn btn-secondary" onclick="openPrivacySection()">View Privacy Policy</button>
+            </div>
+        </dialog>
 
         <!-- Loading indicator -->
         <div id="loader" class="loader hidden"></div>

@@ -9,6 +9,8 @@ router.get('/logout', authController.logout);
 router.post('/register', authController.register);
 router.post('/confirm-registration', authController.confirmRegistration);
 router.post('/resend-confirmation', authController.resendConfirmationCode);
+router.post('/forgot-password', authController.forgotPassword);
+router.post('/confirm-forgot-password', authController.confirmForgotPassword);
 
 // Debug routes (fixed - no duplicates)
 router.get('/debug/session', authController.checkSession);

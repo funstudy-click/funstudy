@@ -853,4 +853,137 @@ exports.resendConfirmationCode = async (req, res) => {
     }
 };
 
+// Start forgot-password flow: sends reset code to email
+exports.forgotPassword = async (req, res) => {
+    try {
+        console.log('=== FORGOT PASSWORD REQUEST ===');
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                error: 'Email is required'
+            });
+        }
+
+        const cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider({
+            region: process.env.AWS_REGION
+        });
+
+        const params = {
+            ClientId: process.env.COGNITO_CLIENT_ID,
+            Username: email
+        };
+
+        if (process.env.CLIENT_SECRET) {
+            params.SecretHash = calculateSecretHash(email, process.env.COGNITO_CLIENT_ID, process.env.CLIENT_SECRET);
+        }
+
+        await cognitoIdentityServiceProvider.forgotPassword(params).promise();
+
+        res.json({
+            success: true,
+            message: 'Password reset code sent. Please check your email.'
+        });
+    } catch (error) {
+        console.error('Forgot password error:', error);
+
+        let errorMessage = 'Unable to start password reset.';
+        switch (error.code) {
+            case 'UserNotFoundException':
+                errorMessage = 'No account found for this email address.';
+                break;
+            case 'LimitExceededException':
+            case 'TooManyRequestsException':
+                errorMessage = 'Too many requests. Please wait before trying again.';
+                break;
+            case 'InvalidParameterException':
+                errorMessage = 'Please enter a valid email address.';
+                break;
+            default:
+                errorMessage = `Password reset failed: ${error.message}`;
+        }
+
+        res.status(400).json({
+            success: false,
+            error: errorMessage,
+            code: error.code
+        });
+    }
+};
+
+// Complete forgot-password flow: verifies code and sets new password
+exports.confirmForgotPassword = async (req, res) => {
+    try {
+        console.log('=== CONFIRM FORGOT PASSWORD REQUEST ===');
+        const { email, confirmationCode, newPassword } = req.body;
+
+        if (!email || !confirmationCode || !newPassword) {
+            return res.status(400).json({
+                success: false,
+                error: 'Email, confirmation code, and new password are required.'
+            });
+        }
+
+        if (String(newPassword).length < 8) {
+            return res.status(400).json({
+                success: false,
+                error: 'Password must be at least 8 characters long.'
+            });
+        }
+
+        const cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider({
+            region: process.env.AWS_REGION
+        });
+
+        const params = {
+            ClientId: process.env.COGNITO_CLIENT_ID,
+            Username: email,
+            ConfirmationCode: confirmationCode,
+            Password: newPassword
+        };
+
+        if (process.env.CLIENT_SECRET) {
+            params.SecretHash = calculateSecretHash(email, process.env.COGNITO_CLIENT_ID, process.env.CLIENT_SECRET);
+        }
+
+        await cognitoIdentityServiceProvider.confirmForgotPassword(params).promise();
+
+        res.json({
+            success: true,
+            message: 'Password reset successful. Please sign in with your new password.'
+        });
+    } catch (error) {
+        console.error('Confirm forgot password error:', error);
+
+        let errorMessage = 'Unable to reset password.';
+        switch (error.code) {
+            case 'CodeMismatchException':
+                errorMessage = 'Invalid reset code. Please check and try again.';
+                break;
+            case 'ExpiredCodeException':
+                errorMessage = 'Reset code has expired. Request a new code.';
+                break;
+            case 'InvalidPasswordException':
+                errorMessage = 'Password does not meet the required strength policy.';
+                break;
+            case 'UserNotFoundException':
+                errorMessage = 'No account found for this email address.';
+                break;
+            case 'LimitExceededException':
+            case 'TooManyRequestsException':
+                errorMessage = 'Too many attempts. Please wait before trying again.';
+                break;
+            default:
+                errorMessage = `Password reset failed: ${error.message}`;
+        }
+
+        res.status(400).json({
+            success: false,
+            error: errorMessage,
+            code: error.code
+        });
+    }
+};
+
 module.exports = exports;

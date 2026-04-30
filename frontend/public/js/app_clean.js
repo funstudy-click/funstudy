@@ -64,17 +64,26 @@ function getCurrentUserContext() {
 
 function toggleTopMenu() {
     const dropdown = document.getElementById('topMenuDropdown');
+    const menuButton = document.getElementById('menuToggleButton');
     if (!dropdown) {
         return;
     }
 
-    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    const isOpen = dropdown.style.display === 'block';
+    dropdown.style.display = isOpen ? 'none' : 'block';
+    if (menuButton) {
+        menuButton.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+    }
 }
 
 function closeTopMenu() {
     const dropdown = document.getElementById('topMenuDropdown');
+    const menuButton = document.getElementById('menuToggleButton');
     if (dropdown) {
         dropdown.style.display = 'none';
+    }
+    if (menuButton) {
+        menuButton.setAttribute('aria-expanded', 'false');
     }
 }
 
@@ -86,6 +95,16 @@ function openUserSection() {
 function openAboutSection() {
     closeTopMenu();
     showSection('aboutSection');
+}
+
+function openPrivacySection() {
+    closeTopMenu();
+    showSection('privacySection');
+}
+
+function openFaqSection() {
+    closeTopMenu();
+    showSection('faqSection');
 }
 
 function openTermsSection(backSectionId) {
@@ -296,6 +315,91 @@ function openContactSection(reason) {
     showSection('contactSection');
 }
 
+function copyRegisterEmailToReset() {
+    const registerEmail = document.getElementById('registerEmail')?.value?.trim();
+    const storedEmail = localStorage.getItem('userEmail') || '';
+    const resetEmailInput = document.getElementById('forgotPasswordEmail');
+    if (!resetEmailInput) {
+        return;
+    }
+
+    const selectedEmail = registerEmail || storedEmail;
+    if (!selectedEmail) {
+        showGenericMessage('No email available. Please enter your email manually.', 'warning');
+        return;
+    }
+
+    resetEmailInput.value = selectedEmail;
+}
+
+async function requestPasswordResetCode() {
+    const email = document.getElementById('forgotPasswordEmail')?.value?.trim();
+    if (!email) {
+        showGenericMessage('Please enter your email address first.', 'error');
+        return;
+    }
+
+    showLoader();
+    try {
+        const response = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email })
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+            throw new Error(data.error || 'Unable to send password reset code.');
+        }
+
+        showGenericMessage('Reset code sent. Please check your email inbox.', 'success');
+    } catch (error) {
+        console.error('Request reset code error:', error);
+        showGenericMessage(error.message || 'Password reset request failed.', 'error');
+    } finally {
+        hideLoader();
+    }
+}
+
+async function confirmPasswordReset() {
+    const email = document.getElementById('forgotPasswordEmail')?.value?.trim();
+    const confirmationCode = document.getElementById('forgotPasswordCode')?.value?.trim();
+    const newPassword = document.getElementById('forgotPasswordNewPassword')?.value || '';
+
+    if (!email || !confirmationCode || !newPassword) {
+        showGenericMessage('Please provide email, reset code, and new password.', 'error');
+        return;
+    }
+
+    showLoader();
+    try {
+        const response = await fetch(`${API_BASE_URL}/auth/confirm-forgot-password`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, confirmationCode, newPassword })
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+            throw new Error(data.error || 'Unable to reset password.');
+        }
+
+        showGenericMessage('Password updated successfully. Please sign in.', 'success');
+        document.getElementById('forgotPasswordCode').value = '';
+        document.getElementById('forgotPasswordNewPassword').value = '';
+        setTimeout(() => showSection('loginSection'), 1200);
+    } catch (error) {
+        console.error('Confirm password reset error:', error);
+        showGenericMessage(error.message || 'Password reset failed.', 'error');
+    } finally {
+        hideLoader();
+    }
+}
+
 async function reconcileLocalSubscriptionWithServer() {
     const localSubscriptionRaw = localStorage.getItem('funstudySubscription');
     const userContext = getCurrentUserContext();
@@ -435,6 +539,12 @@ function showGenericMessage(message, type) {
     } else if (type === 'success') {
         messageElement.style.backgroundColor = '#d4edda';
         messageElement.style.color = '#155724';
+    } else if (type === 'warning') {
+        messageElement.style.backgroundColor = '#fef3c7';
+        messageElement.style.color = '#92400e';
+    } else {
+        messageElement.style.backgroundColor = '#e0f2fe';
+        messageElement.style.color = '#075985';
     }
     
     setTimeout(() => {
@@ -1525,6 +1635,15 @@ function handleAuthCallback() {
             case 'email_not_verified':
                 errorMessage = 'Please verify your email address before logging in.';
                 break;
+            case 'token_exchange_failed':
+                errorMessage = 'Login could not be completed due to a temporary token issue. Please try again.';
+                break;
+            case 'userinfo_failed':
+                errorMessage = 'Login succeeded but profile retrieval failed. Please retry in a moment.';
+                break;
+            case 'parse_error':
+                errorMessage = 'Authentication response could not be processed. Please try again.';
+                break;
             default:
                 errorMessage = `Login failed: ${error}`;
         }
@@ -1532,6 +1651,37 @@ function handleAuthCallback() {
         showGenericMessage(errorMessage, 'error');
         window.history.replaceState({}, document.title, window.location.pathname);
         showSection('loginSection');
+    }
+}
+
+function setCookieConsent(level) {
+    const allowed = level === 'all' ? 'all' : 'essential';
+    localStorage.setItem('funstudyCookieConsent', allowed);
+    const cookieBanner = document.getElementById('cookieBanner');
+    if (cookieBanner) {
+        if (typeof cookieBanner.close === 'function' && cookieBanner.open) {
+            cookieBanner.close();
+        }
+        cookieBanner.style.display = 'none';
+    }
+
+    showGenericMessage(
+        allowed === 'all' ? 'Cookie preferences saved: All cookies accepted.' : 'Cookie preferences saved: Essential cookies only.',
+        'success'
+    );
+}
+
+function initializeCookieBanner() {
+    const existingConsent = localStorage.getItem('funstudyCookieConsent');
+    const cookieBanner = document.getElementById('cookieBanner');
+    if (!cookieBanner || existingConsent) {
+        return;
+    }
+
+    if (typeof cookieBanner.showModal === 'function') {
+        cookieBanner.showModal();
+    } else {
+        cookieBanner.style.display = 'block';
     }
 }
 
@@ -1720,6 +1870,14 @@ document.addEventListener('DOMContentLoaded', function() {
     refreshLoggedInUserPanel();
     refreshSubscriptionStatusFromServer();
     checkServer();
+    initializeCookieBanner();
+
+    const menuButton = document.getElementById('menuToggleButton');
+    if (menuButton) {
+        menuButton.setAttribute('aria-haspopup', 'menu');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-controls', 'topMenuDropdown');
+    }
 
     window.addEventListener('focus', function() {
         refreshLoggedInUserPanel();
