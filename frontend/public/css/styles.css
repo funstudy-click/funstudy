@@ -154,7 +154,7 @@ h4 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 62vh;
+    min-height: 48vh;
     width: 100%;
 }
 
@@ -162,7 +162,7 @@ h4 {
 #loginSection.active > h2,
 #subjectSection.active > h2,
 #difficultySection.active > h2 {
-    margin-bottom: 22px;
+    margin-bottom: 14px;
 }
 
 #gradeSection.active .grade-options,
