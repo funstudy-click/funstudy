@@ -115,9 +115,10 @@ h1 {
 }
 
 h2 {
-    color: var(--text-main);
+    font-family: 'Baloo 2', 'Poppins', system-ui, sans-serif;
+    color: #1f2937;
     margin-bottom: 16px;
-    font-size: clamp(1.35rem, 2.2vw, 1.9rem);
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
     font-weight: 700;
 }
 
