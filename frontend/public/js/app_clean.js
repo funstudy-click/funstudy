@@ -83,6 +83,31 @@ function openUserSection() {
     showSection('userSection');
 }
 
+function openAboutSection() {
+    closeTopMenu();
+    showSection('aboutSection');
+}
+
+function openTermsSection(backSectionId) {
+    closeTopMenu();
+    const activeSection = document.querySelector('.section.active');
+    const resolvedBackTarget = backSectionId || (activeSection ? activeSection.id : 'subscriptionSection');
+    const termsSection = document.getElementById('termsSection');
+    if (termsSection) {
+        termsSection.dataset.backTarget = resolvedBackTarget;
+    }
+
+    const backButton = document.getElementById('termsBackButton');
+    if (backButton) {
+        backButton.setAttribute('onclick', `showSection('${resolvedBackTarget}')`);
+        backButton.textContent = resolvedBackTarget === 'subscriptionSection'
+            ? '🔙 Back to Subscription'
+            : '🔙 Back';
+    }
+
+    showSection('termsSection');
+}
+
 function setLoggedInUserPanel({
     visible,
     primary = '',

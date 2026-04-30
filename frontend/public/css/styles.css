@@ -1898,6 +1898,15 @@ input:focus, select:focus {
     margin: 10px 0 14px;
 }
 
+.plan-terms-link {
+    width: 100%;
+    min-width: 0;
+    margin: 0 0 12px;
+    padding: 10px 14px;
+    font-size: 0.84rem;
+    border-radius: 12px;
+}
+
 .plan-features {
     list-style: none;
     padding: 0;
@@ -2034,6 +2043,40 @@ input:focus, select:focus {
     padding: 10px 20px;
 }
 
+.info-panel {
+    background: linear-gradient(135deg, #f8fafc, #eff6ff);
+    border: 1px solid #bfdbfe;
+    border-radius: 14px;
+    padding: 18px;
+    text-align: left;
+    margin: 16px 0;
+}
+
+.info-panel p {
+    margin: 0 0 12px;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+.info-panel p:last-child {
+    margin-bottom: 0;
+}
+
+.terms-panel {
+    background: linear-gradient(135deg, #fff7ed, #fffbeb);
+    border-color: #fdba74;
+}
+
+.terms-list {
+    margin: 10px 0 0 20px;
+    color: #334155;
+}
+
+.terms-list li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
 .btn-warning-light {
     background: linear-gradient(135deg, #f59e0b, #d97706);
     color: #fff;
@@ -2094,6 +2137,10 @@ input:focus, select:focus {
     
     .plan-card h4 {
         font-size: 1.3rem;
+    }
+
+    .plan-terms-link {
+        font-size: 0.8rem;
     }
     
     .price {
