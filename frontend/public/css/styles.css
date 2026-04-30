@@ -145,6 +145,30 @@ h4 {
     display: block;
 }
 
+/* Keep key learning flow steps centered and more prominent on the page */
+#gradeSection.active,
+#subjectSection.active,
+#difficultySection.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 62vh;
+    width: 100%;
+}
+
+#gradeSection.active > h2,
+#subjectSection.active > h2,
+#difficultySection.active > h2 {
+    margin-bottom: 22px;
+}
+
+#gradeSection.active .grade-options,
+#subjectSection.active .subject-options,
+#difficultySection.active .difficulty-options {
+    width: min(100%, 940px);
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
